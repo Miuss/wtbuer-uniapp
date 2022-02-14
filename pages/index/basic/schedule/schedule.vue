@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<van-nav-bar custom-class="nav-bar" :fixed="true" :placeholder="true" :border="false">
-			<div class="title" slot="left" @click="showChangeIds">
+			<div class="title" slot="left">
 				<img class="logo" :src="logo" />
 				<div class="timetable">
 					<picker @change="onConfirmChangeIds" :value="courseIds.index" :range="semesterIds" range-key="year">
@@ -27,6 +27,7 @@
 <script>
 	import logo from '../../../../assets/images/logo.png'
 	import courseList from '../../../../components/courseList.vue'
+	
 	export default {
 		data() {
 			return {
@@ -55,7 +56,7 @@
 		},
 		methods: {
 			onConfirmChangeIds(e) {
-				this.$store.dispatch('getCourseList', this.semesterIds[e.mp.detail.value])
+				this.$store.dispatch('getCourseList', this.semesterIds[e.detail.value])
 			}
 		},
 
@@ -67,7 +68,7 @@
 
 <style>
 	@import url("../../../../assets/css/nav_bar.css");
-
+	
 	.unbind-eams-member {
 		background-color: #fff;
 	}

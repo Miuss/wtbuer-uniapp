@@ -1,49 +1,8 @@
 {
 	"pages": [{
-		"path": "pages/index/index",
-		"style": {
-			"usingComponents": {}
-		}
+		"path": "pages/index/index"
 	}, {
-		"path": "pages/index/basic/home/home",
-		"style": {
-			"usingComponents": {}
-		}
-
-	}, {
-		"path": "pages/index/basic/forum/forum",
-		"style": {
-			"navigationBarTitleText": "",
-			"enablePullDownRefresh": false
-		}
-
-	}, {
-		"path": "pages/index/basic/square/square",
-		"style": {
-			"navigationBarTitleText": "",
-			"enablePullDownRefresh": false
-		}
-
-	}, {
-		"path": "pages/index/basic/me/me",
-		"style": {
-			"navigationBarTitleText": "",
-			"enablePullDownRefresh": false
-		}
-
-	}, {
-		"path": "pages/index/basic/schedule/schedule",
-		"style": {
-			"navigationBarTitleText": "",
-			"enablePullDownRefresh": false
-		}
-
-	}, {
-		"path": "pages/login/login",
-		"style": {
-			"navigationBarTitleText": "",
-			"enablePullDownRefresh": false
-		}
+		"path": "pages/login/login"
 	}],
 	"globalStyle": {
 		"backgroundColor": "#eeeeee",

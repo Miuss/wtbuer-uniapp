@@ -1,11 +1,11 @@
 <template>
-	<view class="container">
+	<div>
 		<div class="main-container">
-			<home v-show="active==0" />
-			<schedule v-show="active==1" />
-			<square v-show="active==2" />
-			<forum v-show="active==3" />
-			<mine v-show="active==4" />
+			<home v-if="active==0" />
+			<schedule v-if="active==1" />
+			<square v-if="active==2" />
+			<forum v-if="active==3" />
+			<mine v-if="active==4" />
 		</div>
 		<div class="main-tabbar">
 			<van-tabbar :active="active" @change="onChange" active-color="#4562e5" inactive-color="#444444"
@@ -25,7 +25,7 @@
 			<bindMemberForm></bindMemberForm>
 		</van-popup>
 
-	</view>
+	</div>
 </template>
 
 <script>
@@ -39,7 +39,6 @@
 	export default {
 		data() {
 			return {
-				href: 'https://uniapp.dcloud.io/component/README?id=uniui',
 				active: 0,
 				iconWidth: '34px',
 				iconHeight: '25px',
@@ -91,10 +90,8 @@
 </script>
 
 <style>
-	.container {
-		padding: 20px;
-		font-size: 14px;
-		line-height: 24px;
+	.main-container {
+		width: 100%;
 	}
 	
 	.main-tabbar p{

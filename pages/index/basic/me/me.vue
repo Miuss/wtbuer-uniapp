@@ -55,50 +55,51 @@
 	}
 </script>
 
-<style scoped>
-@import url("../../../../assets/css/nav_bar.css");
-.user-avatar-card {
-	display: flex;
-  background-color: #ffffff;
-  align-items: center;
-	position: relative;
-	padding: 24rpx;
-	height: 98px;
-}
+<style>
+	@import url("../../../../assets/css/nav_bar.css");
+	
+	.user-avatar-card {
+		display: flex;
+	  background-color: #ffffff;
+	  align-items: center;
+		position: relative;
+		padding: 24rpx;
+		height: 98px;
+	}
 
-.user-avatar-card .avatar {
-	display: flex;
-	position: relative;
-	transition: transform .3s;
-	border-radius: 5em;
-	background: #F5F5F5;
-}
+	.user-avatar-card .avatar {
+		display: flex;
+		position: relative;
+		transition: transform .3s;
+		border-radius: 5em;
+		background: #F5F5F5;
+	}
 
-.user-avatar-card .avatar .icon {
-	border-radius: 5em;
-	width: 72px;
-	height: 72px;
-	background-color: #F5F5F5;
-	border: 3px solid #33333363;
-}
+	.user-avatar-card .avatar .icon {
+		border-radius: 5em;
+		width: 72px;
+		height: 72px;
+		background-color: #F5F5F5;
+		border: 3px solid #33333363;
+	}
 
-.user-avatar-card .info {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	flex: 1;
-	margin-left: 27rpx;
-	color: #444444;
-}
+	.user-avatar-card .info {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		flex: 1;
+		margin-left: 27rpx;
+		color: #444444;
+	}
 
-.user-avatar-card .info .title {
-	font-size: 42rpx;
-	font-weight: 600;
-}
+	.user-avatar-card .info .title {
+		font-size: 42rpx;
+		font-weight: 600;
+	}
 
-.user-avatar-card .info .addtime {
-	font-size: 13px;
-	opacity: .6;
-	margin-top: 4px;
-}
+	.user-avatar-card .info .addtime {
+		font-size: 13px;
+		opacity: .6;
+		margin-top: 4px;
+	}
 </style>
