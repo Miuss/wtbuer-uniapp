@@ -1,0 +1,41 @@
+.nav-bar {
+	--padding-md: 8px;
+}
+
+.nav-bar.backdrop {
+	--nav-bar-background-color: rgba(255, 255, 255, 0.7) !important;
+	-webkit-backdrop-filter: blur(20px);
+	backdrop-filter: blur(20px);
+}
+
+.nav-bar .logo {
+	margin-right: 3pt;
+	width: 32px;
+	height: 32px;
+}
+
+.nav-bar .title {
+	display: flex;
+	align-items: center;
+	font-weight: 600;
+	font-size: 12pt;
+	color: #444;
+}
+
+.container {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	padding: 200rpx 0;
+	box-sizing: border-box;
+}
+
+/* this rule will be remove */
+* {
+	transition: width 2s;
+	-moz-transition: width 2s;
+	-webkit-transition: width 2s;
+	-o-transition: width 2s;
+}

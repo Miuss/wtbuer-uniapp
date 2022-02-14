@@ -1,0 +1,69 @@
+{
+	"pages": [{
+		"path": "pages/index/index",
+		"style": {
+			"usingComponents": {}
+		}
+	}, {
+		"path": "pages/index/basic/home/home",
+		"style": {
+			"usingComponents": {}
+		}
+
+	}, {
+		"path": "pages/index/basic/forum/forum",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/index/basic/square/square",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/index/basic/me/me",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/index/basic/schedule/schedule",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/login/login",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+	}],
+	"globalStyle": {
+		"backgroundColor": "#eeeeee",
+		"navigationBarTextStyle": "black",
+		"navigationBarBackgroundColor": "#ffffff",
+		"navigationStyle": "custom",
+		"backgroundColorTop": "#fff",
+		"usingComponents": {
+			"scroll-list": "/wxcomponents/scroll-list/scroll-list",
+			"van-tabbar": "/wxcomponents/vant/tabbar/index",
+			"van-tabbar-item": "/wxcomponents/vant/tabbar-item/index",
+			"van-popup": "/wxcomponents/vant/popup/index",
+			"van-cell-group": "/wxcomponents/vant/cell-group/index",
+			"van-cell": "/wxcomponents/vant/cell/index",
+			"van-field": "/wxcomponents/vant/field/index",
+			"van-button": "/wxcomponents/vant/button/index",
+			"van-nav-bar": "/wxcomponents/vant/nav-bar/index",
+			"van-notice-bar": "/wxcomponents/vant/notice-bar/index",
+			"van-empty": "/wxcomponents/vant/empty/index",
+			"van-icon": "/wxcomponents/vant/icon/index"
+		}
+	}
+}

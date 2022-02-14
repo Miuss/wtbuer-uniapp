@@ -1,0 +1,28 @@
+<scroll-view 
+  class="list-class" 
+  scroll-y="{{true}}"
+  lower-threshold="{{lowerThreshold}}" 
+  bindtouchstart="{{scroll.touchStart}}" 
+  bindtouchmove="{{scroll.touchMove}}" 
+  bindtouchend="{{scroll.touchEnd}}" 
+  bindscrolltolower="loadmore" style="height: {{CustomScrollBox}}px;">
+  <view class="list-container" 
+    change:prop="{{scroll.loadingTypeChange}}" 
+    prop="{{showRefresh}}">
+    <view class="refresh-container" 
+      change:prop="{{scroll.triggerRefresh}}" 
+      prop="{{forceRefresh}}">
+      <view class="refresh-dot"></view>
+      <view class="refresh-dot"></view>
+      <view class="refresh-dot"></view>
+    </view>
+    <slot></slot>
+    <view class="gap-text" wx:if="{{!noData&&showTip}}" style="padding-bottom: {{tabbarHeight}}px">
+      <view class="word">加载中...</view>
+    </view>
+    <view class="gap-text" wx:if="{{noData&&showTip}}" style="padding-bottom: {{tabbarHeight}}px">
+      <view class="word">没有更多数据了</view>
+    </view>
+  </view>
+</scroll-view>
+<wxs src="./scroll.wxs" module="scroll"></wxs>

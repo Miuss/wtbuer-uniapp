@@ -1,0 +1,174 @@
+.nav-bar {
+	--padding-md: 8px;
+}
+.nav-bar.backdrop {
+	--nav-bar-background-color: rgba(255, 255, 255, 0.7) !important;
+	-webkit-backdrop-filter: blur(20px);
+	backdrop-filter: blur(20px);
+}
+.nav-bar .logo {
+	margin-right: 3pt;
+	width: 32px;
+	height: 32px;
+}
+.nav-bar .title {
+	display: flex;
+	align-items: center;
+	font-weight: 600;
+	font-size: 12pt;
+	color: #444;
+}
+.container {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	padding: 200rpx 0;
+	box-sizing: border-box;
+}
+
+/* this rule will be remove */
+
+.nav-bar.data-v-d2f29230 {
+	--padding-md: 8px;
+}
+.nav-bar.backdrop.data-v-d2f29230 {
+	--nav-bar-background-color: rgba(255, 255, 255, 0.7) !important;
+	-webkit-backdrop-filter: blur(20px);
+	backdrop-filter: blur(20px);
+}
+.nav-bar .logo.data-v-d2f29230 {
+	margin-right: 3pt;
+	width: 32px;
+	height: 32px;
+}
+.nav-bar .title.data-v-d2f29230 {
+	display: flex;
+	align-items: center;
+	font-weight: 600;
+	font-size: 12pt;
+	color: #444;
+}
+.container.data-v-d2f29230 {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	padding: 200rpx 0;
+	box-sizing: border-box;
+}
+
+/* this rule will be remove */
+.user-avatar-card.data-v-d2f29230 {
+	display: flex;
+  background-color: #ffffff;
+  align-items: center;
+	position: relative;
+	padding: 24rpx;
+	height: 98px;
+}
+.user-avatar-card .avatar.data-v-d2f29230 {
+	display: flex;
+	position: relative;
+	transition: -webkit-transform .3s;
+	transition: transform .3s;
+	transition: transform .3s, -webkit-transform .3s;
+	border-radius: 5em;
+	background: #F5F5F5;
+}
+.user-avatar-card .avatar .icon.data-v-d2f29230 {
+	border-radius: 5em;
+	width: 72px;
+	height: 72px;
+	background-color: #F5F5F5;
+	border: 3px solid #33333363;
+}
+.user-avatar-card .info.data-v-d2f29230 {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	flex: 1;
+	margin-left: 27rpx;
+	color: #444444;
+}
+.user-avatar-card .info .title.data-v-d2f29230 {
+	font-size: 42rpx;
+	font-weight: 600;
+}
+.user-avatar-card .info .addtime.data-v-d2f29230 {
+	font-size: 13px;
+	opacity: .6;
+	margin-top: 4px;
+}
+
+.nav-bar {
+	--padding-md: 8px;
+}
+.nav-bar.backdrop {
+	--nav-bar-background-color: rgba(255, 255, 255, 0.7) !important;
+	-webkit-backdrop-filter: blur(20px);
+	backdrop-filter: blur(20px);
+}
+.nav-bar .logo {
+	margin-right: 3pt;
+	width: 32px;
+	height: 32px;
+}
+.nav-bar .title {
+	display: flex;
+	align-items: center;
+	font-weight: 600;
+	font-size: 12pt;
+	color: #444;
+}
+.container {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	padding: 200rpx 0;
+	box-sizing: border-box;
+}
+
+/* this rule will be remove */
+.unbind-eams-member {
+	background-color: #fff;
+}
+.unbind-eams-member .bottom-button {
+	width: 160px;
+}
+.timetable {
+	pointer-events: unset !important;
+	text-align: left;
+}
+.timetable .week {
+	line-height: 17px;
+	font-size: 15px;
+	font-weight: 600;
+	margin-top: 4px;
+}
+.timetable .semester {
+	line-height: 16px;
+	font-weight: 400;
+	font-size: 10px;
+	opacity: .8;
+}
+
+
+.container {
+	padding: 20px;
+	font-size: 14px;
+	line-height: 24px;
+}
+.main-tabbar ._p{
+  font-size: 8px;
+}
+.main-tabbar .van-tabbar {
+  background-color: rgba(255,255,255,0.7);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+}
+

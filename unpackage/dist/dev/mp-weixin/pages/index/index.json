@@ -1,0 +1,10 @@
+{
+  "usingComponents": {
+    "bind-member-form": "/components/bindMemberForm",
+    "home": "/pages/index/basic/home/home",
+    "forum": "/pages/index/basic/forum/forum",
+    "square": "/pages/index/basic/square/square",
+    "mine": "/pages/index/basic/me/me",
+    "schedule": "/pages/index/basic/schedule/schedule"
+  }
+}
