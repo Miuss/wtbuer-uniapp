@@ -3,6 +3,13 @@
 		"path": "pages/index/index"
 	}, {
 		"path": "pages/login/login"
+	}, {
+		"path": "pages/about/about",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+
 	}],
 	"globalStyle": {
 		"backgroundColor": "#eeeeee",
@@ -22,7 +29,8 @@
 			"van-nav-bar": "/wxcomponents/vant/nav-bar/index",
 			"van-notice-bar": "/wxcomponents/vant/notice-bar/index",
 			"van-empty": "/wxcomponents/vant/empty/index",
-			"van-icon": "/wxcomponents/vant/icon/index"
+			"van-icon": "/wxcomponents/vant/icon/index",
+			"van-share-sheet": "/wxcomponents/vant/share-sheet/index"
 		}
 	}
 }
