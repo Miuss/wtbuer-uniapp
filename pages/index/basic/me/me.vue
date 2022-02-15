@@ -80,10 +80,16 @@
 					current: 'https://tva1.sinaimg.cn/large/002ZE6Hrgy1gu62bz7vxdj606a082dgt02.jpg'
 				})
 			},
-			unbindStuBtnClick(){
-				wx.vibrateShort();
-				console.log(this.triggerEvent)
-				
+			unbindStuBtnClick() {
+				wx.vibrateShort()
+				if (this.user.member_id === '') {
+					wx.showToast({
+						title: '亲，您还没绑定账号呢!',
+						icon: 'none',
+					})
+					return
+				}
+				this.$store.dispatch('unbindEamsMember')
 			}
 		}
 	}

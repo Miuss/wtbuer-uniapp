@@ -34,6 +34,18 @@ export const bindEamsMember = async function (username, password) {
   }
 }
 
+export const unbindEamsMember = async function(){
+	try {
+	  const res = await request({
+	    url: '/user/unbindEamsMember',
+	    method: 'GET'
+	  })
+	  return res
+	} catch (err) {
+	  throw err
+	}
+}
+
 export const getUserInfo = async function () {
   try {
     const res = await request({

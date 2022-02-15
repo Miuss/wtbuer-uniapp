@@ -117,3 +117,29 @@ export const bindEamsMember = async ({ commit, getters, dispatch }, { username, 
     wx.hideLoading()
   }
 }
+
+export const unbindEamsMember = async ({ commit, getters, dispatch }) => {
+  wx.showLoading({
+    title: '解绑中',
+    mask: true
+  })
+  try {
+    const res = await api.unbindEamsMember()
+
+    if (res.code) {
+      throw new Error(res.msg)
+    }
+
+    const user = Object.assign({}, getters.user)
+    user.member_id = ""
+    user.member_password = ""
+    commit('UPDATE_USER', user)
+    showToast("解绑成功，如需查看课表请重新绑定账号!")
+    dispatch('showBindMember', false)
+  } catch (err) {
+    console.error(err)
+    showToast(err)
+  } finally {
+    wx.hideLoading()
+  }
+}
