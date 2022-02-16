@@ -4,31 +4,12 @@
 	}, {
 		"path": "pages/login/login"
 	}, {
-		"path": "pages/about/about",
-		"style": {
-			"navigationBarTitleText": "",
-			"enablePullDownRefresh": false
-		}
-
-	}    ,{
-            "path" : "pages/exam/exam",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/score/score",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+		"path": "pages/about/about"
+	}, {
+		"path": "pages/exam/exam"
+	}, {
+		"path": "pages/score/score"
+	}],
 	"globalStyle": {
 		"backgroundColor": "#eeeeee",
 		"navigationBarTextStyle": "black",
