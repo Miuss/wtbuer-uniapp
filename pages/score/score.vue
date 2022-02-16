@@ -6,7 +6,7 @@
 				分数查询
 			</div>
 		</van-nav-bar>
-		<van-cell-group class="examPicker" :border="false">
+		<van-cell-group class="scorePicker" :border="false">
 			<van-cell @click="showPicker()" title-width="20%" title="学期"
 				:value="courseId===''?semesterIds[semesterIds.length-1].year:semesterIds[courseId].year" is-link />
 		</van-cell-group>
@@ -221,7 +221,7 @@
 		box-shadow: 0 0px 13px 6px rgb(160 49 8 / 20%);
 	}
 
-	.examPicker {
+	.scorePicker {
 		position: fixed;
 		width: 100%;
 		z-index: 1;
@@ -243,6 +243,7 @@
 		box-shadow: 0 1px 3px 0 rgb(0 0 0 / 2%), 0 16px 32px 0 rgb(0 0 0 / 7%);
 		-webkit-box-shadow: 0 1px 4px 0 rgb(0 0 0 / 10%);
 		box-shadow: 0 1px 4px 0 rgb(0 0 0 / 10%);
+		margin-right: 30rpx;
 	}
 
 	.list .title {

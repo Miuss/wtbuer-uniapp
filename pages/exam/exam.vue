@@ -8,12 +8,12 @@
 		</van-nav-bar>
 		<van-cell-group class="examPicker" :border="false">
 			<van-cell @click="showPicker()" title-width="20%" title="学期"
-				:value="courseId===''?semesterIds[courseIds.index].year:semesterIds[courseId].year" is-link />
+				:value="courseId===''?semesterIds[semesterIds.length-1].year:semesterIds[courseId].year" is-link />
 		</van-cell-group>
 		<van-popup title="请选择学期" position="bottom" round :show="pickerVis">
 			<van-picker :show-toolbar="true" @cancel="pickerVis=false" @confirm="onConfirmChangeIds()" value-key="year"
 				:columns="semesterIds" confirm-button-text="确认" cancel-button-text="取消"
-				:default-index="courseIds.index" />
+				:default-index="semesterIds.length-1" />
 		</van-popup>
 		<div class="content-box">
 			<div class="list" v-if="examList.length != 0">
@@ -53,9 +53,6 @@
 			}
 		},
 		computed: {
-			courseIds() {
-				return this.$store.getters.courseIds
-			},
 			semesterIds() {
 				return this.$store.getters.semesterIds
 			}
