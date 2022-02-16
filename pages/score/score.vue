@@ -6,7 +6,17 @@
 				分数查询
 			</div>
 		</van-nav-bar>
-		<van-cell-group class="scorePicker" :border="false">
+		<div class="cu-form-group scorePicker">
+			<div class="title">学期</div>
+			<picker @change="onConfirmChangeIds" :value="courseId===''?semesterIds.length-1:courseId"
+				:range="semesterIds" range-key="year">
+				<div class="picker">
+					{{courseId===''?semesterIds[semesterIds.length-1].year:semesterIds[courseId].year}}
+					<van-icon name="arrow" style="color:#8799a3" />
+				</div>
+			</picker>
+		</div>
+		<!-- <van-cell-group class="scorePicker" :border="false">
 			<van-cell @click="showPicker()" title-width="20%" title="学期"
 				:value="courseId===''?semesterIds[semesterIds.length-1].year:semesterIds[courseId].year" is-link />
 		</van-cell-group>
@@ -14,7 +24,7 @@
 			<van-picker :show-toolbar="true" @cancel="pickerVis=false" @confirm="onConfirmChangeIds()" value-key="year"
 				:columns="semesterIds" confirm-button-text="确认" cancel-button-text="取消"
 				:default-index="semesterIds.length-1" />
-		</van-popup>
+		</van-popup> -->
 		<div class="content-box">
 			<block v-if="scoreList.length != 0">
 				<div class="score">学期平均分数：{{avgScore}}</div>
@@ -50,15 +60,15 @@
 			return {
 
 				svg: {
-					back: "data:image/svg+xml;base64,PHN2ZyBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMzIiIGhlaWdodD0iMzIiPjxwYXRoIGQ9Ik0zOTUuMjE1IDUxMy42MDVMNzE4LjM1MSAyMDEuMjNjMTkuMDUzLTE4LjQxNiAxOS4wNTMtNDguMjczIDAtNjYuNjYtMTkuMDU0LTE4LjQxNy00OS45MTEtMTguNDE3LTY4Ljk2NSAwTDI5MS43NTIgNDgwLjI5Yy0xOS4wNTMgMTguNDE2LTE5LjA1MyA0OC4yNzMgMCA2Ni42NmwzNTcuNjMzIDM0NS42ODhjOS41MjYgOS4yMDggMjIuMDEyIDEzLjc5NiAzNC40OTggMTMuNzk2IDEyLjQ4NSAwIDI0Ljk3MS00LjU4OCAzNC40NjctMTMuODI5IDE5LjA1My0xOC40MTYgMTkuMDUzLTQ4LjI0MiAwLTY2LjY2TDM5NS4yMTUgNTEzLjYwNXoiLz48L3N2Zz4="
+					back: "data:image/svg+xml;base64,PHN2ZyBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMzIiIGhlaWdodD0iMzIiPjxwYXRoIGQ9Ik0zOTUuMjE1IDUxMy42MDVMNzE4LjM1MSAyMDEuMjNjMTkuMDUzLTE4LjQxNiAxOS4wNTMtNDguMjczIDAtNjYuNjYtMTkuMDU0LTE4LjQxNy00OS45MTEtMTguNDE3LTY4Ljk2NSAwTDI5MS43NTIgNDgwLjI5Yy0xOS4wNTMgMTguNDE2LTE5LjA1MyA0OC4yNzMgMCA2Ni42NmwzNTcuNjMzIDM0NS42ODhjOS41MjYgOS4yMDggMjIuMDEyIDEzLjc5NiAzNC40OTggMTMuNzk2IDEyLjQ4NSAwIDI0Ljk3MS00LjU4OCAzNC40NjctMTMuODI5IDE5LjA1My0xOC40MTYgMTkuMDUzLTQ4LjI0MiAwLTY2LjY2TDM5NS4yMTUgNTEzLjYwNXoiLz48L3N2Zz4=",
+					leftArrow: "data:image/svg+xml;base64,PHN2ZyBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiPjxwYXRoIGQ9Ik03NTguOTgzIDUyMC42NzNhMjMuMTU0IDIzLjE1NCAwIDAgMS0xNi40MjItNi44MThMMjc3LjcxIDQ5LjAwNWMtOS4wOS05LjA4OS05LjA5LTIzLjgxNCAwLTMyLjkwNCA5LjA4OC05LjA5IDIzLjgxNC05LjA5IDMyLjkwNCAwbDQ2NC44NSA0NjQuODVjOS4wOSA5LjA5IDkuMDkgMjMuODE1IDAgMzIuOTA1LTQuNTQ0IDQuNTQ1LTEwLjUxMyA2LjgxNy0xNi40ODIgNi44MTd6IiBmaWxsPSIjNTE1MTUxIi8+PHBhdGggZD0iTTI2NS4xMDYgMTAxNC41OTVjLTUuOTUzIDAtMTEuOTA4LTIuMzAzLTE2LjQ1Mi02Ljg0Ny05LjA5LTkuMDktOS4wOS0yMy44MTUgMC0zMi45MDVsNDkzLjkwOC00OTMuODkyYzkuMDktOS4wOSAyMy44MTQtOS4wOSAzMi45MDQgMHM5LjA5IDIzLjgxNSAwIDMyLjkwNWwtNDkzLjkwOCA0OTMuODkyYy00LjU0NCA0LjU0NC0xMC40OTkgNi44NDctMTYuNDUyIDYuODQ3eiIgZmlsbD0iIzUxNTE1MSIvPjwvc3ZnPg=="
 				},
 				courseId: '', //学期号
 				scoreList: [],
 				pickerVis: false
 			}
 		},
-		created() {
-		},
+		created() {},
 		computed: {
 			courseIds() {
 				return this.$store.getters.courseIds
@@ -101,9 +111,9 @@
 			},
 			async onConfirmChangeIds(e) {
 				this.pickerVis = false
-				this.courseId = e.detail.value.index
-				const semsterid = e.detail.value.id
-				console.log(semsterid)
+				this.courseId = e.detail.value
+				const semsterid = this.semesterIds[e.detail.value].id
+				console.log(this.semesterIds[this.courseId].id)
 				wx.showLoading({
 					title: '查询分数中',
 					mask: true
@@ -128,6 +138,7 @@
 
 <style>
 	@import url("../../assets/css/nav_bar.css");
+	@import url("../../assets/css/cu-form.css");
 
 	.flex {
 		display: flex;
@@ -227,7 +238,7 @@
 		z-index: 1;
 		box-shadow: 0 1px 3px 0 rgb(0 0 0 / 2%), 0 16px 32px 0 rgb(0 0 0 / 7%);
 		-webkit-box-shadow: 0 1px 4px 0 rgb(0 0 0 / 10%);
-		box-shadow: 0 1px 4px 0 rgb(0 0 0 / 10%);
+		box-shadow: 0 1px 4px 0 rgb(0 0 0 / 10%); 
 	}
 
 	.score {
