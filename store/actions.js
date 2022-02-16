@@ -12,7 +12,7 @@ export const login = async ({ commit }, { code, userInfo }) => {
         url: '/pages/index/index'
       })
     } else {
-      throw new Error('服务器处理错误，请重试')
+      throw new Error('服务器处理错误，请重试') 
     }
   } catch (err) {
     console.error(err)
@@ -44,7 +44,7 @@ export const getUserInfo = async ({ commit, state }) => {
 
   try {
     const res = await api.getUserInfo()
-
+	console.log(res)
     if (!res.code) {
       commit('UPDATE_USER', res.data)
     }
@@ -143,3 +143,4 @@ export const unbindEamsMember = async ({ commit, getters, dispatch }) => {
     wx.hideLoading()
   }
 }
+

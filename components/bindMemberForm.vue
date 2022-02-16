@@ -42,6 +42,8 @@ export default {
         username: this.username,
         password: this.password
       })
+	  this.$store.dispatch('getUserInfo')
+	  console.log(this.$store.getters.user)
     },
     onChangeUsername (event) {
       this.username = event.detail

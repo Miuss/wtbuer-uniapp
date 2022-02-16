@@ -1,32 +1,30 @@
 <template>
 	<view>
-		<div v-if="user !== ''">
-			<van-nav-bar custom-class="nav-bar" :fixed="true" :placeholder="true" :border="false">
-				<div class="title" slot="left">
-					我的
+		<van-nav-bar custom-class="nav-bar" :fixed="true" :placeholder="true" :border="false">
+			<div class="title" slot="left">
+				我的
+			</div>
+		</van-nav-bar>
+		<scroll-list :refreshLoading="refreshLoading" @refresh="initList" @loadmore="loadmore" :showTip="false">
+			<div class="user-avatar-card">
+				<div class="avatar">
+					<img class="icon" :src="user.avatarurl" />
 				</div>
-			</van-nav-bar>
-			<scroll-list :refreshLoading="refreshLoading" @refresh="initList" @loadmore="loadmore" :showTip="false">
-				<div class="user-avatar-card">
-					<div class="avatar">
-						<img class="icon" :src="user.avatarurl" />
-					</div>
-					<div class="info">
-						<div class="title">{{ user.nickname }}</div>
-						<div class="addtime">{{ user.addtime }}</div>
-					</div>
+				<div class="info">
+					<div class="title">{{ user.nickname }}</div>
+					<div class="addtime">{{ user.addtime }}</div>
 				</div>
-				<van-cell-group>
-					<van-cell title="关于我们" @click="toAbout()" is-link></van-cell>
-					<van-cell title="赞助支持" @click="showQrcode()" is-link></van-cell>
-					<van-cell title="分享小程序" is-link></van-cell>
-					<van-cell title="加入企鹅交流群" @click="showQQQrcode()" is-link></van-cell>
-					<van-cell title="解绑" @click="unbindStuBtnClick()" is-link></van-cell>
-				</van-cell-group>
-				<van-share-sheet :show="shareVis" title="立即分享给好友" :options="options" @select="onSelect"
-					@close="onClose" />
-			</scroll-list>
-		</div>
+			</div>
+			<van-cell-group inset>
+				<van-cell title="关于我们" @click="toAbout()" is-link></van-cell>
+				<van-cell title="赞助支持" @click="showQrcode()" is-link></van-cell>
+				<van-cell title="分享小程序" is-link></van-cell>
+				<van-cell title="加入企鹅交流群" @click="showQQQrcode()" is-link></van-cell>
+				<van-cell v-if="user.member_id===''" title="绑定教务系统" @click="bindStuBtnClick()" is-link></van-cell>
+				<van-cell v-else title="解绑" @click="unbindStuBtnClick()" is-link></van-cell>
+			</van-cell-group>
+			<van-share-sheet :show="shareVis" title="立即分享给好友" :options="options" @select="onSelect" @close="onClose" />
+		</scroll-list>
 	</view>
 </template>
 
@@ -80,15 +78,12 @@
 					current: 'https://tva1.sinaimg.cn/large/002ZE6Hrgy1gu62bz7vxdj606a082dgt02.jpg'
 				})
 			},
+			bindStuBtnClick() {
+				wx.vibrateShort()
+				this.$store.dispatch('showBindMember', true)
+			},
 			unbindStuBtnClick() {
 				wx.vibrateShort()
-				if (this.user.member_id === '') {
-					wx.showToast({
-						title: '亲，您还没绑定账号呢!',
-						icon: 'none',
-					})
-					return
-				}
 				this.$store.dispatch('unbindEamsMember')
 			}
 		}

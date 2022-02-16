@@ -10,7 +10,16 @@
 			"enablePullDownRefresh": false
 		}
 
-	}],
+	}    ,{
+            "path" : "pages/exam/exam",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"globalStyle": {
 		"backgroundColor": "#eeeeee",
 		"navigationBarTextStyle": "black",
@@ -31,7 +40,11 @@
 			"van-empty": "/wxcomponents/vant/empty/index",
 			"van-icon": "/wxcomponents/vant/icon/index",
 			"van-share-sheet": "/wxcomponents/vant/share-sheet/index",
-			"van-notify": "/wxcomponents/vant/notify/index"
+			"van-notify": "/wxcomponents/vant/notify/index",
+			"van-grid": "/wxcomponents/vant/grid/index",
+			"van-grid-item": "/wxcomponents/vant/grid-item/index",
+			"van-picker": "/wxcomponents/vant/picker/index",
+			"van-action-sheet": "/wxcomponents/vant/action-sheet/index"
 		}
 	}
 }
