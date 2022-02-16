@@ -19,6 +19,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/score/score",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"backgroundColor": "#eeeeee",
