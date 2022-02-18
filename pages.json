@@ -9,6 +9,8 @@
 		"path": "pages/exam/exam"
 	}, {
 		"path": "pages/score/score"
+	}, {
+		"path": "pages/notice/notice"
 	}],
 	"globalStyle": {
 		"backgroundColor": "#eeeeee",
@@ -34,7 +36,8 @@
 			"van-grid": "/wxcomponents/vant/grid/index",
 			"van-grid-item": "/wxcomponents/vant/grid-item/index",
 			"van-picker": "/wxcomponents/vant/picker/index",
-			"van-action-sheet": "/wxcomponents/vant/action-sheet/index"
+			"van-action-sheet": "/wxcomponents/vant/action-sheet/index",
+			"van-steps": "/wxcomponents/vant/steps/index"
 		}
 	}
 }
