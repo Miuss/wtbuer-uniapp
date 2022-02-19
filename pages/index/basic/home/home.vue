@@ -9,20 +9,75 @@
 			<van-notice-bar @click="toNotice" background="#5e77ff" color="#fff" left-icon="volume-o"
 				:text="notice.title" />
 		</div>
+
+		<div class="week-container">
+			<div class="week-bar week-flex">
+				<div class="month">{{month}}</div>
+				<div v-for="(dayitem,index) in weekList"
+					:class="dayitem.istoday?'week-day week-day-flex active':'week-day week-day-flex'">
+					<div class="week">{{weekTitle[index]}}</div>
+					<div class="date">{{dayitem.date}}</div>
+				</div>
+			</div>
+		</div>
+
 		<div class="unbind-eams-member" v-if="user.member_id === ''">
 			<van-empty description="尚未绑定教务系统账号">
 				<van-button round type="primary" class="bottom-button" color="#4562e5"
 					@click="$store.dispatch('showBindMember', true)">立即绑定教务账号</van-button>
 			</van-empty>
-		</div> 
-		<div class="title" style="margin-top:30rpx;">今日课程</div>
-		<div class="cu-timeline" v-for="(item,index) in todayList" :key="index">
-			<div class="cu-time">{{timeArrays[item.starttime][1]}}</div>
-			<div class="cu-item class-item">
-				<div class="content" :style="'background-color:'+colorArrays[item.index%16]">
-					<div class="name">{{item.name}}</div>
-					<div class="teachers">老师：{{item.teachers}}</div>
-					<div class="room"> 教室：{{item.room}}</div>
+		</div>
+
+		<!--没获取课表-->
+		<div v-if="courseList.length === 0">
+			<van-empty description="此次登录尚未获取课表">
+				<van-button round type="primary" class="bottom-button" color="#4562e5" @click="getClass()">立即获取课表
+				</van-button>
+			</van-empty>
+		</div>
+		<!--正常有课-->
+		<div v-if="courseList.length != 0 && todayList.length != 0">
+			<div class="time-line" v-for="(item,index) in todayList">
+				<div class="time-line-before">
+					<image class="straight-line1 margin-l10" :src="svg.straight" mode="aspectFill" v-if="index != 0">
+					</image>
+					<image v-else class="straight-line2 margin-l10" :src="svg.straight_last" mode="aspectFill"></image>
+					<image class="circle margin-l10" :src="svg.circle" mode="aspectFill"></image>
+					<image class="straight-line2 margin-l10" :src="svg.straight" mode="aspectFill"
+						v-if="index != todayList.length-1"></image>
+					<image class="straight-line2 margin-l10" :src="svg.straight_last" mode="aspectFill" v-else></image>
+					<image class="straight-line3 margin-l10" :src="svg.straight" mode="aspectFill"
+						v-if="index != todayList.length-1"></image>
+					<image class="straight-line3 margin-l10" :src="svg.straight_last" mode="aspectFill" v-else></image>
+				</div>
+				<div class="time-line-card flex-container flex-just-center">
+					<div class="time flex-time">
+						<div class="hour">{{timeArrays[item.starttime-1][1].slice(0,2)}}</div>
+						<image class="line" :src="svg.line" mode="aspectFill"></image>
+						<div class="minute">{{timeArrays[item.starttime-1][1].slice(3,5)}}</div>
+					</div>
+					<div class="schedule flex-schedule" :style="'background-color:' + colorArrays[item.index%16]">
+						<div class="name margin-l3">{{item.name}}</div>
+						<div class="teacher margin-l3">老师：{{item.teachers}}</div>
+						<div class="room margin-l3">教师：{{item.room}}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--没课-->
+		<div v-if="user.member_id != 0 &&courseList.length !=0 && todayList.length === 0">
+			<div class="time-line">
+				<div class="time-line-before">
+					<image class="straight-line1 margin-l10" :src="svg.straight" mode="aspectFill">
+					</image>
+					<image class="circle margin-l10" :src="svg.circle" mode="aspectFill"></image>
+					<image class="straight-line2 margin-l10" :src="svg.straight_last" mode="aspectFill"></image>
+					<image class="straight-line3 margin-l10" :src="svg.straight_last" mode="aspectFill"></image>
+				</div>
+				<div class="noclass-card flex-container">
+					<div class="noclass">
+						今天没课,也不要忘记学习哦！
+					</div>
 				</div>
 			</div>
 		</div>
@@ -33,6 +88,7 @@
 	import {
 		getNotices
 	} from '../../../../api/systemapi.js'
+	import * as ut from '../../../../utils'
 	import logo from '../../../../assets/images/logo.png'
 	export default {
 		data() {
@@ -41,13 +97,19 @@
 				notice: {
 					title: ''
 				},
+				svg: {
+					line: "data:image/svg+xml;base64,PHN2ZyBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiPjxwYXRoIGQ9Ik04NS4zMzMgOTU1LjczM2ExNy4wNSAxNy4wNSAwIDAgMS0xMi4wNjYtMjkuMTMyTDkyNi42MDEgNzMuMjY3QTE3LjA1IDE3LjA1IDAgMSAxIDk1MC43MzMgOTcuNEw5Ny4zOTkgOTUwLjczM2ExNy4wMTUgMTcuMDE1IDAgMCAxLTEyLjA2NiA1eiIgZmlsbD0iIzcwNzA3MCIvPjwvc3ZnPg==",
+					straight: "data:image/svg+xml;base64,PHN2ZyBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiPjxwYXRoIGQ9Ik01MzEuMTg1IDk0My41MzJjMCA4LjktNi40OTMgMTYuMTE0LTE0LjUwMyAxNi4xMTRoLTkuMzY0Yy04LjAxIDAtMTQuNTA0LTcuMjE0LTE0LjUwNC0xNi4xMTRWODAuNDY3YzAtOC44OTkgNi40OTMtMTYuMTE0IDE0LjUwNC0xNi4xMTRoOS4zNjRjOC4wMSAwIDE0LjUwMyA3LjIxNSAxNC41MDMgMTYuMTE0djg2My4wNjV6IiBmaWxsPSIjYmZiZmJmIi8+PC9zdmc+",
+					straight_last: 'data:image/svg+xml;base64,PHN2ZyBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiPjxwYXRoIGQ9Ik01MzEuMTg1IDk0My41MzJjMCA4LjktNi40OTMgMTYuMTE0LTE0LjUwMyAxNi4xMTRoLTkuMzY0Yy04LjAxIDAtMTQuNTA0LTcuMjE0LTE0LjUwNC0xNi4xMTRWODAuNDY3YzAtOC44OTkgNi40OTMtMTYuMTE0IDE0LjUwNC0xNi4xMTRoOS4zNjRjOC4wMSAwIDE0LjUwMyA3LjIxNSAxNC41MDMgMTYuMTE0djg2My4wNjV6IiBmaWxsPSIjZmZmIi8+PC9zdmc+',
+					circle: "data:image/svg+xml;base64,PHN2ZyBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBkYXRhLXNwbS1hbmNob3ItaWQ9ImEzMTN4Ljc3ODEwNjkuMC5pMTIiIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiI+PHBhdGggZD0iTTM4Mi40MjEgNTEyYTEyMS43NyAxMjEuNzcgMCAwIDEgMTIxLjgxNC0xMjEuODEzQTEyMi4xNTUgMTIyLjE1NSAwIDAgMSA2MjYuMDkgNTEyYTEyMi4xNTUgMTIyLjE1NSAwIDAgMS0xMjEuODU2IDEyMS44NTZBMTIyLjE1NSAxMjIuMTU1IDAgMCAxIDM4Mi40MiA1MTJ6TTUwNC4yMzUgMEMyNjUuMTczIDAgNjQuOTM5IDE2My44NCA4LjEwNyAzODUuMDY3Yy0uNDI3IDEuNTM2LS40MjcgMi45ODYtLjQyNyA1LjEyIDAgMTMuMzU0IDEwLjc1MiAyNC41NzYgMjQuNTMzIDI0LjU3NmgyMDYuMjk0YzkuODEzIDAgMTguNDc0LTUuNTQ3IDIyLjA1OC0xNC4yMDggNDIuNTM5LTkyLjE2IDEzNS42OC0xNTYuNjcyIDI0My43MTItMTU2LjY3MkEyNjguNTAxIDI2OC41MDEgMCAwIDEgNzcyLjQ4IDUxMi4xMjhjMCAxNDguMDUzLTEyMC4zMiAyNjguMzczLTI2OC4zNzMgMjY4LjM3M0EyNjcuOTQ3IDI2Ny45NDcgMCAwIDEgMjYwLjQ4IDYyMy43ODdhMjUuMzQ0IDI1LjM0NCAwIDAgMC0yMi4wNTktMTQuMzM2SDMyLjIxM0EyNC41NzYgMjQuNTc2IDAgMCAwIDcuNjggNjM0LjAyN2MwIDEuNTc4LjU5NyAzLjA3Mi41OTcgNS4xMkM2NC41OTcgODYwLjE2IDI2NS4xMzEgMTAyNCA1MDQuMjM1IDEwMjRjMjgyLjYyNCAwIDUxMi0yMjkuMzMzIDUxMi01MTIgMC0yODIuNTgxLTIyOS4zNzYtNTEyLTUxMi01MTJ6IiBkYXRhLXNwbS1hbmNob3ItaWQ9ImEzMTN4Ljc3ODEwNjkuMC5pMTEiIGNsYXNzPSJzZWxlY3RlZCIgZmlsbD0iI2JmYmZiZiIvPjwvc3ZnPg=="
+				},
 				//今日课程展示页
-				colorArrays: ["#f05261", "#48a8e4", "#ffd061", "#52db9a", "#70d3e6", "#52db9a", "#3f51b5", "#f3d147",
+				colorArrays: ["#f05261", "#48a8e4", "#aaaa7f", "#52db9a", "#70d3e6", "#52db9a", "#3f51b5", "#f3d147",
 					"#4adbc3", "#673ab7", "#f3db49", "#76bfcd", "#b495e1", "#ff9800", "#8bc34a"
 				],
 				timeArrays: [
-					[1, "8:20"],
-					[2, "9:15"],
+					[1, "08:20"],
+					[2, "09:15"],
 					[3, "10:20"],
 					[4, "11:15"],
 					[5, "12:10"],
@@ -60,6 +122,7 @@
 					[12, "19:25"],
 					[13, "20:20"]
 				],
+				weekTitle: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
 				classArr: {}
 			}
 		},
@@ -70,50 +133,47 @@
 			courseList() {
 				return this.$store.getters.courseList
 			},
+			courseIds() {
+				return this.$store.getters.courseIds
+			},
 			week() {
 				return this.$store.getters.week
 			},
+			month() {
+				let month = new Date()
+				return month.getMonth()+1
+			},
+			weekList() {
+				let weeklist = []
+				let today = this.getToday()
+				//获取本周今天之前的日期
+				for (let i = 1; i <= 7; i++) {
+					let day = {
+						date: this.getDateAfter(i - today),
+						istoday: false
+					}
+					if ((i - today) === 0) {
+						day.istoday = true
+					}
+					weeklist.push(day)
+				}
+				console.log(weeklist)
+				return weeklist
+			},
 			//今日课程
 			todayList() {
-				let today = []
-				for (let i = 1; i < 14; i++) {
-					if (!this.classArr[`${i}`]) {
-						continue
-					}
-					today.push(this.classArr[`${i}`])
+				let todayList = []
+				if (this.courseList.length === 0) {
+					return todayList
 				}
-				console.log(today)
-				return today
-			}
-		},
-		methods: {
-			toNotice() {
-				wx.vibrateShort();
-				wx.navigateTo({
-					url: '/pages/notice/notice',
-				})
-			},
-			getToday() {
-				let nowWeek = new Date()
-				if (nowWeek.getDay() === 0) {
-					return 7
-				} else {
-					return nowWeek.getDay()
-				}
-			},
-			updateClassList() {
-				const data = this.courseList[this.week - 1] //第n周的课表
 				let today = this.getToday() //今天周几
-				data.forEach((item, index) => {
-					let teacher = ''
-					let len = item.teachers.length
+				this.courseList[this.week - 1].forEach((item, index) => {
 					//如果是今天
 					if (item.xqj === today) {
-						for (let i = 0; i < len; i++) {
+						let teacher = ''
+						for (let i = 0; i < item.teachers.length; i++) {
 							teacher += item.teachers[i]
-							if (len === 1) {
-								break;
-							}
+							if (item.teachers.length === 1) break
 							teacher += ' '
 						}
 						//以上课时间为key，item为value将其打包为一个对象
@@ -126,10 +186,42 @@
 						}
 					}
 				})
+				for (let i = 1; i < 14; i++) {
+					if (!this.classArr[`${i}`]) {
+						continue
+					}
+					todayList.push(this.classArr[`${i}`])
+				}
+				return todayList
 			}
 		},
-
-		created() {
+		methods: {
+			toNotice() {
+				wx.vibrateShort();
+				wx.navigateTo({
+					url: '/pages/notice/notice'
+				})
+			},
+			getToday() {
+				let nowWeek = new Date()
+				if (nowWeek.getDay() === 0) {
+					return 7
+				} else {
+					return nowWeek.getDay()
+				}
+			},
+			getDateAfter(addDays) {
+				let dd = new Date()
+				dd.setDate(dd.getDate() + addDays)
+				return dd.getDate()
+			},
+			getClass() {
+				const semesterIds = this.$store.getters.semesterIds
+				this.$store.dispatch('getCourseList', semesterIds[semesterIds.length - 1])
+			}
+		},
+		created() {},
+		mounted() {
 			//获取公告标题
 			getNotices(1, 20).then(res => {
 				console.log(res)
@@ -140,16 +232,12 @@
 					}
 				}
 			})
-			//获取当日课程
-			this.updateClassList()
-
 		}
 	}
 </script>
 
 <style>
 	@import url("../../../../assets/css/nav_bar.css");
-	@import url("../../../../assets/css/time_line.css");
 
 	/*未绑定账号界面展示样式*/
 	.unbind-eams-member {
@@ -161,111 +249,217 @@
 		width: 160px;
 	}
 
+	/*周立*/
+
+	.week-container {
+		width: 100%;
+		height: 10vh;
+		margin-bottom: 50rpx;
+		justify-content: center;
+		display: flex;
+	}
+
+	.week-bar .month {
+		font-size: 100rpx;
+		margin-left: 0;
+		color: #d9d9d9;
+	}
+
+	.week-bar {
+		box-shadow: 0 4rpx 8rpx 0 rgb(0, 0, 0, 0.2), 0 6rpx 20rpx 0 rgb(0, 0, 0, 0.19);
+		border-radius: 20rpx;
+		padding: 30rpx;
+		margin-top: 0.5em;
+	}
+
+	.week-flex {
+		display: flex;
+		align-items: center;
+
+	}
+
+	.week-day {
+		padding: 10rpx;
+		margin-left: 15rpx;
+		margin-right: 15rpx;
+		color: #cecece;
+	}
+
+	.week-day-flex {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+
+	.week-bar .active {
+		box-shadow: 0 4rpx 8rpx 0 rgb(0, 0, 0, 0.2), 0 6rpx 20rpx 0 rgb(0, 0, 0, 0.19);
+		background-color: #5e77ff;
+		color: #ffffff;
+		border-radius: 10rpx;
+	}
+
+	.week-day .week {
+		font-size: 25rpx;
+		margin-bottom: 15rpx;
+	}
+
+	.week-day .date {
+		font-size: 35rpx;
+	}
+
 	/*今日课程部分样式*/
 
-	.title {
-		margin-top: 8rpx;
-		margin-bottom: 26rpx;
-		padding: 0 18rpx;
-		font-size: 16px;
-		font-weight: 600;
-		color: #000000;
+	.noclass-card {
+		width: 75%;
+		height: 100rpx;
+		margin-bottom: 20rpx;
+		margin-right: 50rpx;
+		box-shadow: 0 4rpx 8rpx 0 rgb(0, 0, 0, 0.2), 0 6rpx 20rpx 0 rgb(0, 0, 0, 0.19);
+		border-radius: 12rpx;
 	}
 
-	.sub-title {
-		font-size: 11px;
-		font-weight: 400;
-		opacity: .6;
-	}
-
-	.app-notice {
+	.noclass {
+		display: flex;
+		width: 100%;
+		height: 100%;
+		color: #ffffff;
+		font-weight: 700;
 		background-color: #5e77ff;
-		padding: 8px 10px;
-		color: #fff;
-		font-size: 26rpx;
+		border-radius: 12rpx;
+		justify-content: center;
+		align-items: center;
 	}
 
-	.bbs {
-		padding: .5em 18rpx;
-		background-color: #fafafa;
-		color: #444444;
-		font-size: 13px;
-		font-weight: 800;
+
+	.time-line {
+		width: 100%;
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
 	}
 
-	.cu-timeline {
-		position: relative;
+	.time-line-card {
+		width: 85%;
+		height: 222rpx;
+		margin-bottom: 20rpx;
+		margin-right: 30rpx;
+		box-shadow: 0 4rpx 8rpx 0 rgb(0, 0, 0, 0.2), 0 6rpx 20rpx 0 rgb(0, 0, 0, 0.19);
+		border-radius: 12rpx;
 	}
 
-	.cu-timeline>.cu-item.class-item {
-		padding: 30rpx 30rpx 30rpx 180rpx;
+	.time-line-before {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		margin-top: 0;
+		margin-right: 20rpx;
 	}
 
-	.cu-timeline>.cu-item.class-item::before {
-		left: 113rpx;
+
+	.flex-container {
+		display: flex;
+		background-color: #ffffff;
 	}
 
-	.cu-timeline>.cu-item.class-item::after {
-		left: 137rpx;
-		width: 3rpx;
-		border-radius: 3px;
+	.flex-time {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
 	}
 
-	.cu-timeline:last-child .class-item::after {
-		height: 30%;
+	.flex-schedule {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
 	}
 
-	.cu-timeline .cu-time {
-		position: absolute;
-		top: 24rpx;
-		font-weight: 600;
+	.time {
+		background-color: #ffffff;
+		width: 30%;
+		height: 100%;
+		font-size: 60rpx;
+		font-weight: 900;
 		color: #333333;
+		border-top-left-radius: 12rpx;
+		border-bottom-left-radius: 12rpx;
 	}
 
-	.class-item .content {
-		padding: 15rpx 30rpx !important;
-		color: #ffffff !important;
-		border-radius: 8px !important;
-		box-shadow: 0 1px 3px 0 rgb(0 0 0 / 2%), 0 16px 32px 0 rgb(0 0 0 / 7%);
-		-webkit-box-shadow: 0 1px 4px 0 rgb(0 0 0 / 10%);
-		box-shadow: 0 1px 4px 0 rgb(0 0 0 / 10%);
+	.time .hour,
+	.minute {
+		color: #504e6e;
 	}
 
-	.class-item .content:active {
-		transform: scale(.98);
-		transition: .2s;
+	.hour {
+		margin-right: 70rpx;
 	}
 
-	.class-item .cover {
+	.minute {
+		margin-left: 70rpx;
+	}
+
+	.circle {
+		font-weight: 100;
+		width: 0.9em;
+		height: 0.9em;
+	}
+
+	.margin-l10 {
+		margin-left: 20rpx;
+	}
+
+	.straight-line1 {
+		font-weight: 100;
+		width: 2.5em;
+		height: 2.5em;
+	}
+
+	.straight-line2 {
+		font-weight: 100;
+		width: 2.5em;
+		height: 2.5em;
+	}
+
+	.straight-line3 {
+		font-weight: 100;
+		width: 2.5em;
+		height: 2.5em;
+	}
+
+	.line {
 		position: absolute;
-		height: 48px;
+		font-weight: 100;
+		width: 1.5em;
+		height: 1.5em;
 	}
 
-	.class-item .icon {
-		border-radius: 8px;
-		width: 48px;
-		height: 48px;
+	.schedule {
+		background-color: #f05261;
+		width: 70%;
+		height: 100%;
+		color: #ffffff;
+		border-top-right-radius: 12rpx;
+		border-bottom-right-radius: 12rpx;
 	}
 
-	.class-item .content {
-		position: relative;
-		display: block;
+	.margin-l3 {
+		margin-left: 10%;
 	}
 
-	.class-item .name {
-		font-size: 14px;
-		font-weight: 600;
-		margin: 4px 0;
+	.name {
+		margin-bottom: 20rpx;
+		font-weight: 700;
+		font-size: 30rpx;
 	}
 
-	.class-item .room,
-	.class-item .teachers {
-		font-size: 12px;
+	.teacher,
+	.room {
+		font-size: 25rpx;
+		margin-bottom: 10rpx;
 		opacity: .7;
-		margin: 4px 0;
 	}
 
-	.grid.col-2 .class-item:nth-child(2n) {
-		margin-right: 0;
-	}
+	/**/
 </style>
