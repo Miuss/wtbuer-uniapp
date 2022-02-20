@@ -173,7 +173,6 @@ export const unbindEamsMember = async ({
 			member_password: ""
 		}
 		commit('UPDATE_USER', user)
-		showToast("解绑成功，如需查看课表请重新绑定账号!")
 		dispatch('showBindMember', false)
 	} catch (err) {
 		console.error(err)

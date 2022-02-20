@@ -115,7 +115,7 @@
 							</div>
 						</div>
 
-						<div class="func-cell" :class="user.member_id===''?'red width9':'blue width4'" 
+						<div class="func-cell" :class="user.member_id===''?'red width9':'blue width4'"
 							@click="logout()">
 							<div class="left">
 								<div class="func-icon">
@@ -173,7 +173,7 @@
 				if (this.$store.getters.user.eamsinfo != undefined) {
 					let graduateTime = new Date(
 						`${parseInt(this.$store.getters.user.eamsinfo.grade) + parseInt(this.$store.getters.user.eamsinfo.studyyears)}-06-30 00:00:00`
-						).getTime()
+					).getTime()
 					let today = new Date().getTime()
 					result = Math.ceil((graduateTime - today) / (1000 * 60 * 60 * 24))
 				} else {
@@ -214,27 +214,38 @@
 				this.$store.dispatch('showBindMember', true)
 			},
 			unbindStuBtnClick() {
+				let that = this
 				wx.vibrateShort()
-				this.$store.dispatch('unbindEamsMember')
+				wx.showModal({
+					title: '教务系统账号解绑提示！',
+					content: '您确定要解绑教务系统？',
+					success(res) {
+						that.$store.dispatch('unbindEamsMember')
+						wx.showToast({
+							icon: 'none',
+							title: '解绑成功，如需查看课表请重新绑定账号!'
+						})
+					}
+				})
 			},
-			logout(){
+			logout() {
 				let that = this
 				wx.vibrateShort()
 				wx.showModal({
 					title: '账号登出提示！',
 					content: '您确定要登出账号？',
-					success(res){
-						if(res.confirm){
+					success(res) {
+						if (res.confirm) {
 							wx.removeStorageSync('token')
 							wx.removeStorageSync('courseList')
 							wx.removeStorageSync('courseIds')
 							that.$store.commit('CLEAR_USER')
 							that.$store.commit('CLEAR_ALL')
 							wx.showToast({
-								title:'成功登出',
-								icon:'none',
+								title: '成功登出',
+								icon: 'none',
 								duration: 1000,
-								mask:true
+								mask: true
 							})
 							wx.navigateTo({
 								url: '/pages/login/login'
@@ -455,23 +466,25 @@
 		color: #FFFFFF;
 		box-shadow: 0 4rpx 8rpx 0 rgb(0, 0, 0, 0.2), 0 6rpx 20rpx 0 rgb(0, 0, 0, 0.19);
 	}
-	
-	.flex-direction-column{
+
+	.flex-direction-column {
 		width: 95%;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 	}
-	.flex-direction-row{
+
+	.flex-direction-row {
 		width: 95%;
 		display: flex;
 		justify-content: space-around;
 	}
-	
-	.width9{
+
+	.width9 {
 		width: 95%;
 	}
-	.width4{
+
+	.width4 {
 		width: 45%;
 	}
 
