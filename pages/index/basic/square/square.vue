@@ -7,13 +7,7 @@
 			</div>
 		</van-nav-bar>
 		<swiper></swiper>
-		<div class="unbind-eams-member" v-if="user.member_id === ''">
-			<van-empty description="尚未绑定教务系统账号">
-				<van-button round type="primary" class="bottom-button" color="#4562e5"
-					@click="$store.dispatch('showBindMember', true)">立即绑定教务账号</van-button>
-			</van-empty>
-		</div>
-		<div style="margin-top: 20%;" v-else>
+		<div style="margin-top: 20%;">
 			<div class="block-title">
 				<image class="point" :src="svg.point"></image>
 				教务系统
@@ -38,21 +32,13 @@
 				</div>
 			</div>
 		</div>
-		<!-- <van-grid :gutter="10" :border="false">
-				<van-grid-item @click="toExam()" use-slot>
-					<image style="width: 80%; height: 60px;" :src="svg.examLogo" /> 考试查询
-				</van-grid-item>
-
-				<van-grid-item @click="toScore()" use-slot>
-					<image style="width: 80%; height: 60px;" :src="svg.scoreLogo" /> 分数查询
-				</van-grid-item>
-			</van-grid> -->
 		</div>
 	</view>
 </template>
 
 <script>
 	import logo from '../../../../assets/images/logo.png'
+	import school1 from '../../../../assets/images/school_1.png'
 	import swiper from './components/imgSwiper.vue'
 	export default {
 		components: {
@@ -74,6 +60,10 @@
 		},
 		methods: {
 			toExam() {
+				if(this.user.member_id === ''){
+					this.$store.dispatch('showBindMember', true)
+					return
+				}
 				this.isClick.exam = true
 				wx.vibrateShort();
 				wx.navigateTo({
@@ -81,6 +71,10 @@
 				})
 			},
 			toScore() {
+				if(this.user.member_id === ''){
+					this.$store.dispatch('showBindMember', true)
+					return
+				}
 				this.isClick.score = true
 				wx.vibrateShort();
 				wx.navigateTo({
@@ -101,7 +95,6 @@
 
 <style>
 	@import url("../../../../assets/css/nav_bar.css");
-
 	.unbind-eams-member {
 		background-color: #fff;
 	}

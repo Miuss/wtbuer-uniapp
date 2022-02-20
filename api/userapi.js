@@ -52,7 +52,7 @@ export const getUserInfo = async function () {
       url: '/user/getUserInfo',
       method: 'GET'
     })
-
+	console.log("getUserInfoApi:",res)
     return res
   } catch (err) {
     throw err

@@ -2,8 +2,9 @@
 	<view>
 		<div class="container">
 			<div class="swipper-card">
-				<swiper class="swipper" indicator-active-color="#5555ff" :circular="true" :autoplay="true" :indicator-dots="true">
-					<swiper-item style="height: 100%;" v-for="item in swiper">
+				<swiper class="swipper" indicator-active-color="#5555ff" :circular="true" :autoplay="true"
+					:indicator-dots="true">
+					<swiper-item style="height: 100%;" v-for="(item,index) in swiper" :key="index">
 						<div class="swiper-item">
 							<image class="img" :src="item"></image>
 						</div>
@@ -27,7 +28,6 @@
 				swiper: [
 					school1, school2, school3, school4, school5, school6
 				]
-
 			}
 		}
 	}

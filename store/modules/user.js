@@ -6,6 +6,7 @@ const state = {
 
 const mutations = {
   UPDATE_USER (state, data) {
+	console.log(data)
     state.user = data
     state.token = data.token
     state.authenticated = true
