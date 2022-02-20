@@ -34,14 +34,14 @@
 		</div>
 
 		<!--没获取课表-->
-		<div v-if="courseList.length === 0 && user.member_id !== ''">
+		<div v-if="courseList.length === 0 && user.member_id != ''">
 			<van-empty description="此次登录尚未获取课表">
 				<van-button round type="primary" class="bottom-button" color="#4562e5" @click="getClass()">立即获取课表
 				</van-button>
 			</van-empty>
 		</div>
 		<!--正常有课-->
-		<div v-if="courseList.length != 0 && todayList.length != 0">
+		<div v-if="courseList.length != 0 && todayList.length != 0 && user.member_id != ''">
 			<div class="time-line" @click="showDetail(item)" v-for="(item,index) in todayList">
 				<div class="time-line-before">
 					<image class="straight-line1 margin-l10" :src="svg.straight" mode="aspectFill" v-if="index != 0">
