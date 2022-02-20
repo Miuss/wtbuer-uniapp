@@ -77,7 +77,6 @@
 					this.$store.dispatch('showBindMember', true)
 					return
 				}
-				this.isClick.exam = true
 				wx.vibrateShort();
 				wx.navigateTo({
 					url: '/pages/exam/exam',
