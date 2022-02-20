@@ -18,7 +18,17 @@ const mutations = {
   },
 
   CLEAR_USER (state) {
-    state.user = {}
+    state.user = {
+		addtime: '',
+		avatarurl: '',
+		eamsinfo: '',
+		id: '',
+		member_id: '',
+		member_password: '',
+		nickname: '',
+		openid: '',
+		token: ''
+	}
     state.token = ''
     state.authenticated = false
   }

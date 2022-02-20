@@ -42,7 +42,7 @@
 
 	.swipper-card {
 		width: 100%;
-		height: 450rpx;
+		height: 430rpx;
 		border: 10px solid #ffffff;
 	}
 

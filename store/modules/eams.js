@@ -15,6 +15,11 @@ const mutations = {
 
   UPDATE_WEEK (state, data) {
     state.week = data
+  },
+  
+  CLEAR_ALL(state){
+	  state.courseIds = {},
+	  state.courseList = []
   }
 
 }

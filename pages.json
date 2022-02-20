@@ -11,7 +11,16 @@
 		"path": "pages/score/score"
 	}, {
 		"path": "pages/notice/notice"
-	}],
+	}    ,{
+            "path" : "pages/library/library",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"globalStyle": {
 		"backgroundColor": "#eeeeee",
 		"navigationBarTextStyle": "black",

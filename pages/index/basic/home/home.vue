@@ -21,15 +21,20 @@
 			</div>
 		</div>
 
-		<div class="unbind-eams-member" v-if="user.member_id === ''">
-			<van-empty description="尚未绑定教务系统账号">
-				<van-button round type="primary" class="bottom-button" color="#4562e5"
-					@click="$store.dispatch('showBindMember', true)">立即绑定教务账号</van-button>
-			</van-empty>
+		<div class="unbind-eams-member" v-if="user.member_id === ''" @click="$store.dispatch('showBindMember', true)">
+			<div class="loginAdCard margin-bottom">
+				<div class="flex">
+					<image class="bg"
+						style="background-image: url(http://tva1.sinaimg.cn/large/002ZE6Hrgy1guerewdsnkj62s02307wh02.jpg);">
+					</image>
+					<image class="icon" :src="svg.wifi"></image>
+					<div class="content">绑定教务后即可查看课表</div>
+				</div>
+			</div>
 		</div>
 
 		<!--没获取课表-->
-		<div v-if="courseList.length === 0">
+		<div v-if="courseList.length === 0 && user.member_id !== ''">
 			<van-empty description="此次登录尚未获取课表">
 				<van-button round type="primary" class="bottom-button" color="#4562e5" @click="getClass()">立即获取课表
 				</van-button>
@@ -37,7 +42,7 @@
 		</div>
 		<!--正常有课-->
 		<div v-if="courseList.length != 0 && todayList.length != 0">
-			<div class="time-line" v-for="(item,index) in todayList">
+			<div class="time-line" @click="showDetail(item)" v-for="(item,index) in todayList">
 				<div class="time-line-before">
 					<image class="straight-line1 margin-l10" :src="svg.straight" mode="aspectFill" v-if="index != 0">
 					</image>
@@ -101,7 +106,8 @@
 					line: "data:image/svg+xml;base64,PHN2ZyBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiPjxwYXRoIGQ9Ik04NS4zMzMgOTU1LjczM2ExNy4wNSAxNy4wNSAwIDAgMS0xMi4wNjYtMjkuMTMyTDkyNi42MDEgNzMuMjY3QTE3LjA1IDE3LjA1IDAgMSAxIDk1MC43MzMgOTcuNEw5Ny4zOTkgOTUwLjczM2ExNy4wMTUgMTcuMDE1IDAgMCAxLTEyLjA2NiA1eiIgZmlsbD0iIzcwNzA3MCIvPjwvc3ZnPg==",
 					straight: "data:image/svg+xml;base64,PHN2ZyBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiPjxwYXRoIGQ9Ik01MzEuMTg1IDk0My41MzJjMCA4LjktNi40OTMgMTYuMTE0LTE0LjUwMyAxNi4xMTRoLTkuMzY0Yy04LjAxIDAtMTQuNTA0LTcuMjE0LTE0LjUwNC0xNi4xMTRWODAuNDY3YzAtOC44OTkgNi40OTMtMTYuMTE0IDE0LjUwNC0xNi4xMTRoOS4zNjRjOC4wMSAwIDE0LjUwMyA3LjIxNSAxNC41MDMgMTYuMTE0djg2My4wNjV6IiBmaWxsPSIjYmZiZmJmIi8+PC9zdmc+",
 					straight_last: 'data:image/svg+xml;base64,PHN2ZyBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiPjxwYXRoIGQ9Ik01MzEuMTg1IDk0My41MzJjMCA4LjktNi40OTMgMTYuMTE0LTE0LjUwMyAxNi4xMTRoLTkuMzY0Yy04LjAxIDAtMTQuNTA0LTcuMjE0LTE0LjUwNC0xNi4xMTRWODAuNDY3YzAtOC44OTkgNi40OTMtMTYuMTE0IDE0LjUwNC0xNi4xMTRoOS4zNjRjOC4wMSAwIDE0LjUwMyA3LjIxNSAxNC41MDMgMTYuMTE0djg2My4wNjV6IiBmaWxsPSIjZmZmIi8+PC9zdmc+',
-					circle: "data:image/svg+xml;base64,PHN2ZyBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBkYXRhLXNwbS1hbmNob3ItaWQ9ImEzMTN4Ljc3ODEwNjkuMC5pMTIiIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiI+PHBhdGggZD0iTTM4Mi40MjEgNTEyYTEyMS43NyAxMjEuNzcgMCAwIDEgMTIxLjgxNC0xMjEuODEzQTEyMi4xNTUgMTIyLjE1NSAwIDAgMSA2MjYuMDkgNTEyYTEyMi4xNTUgMTIyLjE1NSAwIDAgMS0xMjEuODU2IDEyMS44NTZBMTIyLjE1NSAxMjIuMTU1IDAgMCAxIDM4Mi40MiA1MTJ6TTUwNC4yMzUgMEMyNjUuMTczIDAgNjQuOTM5IDE2My44NCA4LjEwNyAzODUuMDY3Yy0uNDI3IDEuNTM2LS40MjcgMi45ODYtLjQyNyA1LjEyIDAgMTMuMzU0IDEwLjc1MiAyNC41NzYgMjQuNTMzIDI0LjU3NmgyMDYuMjk0YzkuODEzIDAgMTguNDc0LTUuNTQ3IDIyLjA1OC0xNC4yMDggNDIuNTM5LTkyLjE2IDEzNS42OC0xNTYuNjcyIDI0My43MTItMTU2LjY3MkEyNjguNTAxIDI2OC41MDEgMCAwIDEgNzcyLjQ4IDUxMi4xMjhjMCAxNDguMDUzLTEyMC4zMiAyNjguMzczLTI2OC4zNzMgMjY4LjM3M0EyNjcuOTQ3IDI2Ny45NDcgMCAwIDEgMjYwLjQ4IDYyMy43ODdhMjUuMzQ0IDI1LjM0NCAwIDAgMC0yMi4wNTktMTQuMzM2SDMyLjIxM0EyNC41NzYgMjQuNTc2IDAgMCAwIDcuNjggNjM0LjAyN2MwIDEuNTc4LjU5NyAzLjA3Mi41OTcgNS4xMkM2NC41OTcgODYwLjE2IDI2NS4xMzEgMTAyNCA1MDQuMjM1IDEwMjRjMjgyLjYyNCAwIDUxMi0yMjkuMzMzIDUxMi01MTIgMC0yODIuNTgxLTIyOS4zNzYtNTEyLTUxMi01MTJ6IiBkYXRhLXNwbS1hbmNob3ItaWQ9ImEzMTN4Ljc3ODEwNjkuMC5pMTEiIGNsYXNzPSJzZWxlY3RlZCIgZmlsbD0iI2JmYmZiZiIvPjwvc3ZnPg=="
+					circle: "data:image/svg+xml;base64,PHN2ZyBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBkYXRhLXNwbS1hbmNob3ItaWQ9ImEzMTN4Ljc3ODEwNjkuMC5pMTIiIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiI+PHBhdGggZD0iTTM4Mi40MjEgNTEyYTEyMS43NyAxMjEuNzcgMCAwIDEgMTIxLjgxNC0xMjEuODEzQTEyMi4xNTUgMTIyLjE1NSAwIDAgMSA2MjYuMDkgNTEyYTEyMi4xNTUgMTIyLjE1NSAwIDAgMS0xMjEuODU2IDEyMS44NTZBMTIyLjE1NSAxMjIuMTU1IDAgMCAxIDM4Mi40MiA1MTJ6TTUwNC4yMzUgMEMyNjUuMTczIDAgNjQuOTM5IDE2My44NCA4LjEwNyAzODUuMDY3Yy0uNDI3IDEuNTM2LS40MjcgMi45ODYtLjQyNyA1LjEyIDAgMTMuMzU0IDEwLjc1MiAyNC41NzYgMjQuNTMzIDI0LjU3NmgyMDYuMjk0YzkuODEzIDAgMTguNDc0LTUuNTQ3IDIyLjA1OC0xNC4yMDggNDIuNTM5LTkyLjE2IDEzNS42OC0xNTYuNjcyIDI0My43MTItMTU2LjY3MkEyNjguNTAxIDI2OC41MDEgMCAwIDEgNzcyLjQ4IDUxMi4xMjhjMCAxNDguMDUzLTEyMC4zMiAyNjguMzczLTI2OC4zNzMgMjY4LjM3M0EyNjcuOTQ3IDI2Ny45NDcgMCAwIDEgMjYwLjQ4IDYyMy43ODdhMjUuMzQ0IDI1LjM0NCAwIDAgMC0yMi4wNTktMTQuMzM2SDMyLjIxM0EyNC41NzYgMjQuNTc2IDAgMCAwIDcuNjggNjM0LjAyN2MwIDEuNTc4LjU5NyAzLjA3Mi41OTcgNS4xMkM2NC41OTcgODYwLjE2IDI2NS4xMzEgMTAyNCA1MDQuMjM1IDEwMjRjMjgyLjYyNCAwIDUxMi0yMjkuMzMzIDUxMi01MTIgMC0yODIuNTgxLTIyOS4zNzYtNTEyLTUxMi01MTJ6IiBkYXRhLXNwbS1hbmNob3ItaWQ9ImEzMTN4Ljc3ODEwNjkuMC5pMTEiIGNsYXNzPSJzZWxlY3RlZCIgZmlsbD0iI2JmYmZiZiIvPjwvc3ZnPg==",
+					wifi: "data:image/svg+xml;base64,PHN2ZyBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCI+PHBhdGggZD0iTTQ2My42IDQ3Mi4xYTQ2LjcgNDYuNyAwIDEgMCA5My40IDAgNDYuNyA0Ni43IDAgMSAwLTkzLjQgMHoiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJNNzIxLjQgODYzLjljLTEzLjIgMC0yNi4zLTYuMy0zNC4zLTE4LjEtMTMtMTguOS04LjItNDQuOCAxMC44LTU3LjggOTAuNi02Mi4xIDE0NC44LTE2NC43IDE0NC44LTI3NC40IDAtMTgzLjMtMTQ5LjEtMzMyLjQtMzMyLjQtMzMyLjRTMTc3LjkgMzMwLjQgMTc3LjkgNTEzLjZjMCAxMDkuNyA1NC4xIDIxMi4zIDE0NC43IDI3NC40IDE4LjkgMTMgMjMuOCAzOC44IDEwLjggNTcuOC0xMi45IDE4LjktMzguOCAyMy44LTU3LjggMTAuOEMxNjIuNCA3NzkgOTQuOCA2NTAuOCA5NC44IDUxMy42YzAtMjI5LjEgMTg2LjQtNDE1LjUgNDE1LjUtNDE1LjVzNDE1LjUgMTg2LjQgNDE1LjUgNDE1LjVjMCAxMzcuMS02Ny42IDI2NS4zLTE4MC45IDM0My03LjIgNC45LTE1LjQgNy4zLTIzLjUgNy4zeiIgZmlsbD0iI2ZmZiIvPjxwYXRoIGQ9Ik02NDIuNSA3MTkuN2MtMTIuMiAwLTI0LjItNS4zLTMyLjQtMTUuNS0xNC40LTE3LjktMTEuNS00NCA2LjMtNTguNCA0MC4yLTMyLjQgNjMuMy04MC42IDYzLjMtMTMyLjIgMC01Mi4yLTIzLjYtMTAwLjgtNjQuNi0xMzMuMi0xOC0xNC4yLTIxLjEtNDAuMy02LjktNTguNCAxNC4yLTE4IDQwLjQtMjEuMSA1OC40LTYuOSA2MS4xIDQ4LjMgOTYuMiAxMjAuNiA5Ni4yIDE5OC40IDAgNzYuOS0zNC40IDE0OC43LTk0LjMgMTk2LjktNy42IDYuMy0xNi44IDkuMy0yNiA5LjN6bS0yNjcuNi0yLjVjLTkuNCAwLTE4LjgtMy4yLTI2LjYtOS43LTU3LjYtNDguMi05MC43LTExOC45LTkwLjctMTkzLjkgMC03NS40IDMzLjMtMTQ2LjIgOTEuMy0xOTQuNCAxNy43LTE0LjYgNDMuOS0xMi4yIDU4LjUgNS40IDE0LjcgMTcuNiAxMi4zIDQzLjgtNS40IDU4LjUtMzkgMzIuNC02MS4zIDc5LjktNjEuMyAxMzAuNSAwIDUwLjQgMjIuMiA5Ny44IDYwLjkgMTMwLjIgMTcuNiAxNC43IDE5LjkgNDAuOSA1LjIgNTguNS04LjIgOS45LTIwIDE0LjktMzEuOSAxNC45em0xMzUuNCAyMTEuOWMtMjIuOSAwLTQxLjUtMTguNi00MS41LTQxLjVWNTk2LjdjMC0yMi45IDE4LjYtNDEuNSA0MS41LTQxLjVzNDEuNSAxOC42IDQxLjUgNDEuNXYyOTAuOGMwIDIzLTE4LjYgNDEuNi00MS41IDQxLjZ6IiBmaWxsPSIjZmZmIi8+PC9zdmc+"
 				},
 				//今日课程展示页
 				colorArrays: ["#f05261", "#48a8e4", "#aaaa7f", "#52db9a", "#70d3e6", "#52db9a", "#3f51b5", "#f3d147",
@@ -141,7 +147,7 @@
 			},
 			month() {
 				let month = new Date()
-				return month.getMonth()+1
+				return month.getMonth() + 1
 			},
 			weekList() {
 				let weeklist = []
@@ -218,6 +224,16 @@
 			getClass() {
 				const semesterIds = this.$store.getters.semesterIds
 				this.$store.dispatch('getCourseList', semesterIds[semesterIds.length - 1])
+			},
+			showDetail(detail){
+				console.log(detail)
+				wx.vibrateShort()
+				wx.showModal({
+					title: detail.name,
+					content: detail.room + '\n' + detail.teachers,
+					confirmText: '知道了',
+					showCancel: false
+				})
 			}
 		},
 		created() {},
@@ -238,16 +254,6 @@
 
 <style>
 	@import url("../../../../assets/css/nav_bar.css");
-
-	/*未绑定账号界面展示样式*/
-	.unbind-eams-member {
-		background-color: #fff;
-	}
-
-
-	.unbind-eams-member .bottom-button {
-		width: 160px;
-	}
 
 	/*周立*/
 
@@ -312,11 +318,19 @@
 
 	.noclass-card {
 		width: 75%;
-		height: 100rpx;
+		height: 8vh;
 		margin-bottom: 20rpx;
 		margin-right: 50rpx;
 		box-shadow: 0 4rpx 8rpx 0 rgb(0, 0, 0, 0.2), 0 6rpx 20rpx 0 rgb(0, 0, 0, 0.19);
 		border-radius: 12rpx;
+	}
+
+	.noclass-card:active {
+		opacity: 0.7;
+		background-color: #cfcfcf;
+		color: #ffffff;
+		transform: scale(.98);
+		transition: .2s;
 	}
 
 	.noclass {
@@ -346,6 +360,14 @@
 		margin-right: 30rpx;
 		box-shadow: 0 4rpx 8rpx 0 rgb(0, 0, 0, 0.2), 0 6rpx 20rpx 0 rgb(0, 0, 0, 0.19);
 		border-radius: 12rpx;
+	}
+
+	.time-line-card:active {
+		opacity: 0.7;
+		background-color: #cfcfcf;
+		color: #ffffff;
+		transform: scale(.98);
+		transition: .2s;
 	}
 
 	.time-line-before {
@@ -461,5 +483,89 @@
 		opacity: .7;
 	}
 
-	/**/
+	/*绑定提示卡*/
+	.unbind-eams-member {
+		display: flex;
+		justify-content: center;
+	}
+
+	.flex {
+		display: flex;
+	}
+
+	.loginAdCard {
+		position: relative;
+		display: block;
+		padding: 22rpx;
+		height: 100%;
+		width: 90%;
+		border-radius: 30rpx;
+		transform: translateY(0);
+		overflow: hidden;
+	}
+
+	.loginAdCard:active {
+		transform: scale(.98);
+		transition: .2s;
+	}
+
+	.loginAdCard .bg {
+		background-position: center;
+		background-size: cover;
+		position: absolute;
+		width: 100%;
+		z-index: -1;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		-webkit-animation: move 36s infinite;
+		animation: move 36s infinite;
+	}
+
+	.loginAdCard .bg::after {
+		border-radius: 8px;
+		background-color: rgba(17, 17, 17, 0.5);
+		position: absolute;
+		z-index: -1;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		content: "";
+	}
+
+	.loginAdCard .icon {
+		width: calc((60px - 44rpx));
+		height: calc((60px - 44rpx));
+		margin-right: 22rpx;
+	}
+
+	.loginAdCard .content {
+		height: calc((60px - 44rpx));
+		line-height: calc((60px - 44rpx));
+		color: #ffffff;
+		font-size: 16px;
+		font-weight: 600;
+	}
+
+	@-webkit-keyframes move {
+		0% {
+			transform: translateY(0)
+		}
+
+		to {
+			transform: translateY(-50%)
+		}
+	}
+
+	@keyframes move {
+		0% {
+			transform: translateY(0)
+		}
+
+		to {
+			transform: translateY(-50%)
+		}
+	}
 </style>
