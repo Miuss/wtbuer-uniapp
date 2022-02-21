@@ -355,11 +355,12 @@
 
 	.time-line-card {
 		width: 85%;
-		height: 222rpx;
+		height: 11vh;
 		margin-bottom: 20rpx;
 		margin-right: 30rpx;
 		box-shadow: 0 4rpx 8rpx 0 rgb(0, 0, 0, 0.2), 0 6rpx 20rpx 0 rgb(0, 0, 0, 0.19);
 		border-radius: 12rpx;
+		opacity: 0.9;
 	}
 
 	.time-line-card:active {
@@ -377,6 +378,7 @@
 		align-items: center;
 		margin-top: 0;
 		margin-right: 20rpx;
+		
 	}
 
 

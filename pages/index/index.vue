@@ -39,7 +39,7 @@
 	export default {
 		data() {
 			return {
-				active: 2,
+				active: 0,
 				iconWidth: '34px',
 				iconHeight: '25px',
 				icons: [{
