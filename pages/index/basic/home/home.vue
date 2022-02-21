@@ -13,7 +13,7 @@
 		<div class="week-container">
 			<div class="week-bar week-flex">
 				<div class="month">{{month}}</div>
-				<div v-for="(dayitem,index) in weekList"
+				<div v-for="(dayitem,index) in weekList" :key="index"
 					:class="dayitem.istoday?'week-day week-day-flex active':'week-day week-day-flex'">
 					<div class="week">{{weekTitle[index]}}</div>
 					<div class="date">{{dayitem.date}}</div>
@@ -42,7 +42,7 @@
 		</div>
 		<!--正常有课-->
 		<div v-if="courseList.length != 0 && todayList.length != 0 && user.member_id != ''">
-			<div class="time-line" @click="showDetail(item)" v-for="(item,index) in todayList">
+			<div class="time-line" @click="showDetail(item)" v-for="(item,index) in todayList" :key="index">
 				<div class="time-line-before">
 					<image class="straight-line1 margin-l10" :src="svg.straight" mode="aspectFill" v-if="index != 0">
 					</image>
