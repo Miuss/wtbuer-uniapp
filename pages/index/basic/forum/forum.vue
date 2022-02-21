@@ -5,9 +5,19 @@
 				<img class="logo" :src="logo" />武工商社区
 			</div>
 		</van-nav-bar>
-		<van-notice-bar background="#5e77ff" color="#fff" left-icon="volume-o" :text="discuss.description" />
+		<div>
+			<div class="forum-tab1">话题</div>
+			<div class="forum-tab2">推荐</div>
+			<div class="forum-tab3">我的</div>
+		</div>
+		<div>
+			<van-notice-bar background="#5e77ff" color="#fff" left-icon="volume-o" :text="discuss.description" />
+		</div>
+			
+		
+		
 		<view>
-			<button type="default" @click="addContent">发表</button>
+			<button type="default" @click="addContent">+</button>
 		</view>
 		<view class="forum-content" v-for="(item,index) in threadList" :key="item.id" @tap="getDetail(item.id)">
 			<!-- <img class="forum-content-icon" :src="logo" /> -->
@@ -71,4 +81,36 @@
 
 <style>
 	@import url("../../../../assets/css/nav_bar.css");
+	.forum-tab1{
+		left: 23px;
+		top: 49px;
+		width: 39px;
+		height: 24px;
+		color: rgba(112, 112, 112, 1);
+		font-size: 16px;
+		float: left;
+	}
+	.forum-tab2{
+		left: 107px;
+		top: 49px;
+		width: 39px;
+		height: 24px;
+		color: rgba(112, 112, 112, 1);
+		font-size: 16px;
+		float: left;
+		
+
+	}
+	.forum-tab3{
+		left: 191px;
+		top: 49px;
+		width: 39px;
+		height: 24px;
+		color: rgba(112, 112, 112, 1);
+		font-size: 16px;
+		float: left;
+	}
+	
+
+
 </style>
