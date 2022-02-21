@@ -19,6 +19,23 @@
                 "enablePullDownRefresh": false
             }
             
+        },{
+            "path" : "pages/index/basic/forum/components/addThread",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/index/basic/forum/components/threadDetail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
         }
     ],
 	"globalStyle": {
