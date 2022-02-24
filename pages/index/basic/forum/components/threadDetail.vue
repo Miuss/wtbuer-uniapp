@@ -32,5 +32,6 @@
 </script>
 
 <style>
+	@import url("../../../../../assets/css/nav_bar.css");
 
 </style>
