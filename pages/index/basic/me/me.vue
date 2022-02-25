@@ -22,117 +22,191 @@
 						</div>
 					</div>
 				</div>
-				<div v-if="user.member_id!=''" class="user-info-card">
-					<div class="card-container">
-						<div class="grid grid-flex">
-							<div class="grid-info">
-								<div class="value">{{user.eamsinfo.class}}</div>
-								<div class="title">专业班级</div>
-							</div>
-							<div class="straight-line">
-								<image style="width: 70rpx;height:70rpx;" :src="image.straight" mode="aspectFill">
-								</image>
-							</div>
-							<div class="grid-info">
-								<div class="value">{{graduate===-1?'-':graduatetime+'天'}}</div>
-								<div class="title">离毕业还有</div>
-							</div>
+			</div>
+			<div v-if="user.member_id!=''" class="user-info-card">
+				<div class="card-container">
+					<div class="grid grid-flex">
+						<div class="grid-info">
+							<div class="value">{{user.eamsinfo.class}}</div>
+							<div class="title">专业班级</div>
 						</div>
-
+						<div class="straight-line">
+							<image style="width: 70rpx;height:70rpx;" :src="image.straight" mode="aspectFill">
+							</image>
+						</div>
+						<div class="grid-info">
+							<div class="value">{{graduate===-1?'-':graduatetime+'天'}}</div>
+							<div class="title">离毕业还有</div>
+						</div>
 					</div>
 				</div>
-				<div class="func-cell-container">
-					<div class="row-first">
-						<div class="func-cell" @click="toAbout()">
-							<div class="left">
-								<div class="func-icon">
-									<image class="func-img" :src="svg.info"></image>
-								</div>
-								<div class="func-title"> 关于我们</div>
-							</div>
-							<div class="right">
-								<image class="arrow-icon" style="width: 30rpx;height: 30rpx;" :src="svg.leftArrow"
-									mode="aspectFill"></image>
-							</div>
-						</div>
-
-						<div class="func-cell" @click="showQrcode()">
-							<div class="left">
-								<div class="func-icon">
-									<image class="func-img" :src="svg.hold"></image>
-								</div>
-								<div class="func-title">赞助支持</div>
-							</div>
-							<div class="right">
-								<image class="arrow-icon" style="width: 30rpx;height: 30rpx;" :src="svg.leftArrow"
-									mode="aspectFill"></image>
-							</div>
+			</div>
+			<div class="func-container">
+				<div class="func-bar" style="border-top: 1px solid #e7e7e7;" @click="toAbout()">
+					<div class="left">
+						<image class="func-img" :src="svg.info"></image>
+						<div>
+							关于我们
 						</div>
 					</div>
-
-					<div class="row-second">
-						<div class="func-cell" @click="showQQQrcode()">
-							<div class="left">
-								<div class="func-icon">
-									<image class="func-img" :src="svg.service"></image>
-								</div>
-								<div class="func-title">加入企鹅交流群</div>
-							</div>
-							<div class="right">
-								<image class="arrow-icon" style="width: 30rpx;height: 30rpx;" :src="svg.leftArrow"
-									mode="aspectFill"></image>
-							</div>
+					<image class="arrow-icon" :src="svg.leftArrow" mode="aspectFill" />
+				</div>
+				<div class="func-bar" @click="showQrcode()">
+					<div class="left">
+						<image class="func-img" :src="svg.hold"></image>
+						<div>
+							赞助支持
 						</div>
 					</div>
-
-					<div class="row-third">
-						<div class="func-cell">
-							<div class="left">
-								<div class="func-icon">
-									<image class="func-img" :src="svg.share"></image>
-								</div>
-								<div class="func-title">分享小程序</div>
-							</div>
-							<div class="right">
-								<image class="arrow-icon" style="width: 30rpx;height: 30rpx;" :src="svg.leftArrow"
-									mode="aspectFill"></image>
-							</div>
+					<image class="arrow-icon" :src="svg.leftArrow" mode="aspectFill" />
+				</div>
+				<div class="func-bar" @click="showQQQrcode()">
+					<div class="left">
+						<image class="func-img" :src="svg.service"></image>
+						<div>
+							加入企鹅交流群
 						</div>
 					</div>
-
-					<div class="row-fourth" :class="user.member_id===''?'flex-direction-column':'flex-direction-row'">
-						<div class="func-cell" :class="user.member_id===''?'blue width9':'red width4'"
-							@click="user.member_id === ''?bindStuBtnClick():unbindStuBtnClick()">
-							<div class="left">
-								<div class="func-icon">
-									<image class="func-img" :src="svg.unbind"></image>
-								</div>
-								<div class="func-title">{{user.member_id===''?'绑定教务系统账号':'解绑'}}</div>
-							</div>
-							<div class="right">
-								<image class="arrow-icon" style="width: 30rpx;height: 30rpx;" :src="svg.leftArrow_black"
-									mode="aspectFill"></image>
-							</div>
-						</div>
-
-						<div class="func-cell" :class="user.member_id===''?'red width9':'blue width4'"
-							@click="logout()">
-							<div class="left">
-								<div class="func-icon">
-									<image class="func-img" :src="svg.logout"></image>
-								</div>
-								<div class="func-title">退出登录</div>
-							</div>
-							<div class="right">
-								<image class="arrow-icon" style="width: 30rpx;height: 30rpx;" :src="svg.leftArrow_black"
-									mode="aspectFill"></image>
-							</div>
+					<image class="arrow-icon" :src="svg.leftArrow" mode="aspectFill" />
+				</div>
+				<div class="func-bar">
+					<div class="left">
+						<image class="func-img" :src="svg.share"></image>
+						<div>
+							分享小程序
 						</div>
 					</div>
-
+					<image class="arrow-icon" :src="svg.leftArrow" mode="aspectFill" />
+				</div>
+				<div class="func-bar" @click="user.member_id === ''?bindStuBtnClick():unbindStuBtnClick()">
+					<div class="left">
+						<image class="func-img" :src="svg.unbind"></image>
+						<div>
+							{{user.member_id===''?'绑定教务系统账号':'解绑'}}
+						</div>
+					</div>
+					<image class="arrow-icon" :src="svg.leftArrow" mode="aspectFill" />
+				</div>
+				<div class="func-bar" @click="logout()">
+					<div class="left">
+						<image class="func-img" :src="svg.logout"></image>
+						<div>
+							退出登录
+						</div>
+					</div>
+					<image class="arrow-icon" :src="svg.leftArrow" mode="aspectFill" />
 				</div>
 			</div>
 		</scroll-list>
+
+		<!-- <div v-if="user.member_id!=''" class="user-info-card">
+			<div class="card-container">
+				<div class="grid grid-flex">
+					<div class="grid-info">
+						<div class="value">{{user.eamsinfo.class}}</div>
+						<div class="title">专业班级</div>
+					</div>
+					<div class="straight-line">
+						<image style="width: 70rpx;height:70rpx;" :src="image.straight" mode="aspectFill">
+						</image>
+					</div>
+					<div class="grid-info">
+						<div class="value">{{graduate===-1?'-':graduatetime+'天'}}</div>
+						<div class="title">离毕业还有</div>
+					</div>
+				</div>
+		
+			</div>
+		</div>
+		<div class="func-cell-container">
+			<div class="row-first">
+				<div class="func-cell" @click="toAbout()">
+					<div class="left">
+						<div class="func-icon">
+							<image class="func-img" :src="svg.info"></image>
+						</div>
+						<div class="func-title"> 关于我们</div>
+					</div>
+					<div class="right">
+						<image class="arrow-icon" style="width: 30rpx;height: 30rpx;" :src="svg.leftArrow"
+							mode="aspectFill"></image>
+					</div>
+				</div>
+		
+				<div class="func-cell" @click="showQrcode()">
+					<div class="left">
+						<div class="func-icon">
+							<image class="func-img" :src="svg.hold"></image>
+						</div>
+						<div class="func-title">赞助支持</div>
+					</div>
+					<div class="right">
+						<image class="arrow-icon" style="width: 30rpx;height: 30rpx;" :src="svg.leftArrow"
+							mode="aspectFill"></image>
+					</div>
+				</div>
+			</div>
+		
+			<div class="row-second">
+				<div class="func-cell" @click="showQQQrcode()">
+					<div class="left">
+						<div class="func-icon">
+							<image class="func-img" :src="svg.service"></image>
+						</div>
+						<div class="func-title">加入企鹅交流群</div>
+					</div>
+					<div class="right">
+						<image class="arrow-icon" style="width: 30rpx;height: 30rpx;" :src="svg.leftArrow"
+							mode="aspectFill"></image>
+					</div>
+				</div>
+			</div>
+		
+			<div class="row-third">
+				<div class="func-cell">
+					<div class="left">
+						<div class="func-icon">
+							<image class="func-img" :src="svg.share"></image>
+						</div>
+						<div class="func-title">分享小程序</div>
+					</div>
+					<div class="right">
+						<image class="arrow-icon" style="width: 30rpx;height: 30rpx;" :src="svg.leftArrow"
+							mode="aspectFill"></image>
+					</div>
+				</div>
+			</div>
+		
+			<div class="row-fourth" :class="user.member_id===''?'flex-direction-column':'flex-direction-row'">
+				<div class="func-cell" :class="user.member_id===''?'blue width9':'red width4'"
+					@click="user.member_id === ''?bindStuBtnClick():unbindStuBtnClick()">
+					<div class="left">
+						<div class="func-icon">
+							<image class="func-img" :src="svg.unbind"></image>
+						</div>
+						<div class="func-title">{{user.member_id===''?'绑定教务系统账号':'解绑'}}</div>
+					</div>
+					<div class="right">
+						<image class="arrow-icon" style="width: 30rpx;height: 30rpx;" :src="svg.leftArrow_black"
+							mode="aspectFill"></image>
+					</div>
+				</div>
+		
+				<div class="func-cell" :class="user.member_id===''?'red width9':'blue width4'"
+					@click="logout()">
+					<div class="left">
+						<div class="func-icon">
+							<image class="func-img" :src="svg.logout"></image>
+						</div>
+						<div class="func-title">退出登录</div>
+					</div>
+					<div class="right">
+						<image class="arrow-icon" style="width: 30rpx;height: 30rpx;" :src="svg.leftArrow_black"
+							mode="aspectFill"></image>
+					</div>
+				</div>
+			</div>
+		</div> -->
 	</view>
 </template>
 
@@ -142,6 +216,7 @@
 			return {
 				refreshLoading: false,
 				svg: {
+					empolyeeCard: "data:image/svg+xml;base64,PHN2ZyBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCI+PHBhdGggZD0iTTg0NC44IDBhMTI4IDEyOCAwIDAgMSAxMjcuODcyIDEyMi40NDVMOTcyLjggMTI4djc2OGExMjggMTI4IDAgMCAxLTEyMi40NDUgMTI3Ljg3MmwtNS41NTUuMTI4SDE3OS4yQTEyOCAxMjggMCAwIDEgNTEuMzI4IDkwMS41NTVMNTEuMiA4OTZWMTI4QTEyOCAxMjggMCAwIDEgMTczLjY0NS4xMjhMMTc5LjIgMGg2NjUuNnpNNTEyIDYxNC40Yy0xNjcuMDY2IDAtMzAyLjk1IDEzMy4xNzEtMzA3LjA5OCAyOTguOTgybC0uMTAyIDcuNzgzVjk3Mi44aDYxNC40di01MS42MzVDODE5LjIgNzUxLjc0NCA2ODEuNjc3IDYxNC40IDUxMiA2MTQuNHpNODQ0LjggNTEuMkgxNzkuMmE3Ni44IDc2LjggMCAwIDAtNzYuNjcyIDcyLjI5NEwxMDIuNCAxMjh2NzY4YzAgMzMuNDM0IDIxLjM3NiA2MS45IDUxLjIgNzIuNDQ4di00Ny4yODNjMC0xNzEuMzQxIDEyMC41MjUtMzE0LjU0NyAyODEuNDcyLTM0OS42OTZhMTc5LjIgMTc5LjIgMCAxIDEgMTUzLjg1Ni4wMjVjMTU4LjQ2NCAzNC41NiAyNzcuNzA5IDE3My45MDEgMjgxLjM5NSAzNDEuNjg0bC4wNzcgNy45ODd2NDcuMjU3YTc2Ljg3NyA3Ni44NzcgMCAwIDAgNTEuMDQ2LTY3LjQ1Nkw5MjEuNiA4OTZWMTI4YTc2LjggNzYuOCAwIDAgMC03Mi4yOTQtNzYuNjcyTDg0NC44IDUxLjJ6TTUxMiAyODEuNmExMjggMTI4IDAgMSAwIDAgMjU2IDEyOCAxMjggMCAwIDAgMC0yNTZ6IiBmaWxsPSIjZmZmIi8+PC9zdmc+",
 					info: "data:image/svg+xml;base64,PHN2ZyBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiPjxwYXRoIGQ9Ik01MTIuMDAxIDBDMjI5LjIyIDAgMCAyMjkuMjE4IDAgNTEyYzAgMjgyLjc4IDIyOS4yMiA1MTIgNTEyLjAwMSA1MTJTMTAyNCA3OTQuNzggMTAyNCA1MTJDMTAyNCAyMjkuMjE4IDc5NC43ODIgMCA1MTIuMDAxIDB6bTAgOTI3Ljk5N0MyODIuNjI0IDkyNy45OTcgOTYgNzQxLjM3NSA5NiA1MTJTMjgyLjYyMyA5NS45OTggNTEyIDk1Ljk5OGMyMjkuMzc2IDAgNDE2IDE4Ni42MjcgNDE2IDQxNi4wMDJTNzQxLjM3NiA5MjcuOTk3IDUxMi4wMDEgOTI3Ljk5N3ptLjAwNy0yODcuOTk4Yy0zNS4zNDQgMC02NCAyOC42NTUtNjQgNjMuOTk3IDAgMzUuMzQ3IDI4LjY1NiA2NC4wMDUgNjQgNjQuMDA1czY0LTI4LjY1OCA2NC02NC4wMDVjMC0zNS4zNDItMjguNjU2LTYzLjk5Ny02NC02My45OTd6bTAtMzUyLjAwMWMtMzUuMzQ0IDAtNjQgMjguNjU1LTY0IDYzLjk5OSAwIDMuNjU2LjMxMiA3LjI1NC45MDQgMTAuNzVsMzEuNTM0IDE4Ni42MjdjMi41NjIgMTUuMTI0IDE1LjcxOSAyNi42MjUgMzEuNTYxIDI2LjYyNSAxNS44NDMgMCAyOS4wMDEtMTEuNTAxIDMxLjU2MS0yNi42MjVsMzEuNTMzLTE4Ni42MjdjLjU5Mi0zLjQ5Ni45MDUtNy4wOTQuOTA1LTEwLjc1LjAwMi0zNS4zNDMtMjguNjU0LTYzLjk5OS02My45OTgtNjMuOTk5eiIgZmlsbD0iIzU5NzVGRiIvPjwvc3ZnPg==",
 					hold: "data:image/svg+xml;base64,PHN2ZyBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiPjxwYXRoIGQ9Ik05MzguNzg0IDU5MC44MzRsLjA5NS4wMjctMTA0LjM3NSAyOTMuNjQ3LS4zNDYtLjA3N2MtMTYgMzYuNDM0LTUyLjI4OCA2MS45NDItOTQuNjI5IDYxLjk0Mkg0NDkuOTQ2Yy0yMi44NDcgMC00MS4zNy0xOC41Mi00MS4zNy00MS4zN3MxOC41MjMtNDEuMzY4IDQxLjM3LTQxLjM2OGgxODguMjQ2Yy0uMDEtLjA0MS0uMDA2LS4wOS0uMDE0LS4xM2wxMDAuNzg2LjAxNmMuMTk5LjAwNi4zNjQuMTE0LjU2NS4xMTQgOC45MjcgMCAxNi4zNjgtNS43MjQgMTkuMjY0LTEzLjY1bC4zMTYtLjIyNSA5OS42OC0yODAuNTMzLS4xNTctLjIzYzMuMTE5LTguMDg0IDUuMDA0LTE2Ljc4NiA1LjAwNC0yNS45NyAwLTM5LjcyMy0zMi4wMTYtNzEuOTA0LTcxLjYzOS03Mi4zMmwtLjYzLS45Mjd2Ljg1SDY3Ni4yOTRjLTQ5LjI4NyAwLTcxLjcyOC0zNy4yNS01Ni4yMTctNzAuODYyIDE1LjUxNC0zMy42MTMgMTYuMDMtMTcyLjY2IDE2LjAzLTE3Ny4zNDh2LTIwLjY4NmMwLTIyLjg0Ny0xOC41MjItNDEuMzctNDEuMzY5LTQxLjM3LTIyLjg0OCAwLTQxLjM2OSAxOC41MjMtNDEuMzY5IDQxLjM3djIwLjY4NmMwIDEzNC4zOTktOTguNzE0IDI0NS40NDUtMjI3LjUzIDI2NS4zODl2NDE3LjE5NWMwIDIyLjg0OC0xOC41MjIgNDEuMzY5LTQxLjM2OCA0MS4zNjlIMTE4Ljk5N2MtMjIuODQ4IDAtNDEuMzY5LTE4LjUyLTQxLjM2OS00MS4zN1Y0NDkuOTVjMC0yMi44NSAxOC41Mi00MS4zNyA0MS4zNy00MS4zN2gxNjUuNDc1YzEwMi44MTIgMCAxODYuMTYtODMuMzQ4IDE4Ni4xNi0xODYuMTZ2LTIwLjY4NWMwLTY4LjU0MyA1NS41NjQtMTI0LjEwNyAxMjQuMTA2LTEyNC4xMDdzMTI0LjEwNyA1NS41NjQgMTI0LjEwNyAxMjQuMTA3djIwLjY4NmMwIDIxLjM5NC00LjcwMyAxNDUuNTIxLTkuNDI0IDE2NS40NzNoODEuODE4Yzg1LjY4IDAgMTU1LjEzMyA2OS40NTQgMTU1LjEzMyAxNTUuMTM0LS4wMDEgMTYuNjk0LTIuNzA5IDMyLjczOC03LjU4OSA0Ny44MDd6bS02OTUuNjgtOTkuNTE4aC04Mi43Mzh2MzcyLjMyaDgyLjczOHYtMzcyLjMyeiIgZmlsbD0iIzU5NzVGRiIvPjwvc3ZnPg==",
 					share: "data:image/svg+xml;base64,PHN2ZyBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCI+PGRlZnM+PHN0eWxlPkBmb250LWZhY2V7Zm9udC1mYW1pbHk6ZmVlZGJhY2staWNvbmZvbnQ7c3JjOnVybCgmcXVvdDsvL2F0LmFsaWNkbi5jb20vdC9mb250XzEwMzExNThfMXVocjhyaTBwazUuZW90PyNpZWZpeCZxdW90OykgZm9ybWF0KCZxdW90O2VtYmVkZGVkLW9wZW50eXBlJnF1b3Q7KSx1cmwoJnF1b3Q7Ly9hdC5hbGljZG4uY29tL3QvZm9udF8xMDMxMTU4XzF1aHI4cmkwcGs1LndvZmYyJnF1b3Q7KSBmb3JtYXQoJnF1b3Q7d29mZjImcXVvdDspLHVybCgmcXVvdDsvL2F0LmFsaWNkbi5jb20vdC9mb250XzEwMzExNThfMXVocjhyaTBwazUud29mZiZxdW90OykgZm9ybWF0KCZxdW90O3dvZmYmcXVvdDspLHVybCgmcXVvdDsvL2F0LmFsaWNkbi5jb20vdC9mb250XzEwMzExNThfMXVocjhyaTBwazUudHRmJnF1b3Q7KSBmb3JtYXQoJnF1b3Q7dHJ1ZXR5cGUmcXVvdDspLHVybCgmcXVvdDsvL2F0LmFsaWNkbi5jb20vdC9mb250XzEwMzExNThfMXVocjhyaTBwazUuc3ZnI2ljb25mb250JnF1b3Q7KSBmb3JtYXQoJnF1b3Q7c3ZnJnF1b3Q7KX08L3N0eWxlPjwvZGVmcz48cGF0aCBkPSJNNzQ0LjQgNDI2LjZjLTkwLjUgMC0xNjQuMi03My43LTE2NC4yLTE2NC4yIDAtOTAuNSA3My43LTE2NC4yIDE2NC4yLTE2NC4yIDkwLjUgMCAxNjQuMiA3My43IDE2NC4yIDE2NC4yLS4xIDkwLjUtNzMuNyAxNjQuMi0xNjQuMiAxNjQuMnptMC0yNDUuNGMtNDQuOCAwLTgxLjIgMzYuNC04MS4yIDgxLjIgMCA0NC44IDM2LjQgODEuMiA4MS4yIDgxLjJzODEuMi0zNi40IDgxLjItODEuMmMwLTQ0LjgtMzYuNC04MS4yLTgxLjItODEuMnpNMjcxLjIgNzIyLjZjLTk3IDAtMTc1LjktNzguOS0xNzUuOS0xNzUuOXM3OC45LTE3NS45IDE3NS45LTE3NS45IDE3NS45IDc4LjkgMTc1LjkgMTc1LjktNzguOSAxNzUuOS0xNzUuOSAxNzUuOXptMC0yNjguOWMtNTEuMiAwLTkzIDQxLjctOTMgOTNzNDEuNyA5MyA5MyA5MyA5My00MS43IDkzLTkzLTQxLjctOTMtOTMtOTN6bTUxOS43IDQ3MC40Yy03NCAwLTEzNC4xLTYwLjItMTM0LjEtMTM0LjFTNzE3IDY1NS45IDc5MC45IDY1NS45IDkyNSA3MTYgOTI1IDc5MHMtNjAuMiAxMzQuMS0xMzQuMSAxMzQuMXptMC0xODUuM2MtMjguMiAwLTUxLjEgMjIuOS01MS4xIDUxLjEgMCAyOC4yIDIzIDUxLjEgNTEuMSA1MS4xczUxLjEtMjIuOCA1MS4xLTUxLTIyLjktNTEuMi01MS4xLTUxLjJ6IiBmaWxsPSIjNTk3NWZmIi8+PHBhdGggZD0iTTM4MC45IDUxMC40Yy0xMy44IDAtMjcuNC02LjktMzUuMi0xOS41LTEyLjEtMTkuNC02LjItNDUgMTMuMi01Ny4ybDI0MC44LTE1MC4zYzE5LjQtMTIuMSA0NS02LjIgNTcuMSAxMy4yIDEyLjEgMTkuNCA2LjIgNDUtMTMuMiA1Ny4yTDQwMi44IDUwNC4xYy02LjggNC4zLTE0LjQgNi4zLTIxLjkgNi4zem0zMTcuMyAyOTAuMmMtNC42IDAtOS4zLS44LTE0LTIuNGwtMzMxLTExOC4zYy0yMS42LTcuNy0zMi44LTMxLjQtMjUuMS01MyA3LjctMjEuNiAzMS41LTMyLjggNTMtMjUuMWwzMzEuMSAxMTguM2MyMS42IDcuNyAzMi44IDMxLjQgMjUuMSA1My02LjEgMTctMjIgMjcuNS0zOS4xIDI3LjV6IiBmaWxsPSIjNTk3NWZmIi8+PC9zdmc+",
@@ -322,15 +397,8 @@
 		color: #333333;
 	}
 
-	/*图标样式*/
-	.mine-icon {
-		margin-bottom: 4px;
-		width: 1.4em;
-		height: 1.4em;
-	}
-
-
 	/*信息展示*/
+
 	.user-info-card {
 		height: 13vh;
 		width: 100%;
@@ -338,6 +406,7 @@
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
+		align-self: flex-start;
 	}
 
 	.user-info-card .card-container {
@@ -345,7 +414,6 @@
 		width: 90%;
 		height: 12vh;
 		color: #ffffff;
-		box-shadow: 0 4rpx 8rpx 0 rgb(0, 0, 0, 0.2), 0 6rpx 20rpx 0 rgb(0, 0, 0, 0.19);
 		border-radius: 30rpx;
 		display: flex;
 		flex-direction: column;
@@ -370,7 +438,7 @@
 	.card-container .grid {
 		width: 100%;
 		height: 100%;
-		background-color: #5975FF;
+		background-color: #5479ff;
 		border-radius: 30rpx;
 	}
 
@@ -380,7 +448,7 @@
 		align-items: center;
 	}
 
-	.grid .grid-info {
+	.card-container .grid .grid-info {
 		width: 50%;
 		display: flex;
 		flex-direction: column;
@@ -388,143 +456,54 @@
 		font-weight: 600;
 	}
 
-	.grid-info .value {
+	.card-container .grid .grid-info .value {
 		font-size: 32rpx;
 	}
 
-	.grid-info .title {
+	.card-container .grid .grid-info .title {
 		font-size: 25rpx;
 		margin-top: 10rpx;
 	}
 
-	.grid-info {
+	.card-container .grid .grid-info {
 		color: #ffffff;
 	}
 
-	/*功能列表*/
-	.func-cell-container {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		width: 100%;
+	.func-container {
+		width: 90%;
+		margin-left: 5%;
 	}
-
-	.row-fifth,
-	.row-third,
-	.row-second,
-	.row-first {
-		width: 95%;
+	
+	.func-container .func-bar{
 		display: flex;
-		justify-content: space-around;
-	}
-
-
-	.row-first .func-cell {
-		display: flex;
-		flex-direction: row;
 		justify-content: space-between;
 		align-items: center;
-		width: 45%;
-		height: 7vh;
-		border-radius: 100rpx;
-		margin-top: 1em;
-		box-shadow: 0 4rpx 8rpx 0 rgb(0, 0, 0, 0.2), 0 6rpx 20rpx 0 rgb(0, 0, 0, 0.19);
+		height: 5vh;
+		border-bottom: 1px solid #e7e7e7;
 	}
-
-	.row-second .func-cell {
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-		align-items: center;
-		width: 95%;
-		height: 7vh;
-		border-radius: 100rpx;
-		margin-top: 1em;
-		box-shadow: 0 4rpx 8rpx 0 rgb(0, 0, 0, 0.2), 0 6rpx 20rpx 0 rgb(0, 0, 0, 0.19);
-	}
-
-	.row-third .func-cell {
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-		align-items: center;
-		width: 95%;
-		height: 7vh;
-		border-radius: 100rpx;
-		margin-top: 1em;
-		box-shadow: 0 4rpx 8rpx 0 rgb(0, 0, 0, 0.2), 0 6rpx 20rpx 0 rgb(0, 0, 0, 0.19);
-	}
-
-	.row-fourth .func-cell {
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-		align-items: center;
-		height: 7vh;
-		border-radius: 100rpx;
-		margin-top: 1em;
-		color: #FFFFFF;
-		box-shadow: 0 4rpx 8rpx 0 rgb(0, 0, 0, 0.2), 0 6rpx 20rpx 0 rgb(0, 0, 0, 0.19);
-	}
-
-	.flex-direction-column {
-		width: 95%;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
-
-	.flex-direction-row {
-		width: 95%;
-		display: flex;
-		justify-content: space-around;
-	}
-
-	.width9 {
-		width: 95%;
-	}
-
-	.width4 {
-		width: 45%;
-	}
-
-	.blue {
-		background-color: #5975FF;
-	}
-
-	.red {
-		background-color: #dd574b;
-	}
-
-	.func-cell:active {
+	
+	.func-container .func-bar:active{
 		opacity: 0.7;
-		background-color: #cfcfcf;
-		color: #ffffff;
 		transform: scale(.98);
 		transition: .2s;
 	}
-
-	.left {
+	
+	.func-container .func-bar .left{
+		width: 50%;
 		display: flex;
-		margin-left: 1em;
+		justify-content: flex-start;
 		align-items: center;
-		align-content: center;
+	}
+	
+	.func-container .func-bar .left .func-img{
+		margin-right: 5%;
+		margin-left: 5%;
 	}
 
-	.left .func-icon {}
-
-	.left .func-title {
-		margin-left: 0.4em;
-		font-size: 1em;
-		margin-bottom: 0.2em;
-	}
-
-	.right {
-		margin-right: 1em;
-	}
-
+	.func-container .func-bar .arrow-icon,
 	.func-img {
-		width: 45rpx;
-		height: 45rpx;
+		width: 30rpx;
+		height: 30rpx;
+		margin-right: 2%;
 	}
 </style>
