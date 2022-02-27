@@ -3,7 +3,7 @@
 		<div>
 			<van-nav-bar custom-class="nav-bar" :fixed="true" :placeholder="true" :border="false">
 				<div class="title" slot="left">
-					<img class="logo" :src="logo" />武工商课表
+					<img class="logo" :src="img.logo" />武工商课表
 				</div>
 			</van-nav-bar>
 			<van-notice-bar @click="toNotice" background="#5e77ff" color="#fff" left-icon="volume-o"
@@ -18,7 +18,7 @@
 					<image class="bg"
 						style="background-image: url(http://tva1.sinaimg.cn/large/002ZE6Hrgy1guerewdsnkj62s02307wh02.jpg);">
 					</image>
-					<image class="icon" src="/assets/image/wifi.svg"></image>
+					<image class="icon" :src="img.wifi"></image>
 					<div class="content">绑定教务后即可查看课表</div>
 				</div>
 			</div>
@@ -63,19 +63,16 @@
 	} from '../../../../api/systemapi.js'
 	import * as ut from '../../../../utils'
 	import logo from '../../../../assets/images/logo.png'
+	import wifi from '../../../../assets/images/wifi.svg'
 	export default {
 		data() {
 			return {
+				img: {
 				logo,
+				wifi,
+				},
 				notice: {
 					title: ''
-				},
-				svg: {
-					line: "data:image/svg+xml;base64,PHN2ZyBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiPjxwYXRoIGQ9Ik04NS4zMzMgOTU1LjczM2ExNy4wNSAxNy4wNSAwIDAgMS0xMi4wNjYtMjkuMTMyTDkyNi42MDEgNzMuMjY3QTE3LjA1IDE3LjA1IDAgMSAxIDk1MC43MzMgOTcuNEw5Ny4zOTkgOTUwLjczM2ExNy4wMTUgMTcuMDE1IDAgMCAxLTEyLjA2NiA1eiIgZmlsbD0iIzcwNzA3MCIvPjwvc3ZnPg==",
-					straight: "data:image/svg+xml;base64,PHN2ZyBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiPjxwYXRoIGQ9Ik01MzEuMTg1IDk0My41MzJjMCA4LjktNi40OTMgMTYuMTE0LTE0LjUwMyAxNi4xMTRoLTkuMzY0Yy04LjAxIDAtMTQuNTA0LTcuMjE0LTE0LjUwNC0xNi4xMTRWODAuNDY3YzAtOC44OTkgNi40OTMtMTYuMTE0IDE0LjUwNC0xNi4xMTRoOS4zNjRjOC4wMSAwIDE0LjUwMyA3LjIxNSAxNC41MDMgMTYuMTE0djg2My4wNjV6IiBmaWxsPSIjYmZiZmJmIi8+PC9zdmc+",
-					straight_last: 'data:image/svg+xml;base64,PHN2ZyBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiPjxwYXRoIGQ9Ik01MzEuMTg1IDk0My41MzJjMCA4LjktNi40OTMgMTYuMTE0LTE0LjUwMyAxNi4xMTRoLTkuMzY0Yy04LjAxIDAtMTQuNTA0LTcuMjE0LTE0LjUwNC0xNi4xMTRWODAuNDY3YzAtOC44OTkgNi40OTMtMTYuMTE0IDE0LjUwNC0xNi4xMTRoOS4zNjRjOC4wMSAwIDE0LjUwMyA3LjIxNSAxNC41MDMgMTYuMTE0djg2My4wNjV6IiBmaWxsPSIjZmZmIi8+PC9zdmc+',
-					circle: "data:image/svg+xml;base64,PHN2ZyBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBkYXRhLXNwbS1hbmNob3ItaWQ9ImEzMTN4Ljc3ODEwNjkuMC5pMTIiIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiI+PHBhdGggZD0iTTM4Mi40MjEgNTEyYTEyMS43NyAxMjEuNzcgMCAwIDEgMTIxLjgxNC0xMjEuODEzQTEyMi4xNTUgMTIyLjE1NSAwIDAgMSA2MjYuMDkgNTEyYTEyMi4xNTUgMTIyLjE1NSAwIDAgMS0xMjEuODU2IDEyMS44NTZBMTIyLjE1NSAxMjIuMTU1IDAgMCAxIDM4Mi40MiA1MTJ6TTUwNC4yMzUgMEMyNjUuMTczIDAgNjQuOTM5IDE2My44NCA4LjEwNyAzODUuMDY3Yy0uNDI3IDEuNTM2LS40MjcgMi45ODYtLjQyNyA1LjEyIDAgMTMuMzU0IDEwLjc1MiAyNC41NzYgMjQuNTMzIDI0LjU3NmgyMDYuMjk0YzkuODEzIDAgMTguNDc0LTUuNTQ3IDIyLjA1OC0xNC4yMDggNDIuNTM5LTkyLjE2IDEzNS42OC0xNTYuNjcyIDI0My43MTItMTU2LjY3MkEyNjguNTAxIDI2OC41MDEgMCAwIDEgNzcyLjQ4IDUxMi4xMjhjMCAxNDguMDUzLTEyMC4zMiAyNjguMzczLTI2OC4zNzMgMjY4LjM3M0EyNjcuOTQ3IDI2Ny45NDcgMCAwIDEgMjYwLjQ4IDYyMy43ODdhMjUuMzQ0IDI1LjM0NCAwIDAgMC0yMi4wNTktMTQuMzM2SDMyLjIxM0EyNC41NzYgMjQuNTc2IDAgMCAwIDcuNjggNjM0LjAyN2MwIDEuNTc4LjU5NyAzLjA3Mi41OTcgNS4xMkM2NC41OTcgODYwLjE2IDI2NS4xMzEgMTAyNCA1MDQuMjM1IDEwMjRjMjgyLjYyNCAwIDUxMi0yMjkuMzMzIDUxMi01MTIgMC0yODIuNTgxLTIyOS4zNzYtNTEyLTUxMi01MTJ6IiBkYXRhLXNwbS1hbmNob3ItaWQ9ImEzMTN4Ljc3ODEwNjkuMC5pMTEiIGNsYXNzPSJzZWxlY3RlZCIgZmlsbD0iI2JmYmZiZiIvPjwvc3ZnPg==",
-					wifi: "data:image/svg+xml;base64,PHN2ZyBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCI+PHBhdGggZD0iTTQ2My42IDQ3Mi4xYTQ2LjcgNDYuNyAwIDEgMCA5My40IDAgNDYuNyA0Ni43IDAgMSAwLTkzLjQgMHoiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJNNzIxLjQgODYzLjljLTEzLjIgMC0yNi4zLTYuMy0zNC4zLTE4LjEtMTMtMTguOS04LjItNDQuOCAxMC44LTU3LjggOTAuNi02Mi4xIDE0NC44LTE2NC43IDE0NC44LTI3NC40IDAtMTgzLjMtMTQ5LjEtMzMyLjQtMzMyLjQtMzMyLjRTMTc3LjkgMzMwLjQgMTc3LjkgNTEzLjZjMCAxMDkuNyA1NC4xIDIxMi4zIDE0NC43IDI3NC40IDE4LjkgMTMgMjMuOCAzOC44IDEwLjggNTcuOC0xMi45IDE4LjktMzguOCAyMy44LTU3LjggMTAuOEMxNjIuNCA3NzkgOTQuOCA2NTAuOCA5NC44IDUxMy42YzAtMjI5LjEgMTg2LjQtNDE1LjUgNDE1LjUtNDE1LjVzNDE1LjUgMTg2LjQgNDE1LjUgNDE1LjVjMCAxMzcuMS02Ny42IDI2NS4zLTE4MC45IDM0My03LjIgNC45LTE1LjQgNy4zLTIzLjUgNy4zeiIgZmlsbD0iI2ZmZiIvPjxwYXRoIGQ9Ik02NDIuNSA3MTkuN2MtMTIuMiAwLTI0LjItNS4zLTMyLjQtMTUuNS0xNC40LTE3LjktMTEuNS00NCA2LjMtNTguNCA0MC4yLTMyLjQgNjMuMy04MC42IDYzLjMtMTMyLjIgMC01Mi4yLTIzLjYtMTAwLjgtNjQuNi0xMzMuMi0xOC0xNC4yLTIxLjEtNDAuMy02LjktNTguNCAxNC4yLTE4IDQwLjQtMjEuMSA1OC40LTYuOSA2MS4xIDQ4LjMgOTYuMiAxMjAuNiA5Ni4yIDE5OC40IDAgNzYuOS0zNC40IDE0OC43LTk0LjMgMTk2LjktNy42IDYuMy0xNi44IDkuMy0yNiA5LjN6bS0yNjcuNi0yLjVjLTkuNCAwLTE4LjgtMy4yLTI2LjYtOS43LTU3LjYtNDguMi05MC43LTExOC45LTkwLjctMTkzLjkgMC03NS40IDMzLjMtMTQ2LjIgOTEuMy0xOTQuNCAxNy43LTE0LjYgNDMuOS0xMi4yIDU4LjUgNS40IDE0LjcgMTcuNiAxMi4zIDQzLjgtNS40IDU4LjUtMzkgMzIuNC02MS4zIDc5LjktNjEuMyAxMzAuNSAwIDUwLjQgMjIuMiA5Ny44IDYwLjkgMTMwLjIgMTcuNiAxNC43IDE5LjkgNDAuOSA1LjIgNTguNS04LjIgOS45LTIwIDE0LjktMzEuOSAxNC45em0xMzUuNCAyMTEuOWMtMjIuOSAwLTQxLjUtMTguNi00MS41LTQxLjVWNTk2LjdjMC0yMi45IDE4LjYtNDEuNSA0MS41LTQxLjVzNDEuNSAxOC42IDQxLjUgNDEuNXYyOTAuOGMwIDIzLTE4LjYgNDEuNi00MS41IDQxLjZ6IiBmaWxsPSIjZmZmIi8+PC9zdmc+"
 				},
 				//今日课程展示页
 				colorArrays: ["#f05261", "#48a8e4", "#aaaa7f", "#52db9a", "#70d3e6", "#52db9a", "#3f51b5", "#f3d147",
@@ -281,7 +278,7 @@
 	}
 
 	.cu-timeline>.cu-item:not([class*="cuIcon-"])::before {
-		content: "o";
+		content: "\e763";
 	}
 
 	.cu-timeline>.cu-item[class*="cuIcon-"]::before {

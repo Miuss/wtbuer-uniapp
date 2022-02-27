@@ -25,11 +25,12 @@
 </template>
 
 <script>
+	import back from '../../assets/images/back.svg'
 	export default {
 		data() {
 			return {
 				svg:{
-					back: "data:image/svg+xml;base64,PHN2ZyBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMzIiIGhlaWdodD0iMzIiPjxwYXRoIGQ9Ik0zOTUuMjE1IDUxMy42MDVMNzE4LjM1MSAyMDEuMjNjMTkuMDUzLTE4LjQxNiAxOS4wNTMtNDguMjczIDAtNjYuNjYtMTkuMDU0LTE4LjQxNy00OS45MTEtMTguNDE3LTY4Ljk2NSAwTDI5MS43NTIgNDgwLjI5Yy0xOS4wNTMgMTguNDE2LTE5LjA1MyA0OC4yNzMgMCA2Ni42NmwzNTcuNjMzIDM0NS42ODhjOS41MjYgOS4yMDggMjIuMDEyIDEzLjc5NiAzNC40OTggMTMuNzk2IDEyLjQ4NSAwIDI0Ljk3MS00LjU4OCAzNC40NjctMTMuODI5IDE5LjA1My0xOC40MTYgMTkuMDUzLTQ4LjI0MiAwLTY2LjY2TDM5NS4yMTUgNTEzLjYwNXoiLz48L3N2Zz4="
+					back,
 				}
 			}
 		},

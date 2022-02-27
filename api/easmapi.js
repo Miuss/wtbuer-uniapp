@@ -26,6 +26,7 @@ export const getSemesterId = async function () {
   }
 }
 
+//获取成绩列表
 export const getExamList = async function (semesterid) {
   try {
     const res = await request({
@@ -39,6 +40,7 @@ export const getExamList = async function (semesterid) {
   }
 }
 
+//获取成绩列表
 export const getExamScore = async function (semesterid) {
   try {
     const res = await request({
@@ -50,4 +52,22 @@ export const getExamScore = async function (semesterid) {
   } catch (err) {
     throw err
   }
+}
+
+//图书馆
+export const libraryLogin = async function(username, password){
+	try{
+		const res = await request({
+			url: '/library/login',
+			method: 'POST',
+			data: {
+				username,
+				password
+			}
+		})
+		console.log(res)
+		return res
+	} catch(err){
+		throw err
+	}
 }

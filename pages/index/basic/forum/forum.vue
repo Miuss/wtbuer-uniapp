@@ -30,6 +30,7 @@
 
 <script>
 	import logo from '../../../../assets/images/logo.png'
+	import add from '../../../../assets/images/add.svg'
 	import {
 		getDiscuss,
 		getThread,
@@ -43,8 +44,7 @@
 			return {
 				logo,
 				svg: {
-					add: 'data:image/svg+xml;base64,PHN2ZyBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCI+PHBhdGggZD0iTTUxMiA5MzYuOTE2QzI3Ny4zMjcgOTM2LjkxNiA4Ny4wODQgNzQ2LjY3MiA4Ny4wODQgNTEyUzI3Ny4zMjcgODcuMDgzIDUxMiA4Ny4wODNjMjM0LjY3NyAwIDQyNC45MTcgMTkwLjI0NCA0MjQuOTE3IDQyNC45MTZTNzQ2LjY3NyA5MzYuOTE2IDUxMiA5MzYuOTE2em0yMTIuNDU4LTQ2Ny40MTJINTU0LjQ5MlYyOTkuNTQ2aC04NC45ODR2MTY5Ljk1OEgyOTkuNTQydjg0Ljk5MmgxNjkuOTY2djE2OS45NjZoODQuOTg0VjU1NC40OTZoMTY5Ljk2NnYtODQuOTkyeiIgZmlsbD0iIzhhNmVmNSIvPjwvc3ZnPg==',
-
+					add
 				},
 				discuss: {},
 				threadList: [],
@@ -111,8 +111,8 @@
 	}
 
 	.tab-bar .add .img {
-		width: 40px;
-		height: 40px;
+		width: 30px;
+		height: 30px;
 	}
 
 	.forum-list {
@@ -143,6 +143,7 @@
 	.forum-list .forum-container .time{
 		font-size: 12px;
 		font-weight: 600;
-		color: #b6b6b6;
+		color: 
+		#b6b6b6;
 	}
 </style>
