@@ -1,4 +1,4 @@
-export const api = 'http://wtbuer-server.miuss.icu'
+export const api = 'https://wtbuer-server.miuss.icu'
 
 export const showToast = function (message) {
   wx.showToast({
