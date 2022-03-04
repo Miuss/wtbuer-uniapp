@@ -56,11 +56,11 @@ export default {
 
 <style scoped>
 .bind-title {
-  line-height: 45px;
-  padding: 0 16px;
-  opacity: .75;
-  font-size: 14px;
-  margin-bottom: 15px;
+	line-height: 50px;
+	padding: 0 16px;
+	opacity: .75;
+	font-size: 15px;
+	margin-bottom: 15px;
 }
 
 .bind-bottom {

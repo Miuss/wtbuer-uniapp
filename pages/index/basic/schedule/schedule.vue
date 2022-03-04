@@ -1,9 +1,9 @@
 <template>
-	<view>
+	<div>
 		<van-nav-bar custom-class="nav-bar" :fixed="true" :placeholder="true" :border="false">
 			<div class="title" slot="left">
 				<img class="logo" :src="logo" />
-				<div class="timetable">
+				<div class="timetable" v-if="courseIds.index">
 					<picker @change="onConfirmChangeIds" :value="courseIds.index" :range="semesterIds" range-key="year">
 						<div class="week">{{ weekPicker[week-1] }}</div>
 						<div class="semester">{{courseIds.year}}
@@ -11,17 +11,20 @@
 						</div>
 					</picker>
 				</div>
+				<div v-else>
+					武工商课表
+				</div>
 			</div>
 		</van-nav-bar>
 
 		<div class="unbind-eams-member" v-if="user.member_id === ''">
 			<van-empty description="尚未绑定教务系统账号">
 				<van-button round type="primary" class="bottom-button" color="#4562e5"
-					@click="$store.dispatch('showBindMember', true)">立即绑定教务账号</van-button>
+					@click="$store.dispatch('showBindMember', true)">绑定教务系统账号</van-button>
 			</van-empty>
 		</div>
 		<courseList v-else></courseList>
-	</view>
+	</div>
 </template>
 
 <script>

@@ -65,7 +65,9 @@
 			"van-action-sheet": "/wxcomponents/vant/action-sheet/index",
 			"van-steps": "/wxcomponents/vant/steps/index",
 			"van-calendar": "/wxcomponents/vant/calendar/index",
-			"van-dialog": "/wxcomponents/vant/dialog/index"
+			"van-dialog": "/wxcomponents/vant/dialog/index",
+			"van-row": "/wxcomponents/vant/row/index",
+			"van-col": "/wxcomponents/vant/col/index"
 		}
 	}
 }

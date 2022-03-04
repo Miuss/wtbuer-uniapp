@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<div>
 		<van-nav-bar custom-class="nav-bar" :fixed="true" :placeholder="true" :border="false">
 			<div class="title" @click="onClickLeft()" slot="left">
 				<img class="logo" :src="svg.back" />
@@ -7,7 +7,7 @@
 			</div>
 		</van-nav-bar>
 		<van-empty class="custom-image" :image="svg.empty" description="还是空的哦~ 开发君正在加急开发中..." />
-	</view>
+	</div>
 </template>
 
 <script>

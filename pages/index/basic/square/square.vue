@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<div>
 		<van-nav-bar custom-class="nav-bar" :fixed="true" :placeholder="true" :border="false">
 			<div class="title" slot="left" style="width: 100%;">
 				<img class="logo" :src="logo" />武工商课表
@@ -16,13 +16,13 @@
 						{{wishes.wishes}}
 					</div>
 				</div>
-				<image class="time_icon" :src="wishes.icon" />
+				<img class="time_icon" :src="wishes.icon" />
 			</div>
 			<div class="func-bars-container">
 				<div class="row-first">
 					<div class="func-bar exam">
 						<div class="icon">
-							<image class="img left" :src="svg.exam"></image>
+							<img class="img left" :src="svg.exam" />
 						</div>
 						<div class="title">
 							<div class="cn left">考试查询</div>
@@ -35,7 +35,7 @@
 					</div>
 					<div class="func-bar score">
 						<div class="icon">
-							<image class="img right" :src="svg.score"></image>
+							<img class="img right" :src="svg.score" />
 						</div>
 						<div class="title">
 							<div class="cn right">分数查询</div>
@@ -62,7 +62,7 @@
 				<van-empty image="search" description="开发君正在加班~~~" />
 			</div>
 		</div>
-	</view>
+	</div>
 </template>
 
 <script>
@@ -125,40 +125,44 @@
 				return this.$store.getters.user
 			},
 			wishes() {
-				let now = new Date()
-				let result = ''
+				const now = new Date()
 				if (now.getHours() >= 22 || now.getHours() < 3) {
-					result = {
+					return {
 						time: '夜深了',
 						wishes: '早点休息才可以更好的学习哦！',
 						icon: this.svg.evening
 					}
-				} else if (now.getHours() <= 22 && now.getHours() >= 19) {
-					result = {
+				}
+				
+				if (now.getHours() <= 22 && now.getHours() >= 19) {
+					return {
 						time: '晚上好',
 						wishes: '充实的一天就要结束了，巩固一下今天的所学吧！',
 						icon: this.svg.evening
 					}
-				} else if (now.getHours() < 19 && now.getHours() > 13) {
-					result = {
+				}
+				
+				if (now.getHours() < 19 && now.getHours() > 13) {
+					return {
 						time: '下午好',
 						wishes: '打起精神，上课要认真！',
 						icon: this.svg.noon
 					}
-				} else if (now.getHours() <= 13 && now.getHours() > 11) {
-					result = {
+				}
+				
+				if (now.getHours() <= 13 && now.getHours() > 11) {
+					return {
 						time: '中午好',
 						wishes: '饭后半小时的午觉是很舒服的！',
 						icon: this.svg.noon
 					}
-				} else {
-					result = {
-						time: '早上好',
-						wishes: 'Wish you have a good day！',
-						icon: this.svg.morning
-					}
 				}
-				return result
+				
+				return {
+					time: '早上好',
+					wishes: 'Wish you have a good day！',
+					icon: this.svg.morning
+				}
 			}
 		},
 	}
@@ -180,14 +184,6 @@
 	.line-purple,
 	.lines-purple {
 		color: var(--purple);
-	}
-
-	.title {
-		margin-top: 8rpx;
-		margin-bottom: 8rpx;
-		font-size: 16px;
-		font-weight: 600;
-		color: #000000;
 	}
 
 	.padding-tb {
@@ -295,7 +291,7 @@
 	}
 
 	.func-bars-container .row-first .func-bar .title .left {
-		color: #FFECCC;
+		color: #ffffff;
 	}
 
 	.func-bars-container .row-first .func-bar .title .right {
@@ -340,11 +336,11 @@
 
 	.func-bars-container .row-first .func-bar .button-container .left-btn {
 		color: #3F414E;
-		background-color: #EBEAEC;
+		background-color: #FFFFFF;
 	}
 
 	.func-bars-container .row-first .func-bar .button-container .right-btn {
-		color: #EBEAEC;
+		color: #FFFFFF;
 		background-color: #3F414E;
 	}
 

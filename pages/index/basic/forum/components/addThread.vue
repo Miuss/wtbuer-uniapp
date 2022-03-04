@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<div>
 		<van-nav-bar custom-class="nav-bar" :fixed="true" :placeholder="true" :border="false">
 			<div class="title" @click="onClickLeft()" slot="left">
 				<img class="logo" :src="svg.back" />
@@ -12,7 +12,7 @@
 			</van-cell-group>
 			<div class="button" @click="addContent">发表</div>
 		</div>
-	</view>
+	</div>
 </template>
 
 <script>

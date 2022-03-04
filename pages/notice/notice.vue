@@ -1,20 +1,20 @@
 <template>
-	<view>
+	<div>
 		<van-nav-bar custom-class="nav-bar" :fixed="true" :placeholder="true" :border="false">
 			<div class="title" @click="onClickLeft()" slot="left">
 				<img class="logo" :src="svg.back" />
 				最新公告
 			</div>
 		</van-nav-bar>
-		<view class='margin-xl padding-xl about'>
-			<view class='text-center margin-bottom text-lg text-bold'>最新公告</view>
-			<view class='text-content text-grey'>
-				<view>{{notice.title}}</view>
-				<view class='margin-top-sm'>{{notice.content}}</view>
-			</view>
-		</view>
-		<view class='text-center margin-bottom text-lg text-gray'>© 2021 GenesisMiuss.</view>
-	</view>
+		<div class='margin-xl padding-xl about'>
+			<div class='text-center margin-bottom text-lg text-bold'>最新公告</div>
+			<div class='text-content text-grey'>
+				<div>{{notice.title}}</div>
+				<div class='margin-top-sm'>{{notice.content}}</div>
+			</div>
+		</div>
+		<div class='text-center margin-bottom text-lg text-gray'>© 2021 GenesisMiuss.</div>
+	</div>
 </template>
 
 <script>

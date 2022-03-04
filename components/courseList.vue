@@ -1,38 +1,46 @@
 <template>
 	<div>
-		<div class="weekbar">
-			<div v-for="(dayItem, index) in weekList" :key="index" class="item" :class="dayItem[1]?'active':''"
-				:style="'width: '+ classItemWidth +'px;'">
-				<div class="index">{{dayItem[0]}}</div>
-				<div class="info">{{dayItem[2]}}</div>
-			</div>
+		<div v-if="courseList.length === 0 && user.member_id != ''">
+			<van-empty description="此次登录尚未获取课表">
+				<van-button round type="primary" class="bottom-button" color="#4562e5" @click="getCourseList()">获取本学期课表
+				</van-button>
+			</van-empty>
 		</div>
-		<div class="weekbar-position"></div>
-		<swiper :indicator-dots="false" :autoplay="false" :current="week-1" @change="changeWeek"
-			:style="'height:'+ timeList.length * classItemHeight +'px;background: #ffffff;position: relative;'">
-			<swiper-item v-for="(item, index) in courseList" :key="index">
-				<div class="class" :style="'height:'+ timeList.length * classItemHeight +'px;width:100%;display:flex;'">
-					<!--课表左侧栏-->
-					<div class="sidebar">
-						<div v-for="(timeItem, timeIndex) in timeList" :key="timeIndex" class="item"
-							:style="'height:'+ classItemHeight +'px;'">
-							<div class="time">{{timeItem[1]}}</div>
-							<div class="index">{{timeItem[0]}}</div>
-						</div>
-					</div>
-					<div v-for="(lineItem, lineIndex) in timeList" :key="lineIndex">
-						<div class="class-line" :style="'margin-top:'+ ((lineIndex+1)*classItemHeight-1) +'px;'"></div>
-					</div>
-					<!--课表-->
-					<div v-for="(classItem, classIndex) in item" :key="classIndex">
-						<div class="flex-item kcb-item" @click="showClassDialog(classItem)"
-							:style="'width:'+ (classItemWidth - 2) +'px;margin-left:'+ ((classItem.xqj-1)*classItemWidth+1) +'px;margin-top:'+ ((classItem.skjc-1)*classItemHeight+1) +'px;height:'+ (classItem.skcd*classItemHeight-3) +'px;background-color:'+ colorArrays[classIndex%16]">
-							<div class="smalltext">{{classItem.kcmc}}@{{classItem.room}}</div>
-						</div>
-					</div>
+		<div v-else>
+			<div class="weekbar">
+				<div v-for="(dayItem, index) in weekList" :key="index" class="item" :class="dayItem[1]?'active':''"
+					:style="'width: '+ classItemWidth +'px;'">
+					<div class="index">{{dayItem[0]}}</div>
+					<div class="info">{{dayItem[2]}}</div>
 				</div>
-			</swiper-item>
-		</swiper>
+			</div>
+			<div class="weekbar-position"></div>
+			<swiper :indicator-dots="false" :autoplay="false" :current="week-1" @change="changeWeek"
+				:style="'height:'+ timeList.length * classItemHeight +'px;background: #ffffff;position: relative;'">
+				<swiper-item v-for="(item, index) in courseList" :key="index">
+					<div class="class" :style="'height:'+ timeList.length * classItemHeight +'px;width:100%;display:flex;'">
+						<!--课表左侧栏-->
+						<div class="sidebar">
+							<div v-for="(timeItem, timeIndex) in timeList" :key="timeIndex" class="item"
+								:style="'height:'+ classItemHeight +'px;'">
+								<div class="time">{{timeItem[1]}}</div>
+								<div class="index">{{timeItem[0]}}</div>
+							</div>
+						</div>
+						<div v-for="(lineItem, lineIndex) in timeList" :key="lineIndex">
+							<div class="class-line" :style="'margin-top:'+ ((lineIndex+1)*classItemHeight-1) +'px;'"></div>
+						</div>
+						<!--课表-->
+						<div v-for="(classItem, classIndex) in item" :key="classIndex">
+							<div class="flex-item kcb-item" @click="showClassDialog(classItem)"
+								:style="'width:'+ (classItemWidth - 2) +'px;margin-left:'+ ((classItem.xqj-1)*classItemWidth+1) +'px;margin-top:'+ ((classItem.skjc-1)*classItemHeight+1) +'px;height:'+ (classItem.skcd*classItemHeight-3) +'px;background-color:'+ colorArrays[classIndex%16]">
+								<div class="smalltext">{{classItem.kcmc}}@{{classItem.room}}</div>
+							</div>
+						</div>
+					</div>
+				</swiper-item>
+			</swiper>
+		</div>
 	</div>
 </template>
 
@@ -107,26 +115,21 @@
 				return arr
 			}
 		},
-		mounted() {
-			this.getCourseList()
-		},
+		mounted() {},
 		methods: {
 			changeWeek(e) {
 				const index = e.detail.current + 1
 				this.$store.commit('UPDATE_WEEK', index)
 			},
 			getCourseList() {
-				if (this.courseList.length === 0) {
-					const semesterIds = this.$store.getters.semesterIds
-					this.$store.dispatch('getCourseList', semesterIds[semesterIds.length - 1])
-					console.log(this.$store.state)
-				}
+				const semesterIds = this.$store.getters.semesterIds
+				this.$store.dispatch('getCourseList', semesterIds[semesterIds.length - 1])
 			},
 			showClassDialog(info) {
 				wx.vibrateShort()
 				wx.showModal({
 					title: info.kcmc,
-					content: info.room + '\n' + info.teachers,
+					content: info.room + '\n' + info.teachers.toString(),
 					confirmText: '知道了',
 					showCancel: false
 				})

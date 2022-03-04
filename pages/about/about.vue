@@ -11,12 +11,13 @@
 			<view class='text-content text-grey'>
 				<view>Hi！各位武工商校友们，欢迎各位使用武工商课表小程序！</view>
 				<view class='margin-top-sm'>
-					武工商课表是续（简简课小程序）后的一个重新开发的学生查阅课表以及教务系统数据的检索小程序。项目后端是基于php开发的，因为简简课下线太告急，我开发仓促，更多功能正在继续完善。
+					武工商课表是续（简简课小程序）停运后的一个重新开发的学生查阅课表以及教务系统数据的检索小程序。项目后端是基于php开发的，更多功能正在继续完善。
 				</view>
 				<view class='margin-top-sm'>免责声明：</view>
 				<view class='margin-top-sm'>1.本小程序不会存放任何用户的数据，所有数据都将缓存到本地进行存储。</view>
-				<view class='margin-top-sm'>2.小程序后端因不存储用户数据，每次获取课表可能会长达10几秒，请各位耐心等待。</view>
+				<view class='margin-top-sm'>2.小程序为了方便用户不用重复绑定教务账号，以及给用户更好的提醒服务，从2022年3月4日开始将存储用户账号密码。</view>
 				<view class='margin-top-sm'>3.教务系统登录密码错误告知，并不是我们小程序修改了您的密码，而是教务系统程序本身的问题。</view>
+				<view class='margin-top-sm'>4.如果对账号密码存储感到担忧，请停止使用我们的小程序，您解除教务绑定，我们会删除您所有的教务账号。</view>
 				<view class='margin-top-sm'>小程序由19级人工智能学院学生自运营开发，与学校官方无关。</view>
 			</view>
 		</view>

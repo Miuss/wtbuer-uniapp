@@ -1,126 +1,116 @@
 <template>
-	<view>
+	<div>
+		<div class="page-bg"></div>
 		<van-nav-bar custom-class="nav-bar" :fixed="true" :placeholder="true" :border="false">
 			<div class="title" slot="left">
-				个人中心
+				<img class="logo" :src="logo" /> 武工商课表
 			</div>
 		</van-nav-bar>
-		<scroll-list class="scroll-list" :refreshLoading="refreshLoading" @refresh="initList" @loadmore="loadmore"
+		<scroll-list class="scroll-list" :refreshLoading="refreshLoading" @refresh="initList"
 			:showTip="false">
 			<div class="mine-container">
 				<div class="user-avatar-card">
-					<div class="avatar">
-						<img class="icon" :src="user.avatarurl" />
+					<div class="avatar" v-if="user">
+						<img :src="user.avatarurl" />
 					</div>
 					<div class="info">
 						<div class="title">
-							<div class="name">{{ user.member_id===''?user.nickname:user.eamsinfo.name }}</div>
-							<div class="department">{{ user.member_id===''?'': user.eamsinfo.department }}</div>
+							<div class="name">{{ user.member_id===''?user.nickname:user.eamsinfo.name }}<span v-if="user.member_id!==''">{{user.eamsinfo.major}}</span></div>
 						</div>
 						<div class="addtime">
-							学号 {{ user.member_id===''?user.addtime: user.eamsinfo.uid }}
+							{{ user.member_id===''?`注册时间：${user.addtime}`:`学号：${user.eamsinfo.uid}` }}
 						</div>
 					</div>
+					<div class="department">{{ user.member_id===''?'': user.eamsinfo.department }}</div>
 				</div>
 			</div>
 			<div v-if="user.member_id!=''" class="user-info-card">
-				<div class="card-container">
-					<div class="grid grid-flex">
-						<div class="grid-info">
-							<div class="value">{{user.eamsinfo.class}}</div>
-							<div class="title">专业班级</div>
-						</div>
-						<div class="straight-line">
-							<image style="width: 70rpx;height:70rpx;" :src="image.straight" mode="aspectFill">
-							</image>
-						</div>
-						<div class="grid-info">
-							<div class="value">{{graduate===-1?'-':graduatetime+'天'}}</div>
-							<div class="title">离毕业还有</div>
-						</div>
-					</div>
-				</div>
+				<van-row>
+					<van-col span="12">
+						<div class="value">{{user.eamsinfo.class}}</div>
+						<div class="title">专业班级</div>
+					</van-col>
+					<van-col span="12">
+						<div class="value">{{graduate===-1?'-':graduatetime+'天'}}</div>
+						<div class="title">离毕业还有</div>
+					</van-col>
+				</van-row>
 			</div>
-			<div class="func-container">
-				<div class="func-bar" style="border-top: 1px solid #e7e7e7;" @click="toAbout()">
-					<div class="left">
-						<image class="func-img" :src="svg.info"></image>
-						<div>
-							关于我们
-						</div>
+			<van-cell-group class="user-cell-group" inset>
+				<van-cell size="large" @click="toAbout()" is-link>
+					<img slot="icon" class="icon" :src="svg.info" />
+					<div slot="title">
+						<div class="van-cell-text">关于我们</div>
 					</div>
-					<image class="arrow-icon" :src="svg.rightArrow" mode="aspectFill" />
-				</div>
-				<div class="func-bar" @click="showQrcode()">
-					<div class="left">
-						<image class="func-img" :src="svg.hold"></image>
-						<div>
-							赞助支持
-						</div>
+				</van-cell>
+				<van-cell size="large" @click="showQrcode()" is-link>
+					<img slot="icon" class="icon" :src="svg.hold" />
+					<div slot="title">
+						<div class="van-cell-text">赞助支持</div>
 					</div>
-					<image class="arrow-icon" :src="svg.rightArrow" mode="aspectFill" />
-				</div>
-				<div class="func-bar" @click="showQQQrcode()">
-					<div class="left">
-						<image class="func-img" :src="svg.service"></image>
-						<div>
-							加入企鹅交流群
+				</van-cell>
+				<button open-type="contact" session-from="wtbukb">
+					<van-cell size="large" is-link>
+						<img slot="icon" class="icon" :src="svg.service" />
+						<div slot="title">
+							<div class="van-cell-text">在线客服</div>
 						</div>
-					</div>
-					<image class="arrow-icon" :src="svg.rightArrow" mode="aspectFill" />
-				</div>
-				<div class="func-bar">
-					<div class="left">
-						<image class="func-img" :src="svg.share"></image>
-						<div>
-							分享小程序
+					</van-cell>
+				</button>
+				<button open-type="feedback">
+					<van-cell size="large" is-link>
+						<img slot="icon" class="icon" :src="svg.feedback" />
+						<div slot="title">
+							<div class="van-cell-text">意见反馈</div>
 						</div>
+					</van-cell>
+				</button>
+				<van-cell size="large" @click="showQQQrcode()" is-link>
+					<img slot="icon" class="icon" :src="svg.shareOutline" />
+					<div slot="title">
+						<div class="van-cell-text">分享小程序</div>
 					</div>
-					<image class="arrow-icon" :src="svg.rightArrow" mode="aspectFill" />
-				</div>
-				<div class="func-bar" @click="user.member_id === ''?bindStuBtnClick():unbindStuBtnClick()">
-					<div class="left">
-						<image class="func-img" :src="svg.unbind"></image>
-						<div>
-							{{user.member_id===''?'绑定教务系统账号':'解绑'}}
-						</div>
+				</van-cell>
+				<van-cell size="large" @click="user.member_id === ''?bindStuBtnClick():unbindStuBtnClick()" is-link>
+					<img slot="icon" class="icon" :src="svg.bind" />
+					<div slot="title">
+						<div class="van-cell-text">{{user.member_id===''?'绑定教务系统账号':'解绑'}}</div>
 					</div>
-					<image class="arrow-icon" :src="svg.rightArrow" mode="aspectFill" />
-				</div>
-				<div class="func-bar" @click="logout()">
-					<div class="left">
-						<image class="func-img" :src="svg.logout"></image>
-						<div>
-							退出登录
-						</div>
+				</van-cell>
+				<van-cell size="large" @click="logout()" is-link>
+					<img slot="icon" class="icon" :src="svg.logout" />
+					<div slot="title">
+						<div class="van-cell-text">退出登录</div>
 					</div>
-					<image class="arrow-icon" :src="svg.rightArrow" mode="aspectFill" />
-				</div>
-			</div>
+				</van-cell>
+			</van-cell-group>
 		</scroll-list>
-	</view>
+	</div>
 </template>
 
 <script>
+	import logo from '../../../../assets/images/logo.png'
 	import info from '../../../../assets/images/info.svg'
+	import feedback from '../../../../assets/images/feedback.svg'
+	import shareOutline from '../../../../assets/images/share-outline.svg'
+	import bind from '../../../../assets/images/bind.svg'
 	import hold from '../../../../assets/images/hold.svg'
-	import share from '../../../../assets/images/share.svg'
-	import service from '../../../../assets/images/service.svg'
 	import logout from '../../../../assets/images/logout.svg'
-	import unbind from '../../../../assets/images/unbind.svg'
-	import rightArrow from '../../../../assets/images/rightArrow.svg'
+	import service from '../../../../assets/images/service.svg'
+	
 	export default {
 		data() {
 			return {
 				refreshLoading: false,
+				logo,
 				svg: {
 					info,
+					feedback,
+					shareOutline,
+					bind,
 					hold,
-					share,
-					service,
-					unbind,
 					logout,
-					rightArrow,
+					service
 				},
 				isUnBind: false
 			}
@@ -134,27 +124,26 @@
 			user() {
 				return this.$store.getters.user
 			},
-			//获取毕业时间
 			graduatetime() {
-				let result = 0
 				if (this.$store.getters.user.eamsinfo != undefined) {
-					let graduateTime = new Date(
+					const graduateTime = new Date(
 						`${parseInt(this.$store.getters.user.eamsinfo.grade) + parseInt(this.$store.getters.user.eamsinfo.studyyears)}-06-30 00:00:00`
 					).getTime()
-					let today = new Date().getTime()
-					result = Math.ceil((graduateTime - today) / (1000 * 60 * 60 * 24))
-				} else {
-					result = -1
+					const today = new Date().getTime()
+					return Math.ceil((graduateTime - today) / (1000 * 60 * 60 * 24))
 				}
-				return result
+				
+				return -1
 			}
 		},
 		methods: {
 			initList() {
 				this.refreshLoading = true
-				setTimeout(() => {
+				setTimeout(async () => {
+					await this.$store.dispatch('checkToken')
+					await this.$store.dispatch('getUserInfo')
 					this.refreshLoading = false
-				}, 1000)
+				}, 300)
 			},
 			toAbout() {
 				wx.vibrateShort();
@@ -187,11 +176,16 @@
 					title: '教务系统账号解绑提示！',
 					content: '您确定要解绑教务系统？',
 					success(res) {
-						that.$store.dispatch('unbindEamsMember')
-						wx.showToast({
-							icon: 'none',
-							title: '解绑成功，如需查看课表请重新绑定账号!'
-						})
+						if (res.confirm) {
+							that.$store.dispatch('unbindEamsMember')
+							wx.removeStorageSync('courseList')
+							wx.removeStorageSync('courseIds')
+							that.initList()
+							wx.showToast({
+								icon: 'none',
+								title: '解绑成功，如需查看课表请重新绑定账号!'
+							})
+						}
 					}
 				})
 			},
@@ -228,174 +222,104 @@
 <style>
 	@import url("../../../../assets/css/nav_bar.css");
 
-	/*用户信息展示部分*/
+	.page-bg {
+		background-color: #f7f8fa;
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+	}
+	
+	.scroll-list {
+		height: 100vh;
+	}
+	
 	.user-avatar-card {
-		display: flex;
 		background-color: #ffffff;
-		align-items: center;
 		position: relative;
-		padding: 24rpx;
-		height: 98px;
+		display: block;
+		padding: 16px;
+		height: 64px;
+		border-bottom: 1px solid #eeeeee;
+		margin-bottom: 16px;
 	}
-
+	
 	.user-avatar-card .avatar {
-		display: flex;
-		position: relative;
-		transition: transform .3s;
-		border-radius: 5em;
-		background: #F5F5F5;
+		z-index: 1;
+		position: absolute;
+		left: 16px;
 	}
-
-	.user-avatar-card .avatar .icon {
-		border-radius: 5em;
-		width: 72px;
-		height: 72px;
-		background-color: #b5b5b5;
-		border: 3px solid #fefefe63;
+	
+	.user-avatar-card .avatar img {
+		border-radius: 5px;
+		width: 64px;
+		height: 64px;
 	}
-
+	
 	.user-avatar-card .info {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		flex: 1;
-		margin-left: 27rpx;
-		color: #444444;
+		margin-left: 84px;
 	}
-
-	.user-avatar-card .info .title {
-		display: flex;
-		align-items: center;
-	}
-
-	.user-avatar-card .info .title .name {
-		font-size: 42rpx;
+	
+	.user-avatar-card .name {
+		font-size: 20px;
+		margin-top: 6px;
 		font-weight: 600;
-		color: #333333;
-		margin-right: 0.3em;
 	}
-
-	.user-avatar-card .info .title .department {
-		font-size: 30rpx;
-		font-weight: 600;
-		color: #7a7a7a;
-		align-self: flex-end;
-	}
-
-	.user-avatar-card .info .addtime {
+	
+	.user-avatar-card .name span {
+		margin-left: 8px;
 		font-size: 13px;
-		opacity: .6;
-		margin-top: 4px;
-		color: #333333;
+		background-color: #000000;
+		color: #FFFFFF;
+		padding: 0 4px;
+		border-radius: 3px;
 	}
-
-	/*信息展示*/
+	
+	.user-avatar-card .addtime {
+		margin-top: 5px;
+		opacity: .6;
+		font-size: 16px;
+	}
+	
+	.user-avatar-card .department {
+		position: absolute;
+		z-index: 0;
+		opacity: .05;
+		right: 2px;
+		bottom: -6px;
+		font-weight: 600;
+		font-size: 34px;
+	}
 
 	.user-info-card {
-		height: 13vh;
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		align-self: flex-start;
+		margin: 0 16px;
+		margin-bottom: 16px;
+		background-color: #ffffff;
+		border-radius: 5px;
+		padding: 15px;
+		text-align: center;
 	}
 
-	.user-info-card .card-container {
-		z-index: 999;
-		width: 90%;
-		height: 12vh;
-		color: #ffffff;
-		border-radius: 30rpx;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
+	.user-info-card .title {
+		opacity: .6;
+		font-size: 13px;
 	}
 
-	.card-container .user-department {
-		width: 100%;
-		color: #c3c3c3;
-		font-size: 80rpx;
-		font-weight: 600;
-		background-color: #5975FF;
-		border-top-left-radius: 30rpx;
-		border-top-right-radius: 30rpx;
-	}
-
-	.card-container .user-defpartment-flex {
-		display: flex;
-		justify-content: center;
-	}
-
-	.card-container .grid {
-		width: 100%;
-		height: 100%;
-		background-color: #5479ff;
-		border-radius: 30rpx;
-	}
-
-	.card-container .grid-flex {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
-
-	.card-container .grid .grid-info {
-		width: 50%;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		font-weight: 600;
-	}
-
-	.card-container .grid .grid-info .value {
-		font-size: 32rpx;
-	}
-
-	.card-container .grid .grid-info .title {
-		font-size: 25rpx;
-		margin-top: 10rpx;
-	}
-
-	.card-container .grid .grid-info {
-		color: #ffffff;
-	}
-
-	.func-container {
-		width: 90%;
-		margin-left: 5%;
+	.user-cell-group .icon {
+		margin-right: 10px;
+		width: 25px;
+		height: 25px;
 	}
 	
-	.func-container .func-bar{
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		height: 5vh;
-		border-bottom: 1px solid #e7e7e7;
+	.user-cell-group button {
+		padding: 0;
+		background-color: transparent;
+		text-align: unset;
+		font-size: unset;
 	}
 	
-	.func-container .func-bar:active{
-		opacity: 0.7;
-		transform: scale(.98);
-		transition: .2s;
-	}
-	
-	.func-container .func-bar .left{
-		width: 50%;
-		display: flex;
-		justify-content: flex-start;
-		align-items: center;
-	}
-	
-	.func-container .func-bar .left .func-img{
-		margin-right: 5%;
-		margin-left: 5%;
-	}
-
-	.func-container .func-bar .arrow-icon,
-	.func-img {
-		width: 25rpx;
-		height: 25rpx;
-		margin-right: 2%;
+	.user-cell-group button::after {
+		content: unset;
 	}
 </style>

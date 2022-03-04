@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<div>
 		<van-nav-bar custom-class="nav-bar" :fixed="true" :placeholder="true" :border="false">
 			<div class="title" slot="left">
 				<img class="logo" :src="logo" />武工商社区
@@ -9,13 +9,9 @@
 			<div class="find" :class="tabBar===0?'selected':''" @click="tabBar=0">发现</div>
 			<div class="mine" :class="tabBar===1?'selected':''" @click="tabBar=1">我的</div>
 			<div class="add">
-				<image class="img" :src="svg.add" mode="aspectFill" @click="addContent()"></image>
+				<img class="img" :src="svg.add" @click="addContent()" />
 			</div>
 		</div>
-		<div>
-			<van-notice-bar background="#6f62ff" color="#fff" left-icon="volume-o" :text="discuss.description" />
-		</div>
-
 		<div class="forum-list" v-if="tabBar===0">
 			<div class="forum-container" v-for="(item,index) in threadList" :key="item.id" @tap="getDetail(item.id)">
 				<div class="name">{{item.name}}</div>
@@ -23,22 +19,14 @@
 				<div class="time">{{item.createAt}}</div>
 			</div>
 		</div>
-
-	</view>
-
+	</div>
 </template>
 
 <script>
 	import logo from '../../../../assets/images/logo.png'
 	import add from '../../../../assets/images/add.svg'
-	import {
-		getDiscuss,
-		getThread,
-		addThread,
-		delThread,
-		editThread,
-		getThreadDetail
-	} from '../../../../api/forumapi.js'
+	import { getDiscuss, getThread, addThread, delThread, editThread, getThreadDetail } from '../../../../api/forumapi.js'
+	
 	export default {
 		data() {
 			return {
@@ -53,16 +41,13 @@
 		},
 		methods: {
 			addContent() {
-				//跳转新页面或者是就在当前页面输入
 				wx.navigateTo({
-					url: '/pages/index/basic/forum/components/addThread',
+					url: '/pages/index/basic/forum/components/addThread'
 				})
 			},
 			getDetail(id) {
-
 				wx.navigateTo({
-					url: '/pages/index/basic/forum/components/threadDetail?id=' + id,
-
+					url: '/pages/index/basic/forum/components/threadDetail?id=' + id
 				})
 			},
 			timeTrans(timestr){
@@ -71,12 +56,6 @@
 			}
 		},
 		mounted() {
-			//公告
-			getDiscuss(1, 4).then((res) => {
-				res.data.data.map((v) => {
-					this.discuss = v;
-				})
-			})
 			getThread(1, 10, 1).then((res) => {
 				if(res.length === 0 || res=== null){
 					return
@@ -88,7 +67,6 @@
 						createAt: showtime
 					})
 				})
-				console.log(this.threadList);
 			})
 		}
 	}
