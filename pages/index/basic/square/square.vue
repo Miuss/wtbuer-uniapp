@@ -1,5 +1,6 @@
 <template>
 	<div>
+		<div class="page-bg"></div>
 		<van-nav-bar custom-class="nav-bar" :fixed="true" :placeholder="true" :border="false">
 			<div class="title" slot="left" style="width: 100%;">
 				<img class="logo" :src="logo" />武工商课表
@@ -19,47 +20,25 @@
 				<img class="time_icon" :src="wishes.icon" />
 			</div>
 			<div class="func-bars-container">
-				<div class="row-first">
-					<div class="func-bar exam">
-						<div class="icon">
-							<img class="img left" :src="svg.exam" />
-						</div>
-						<div class="title">
-							<div class="cn left">考试查询</div>
-							<div class="en left">Examination Inquiry</div>
-						</div>
-						<div class="button-container">
-							<div class="description left">考试顺利！</div>
-							<div class="button left-btn" @click="toExam()">START</div>
-						</div>
-					</div>
-					<div class="func-bar score">
-						<div class="icon">
-							<img class="img right" :src="svg.score" />
-						</div>
-						<div class="title">
-							<div class="cn right">分数查询</div>
-							<div class="en right">Score Query</div>
-						</div>
-						<div class="button-container">
-							<div class="description right">好运伴你！</div>
-							<div class="button right-btn" @click="toScore()">START</div>
-						</div>
-					</div>
+				<div class="func-bar exam" @click="toExam()">
+					<img class="icon" :src="svg.exam" />
+					<div class="title">考试查询</div>
+					<div class="description">考试顺利！</div>
 				</div>
-				<div class="row-second">
-					<div class="func-bar">
-						<div class="library">
-							<div class="title-cn">武汉工商学院·图书馆</div>
-							<div class="title-en">WTBU Library</div>
-						</div>
-						<div class="button" @click="toLibrary()">GO</div>
-					</div>
+				<div class="func-bar score" @click="toScore()">
+					<img class="icon" :src="svg.score" />
+					<div class="title">分数查询</div>
+					<div class="description">好运伴你！</div>
+				</div>
+				<div class="func-bar" @click="toLibrary()">
+					<img class="icon" :src="svg.ydxf" />
+					<div class="title">武汉工商学院·图书馆</div>
+					<div class="description">在线查询图书馆数据</div>
 				</div>
 			</div>
 
 			<div class="other-function">
-				<van-empty image="search" description="开发君正在加班~~~" />
+				<van-empty image="search" description="其他功能还在开发中..." />
 			</div>
 		</div>
 	</div>
@@ -70,10 +49,11 @@
 
 	import exam from '../../../../assets/images/exam.svg'
 	import score from '../../../../assets/images/score.svg'
+	import ydxf from '../../../../assets/images/ydxf.png'
 	import noon from '../../../../assets/images/morning.svg'
 	import morning from '../../../../assets/images/light_morning.svg'
 	import evening from '../../../../assets/images/moon.svg'
-	
+
 
 	export default {
 		components: {},
@@ -83,6 +63,7 @@
 				svg: {
 					score,
 					exam,
+					ydxf,
 					morning,
 					noon,
 					evening,
@@ -133,7 +114,7 @@
 						icon: this.svg.evening
 					}
 				}
-				
+
 				if (now.getHours() <= 22 && now.getHours() >= 19) {
 					return {
 						time: '晚上好',
@@ -141,7 +122,7 @@
 						icon: this.svg.evening
 					}
 				}
-				
+
 				if (now.getHours() < 19 && now.getHours() > 13) {
 					return {
 						time: '下午好',
@@ -149,7 +130,7 @@
 						icon: this.svg.noon
 					}
 				}
-				
+
 				if (now.getHours() <= 13 && now.getHours() > 11) {
 					return {
 						time: '中午好',
@@ -157,7 +138,7 @@
 						icon: this.svg.noon
 					}
 				}
-				
+
 				return {
 					time: '早上好',
 					wishes: 'Wish you have a good day！',
@@ -170,6 +151,20 @@
 
 <style>
 	@import url("../../../../assets/css/nav_bar.css");
+
+	.page-bg {
+		background-color: #f7f8fa;
+		position: fixed;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		z-index: -1;
+	}
+	
+	.nav-bar {
+		border-bottom: 1px solid #eeeeee;
+	}
 
 	.unbind-eams-member {
 		background-color: #fff;
@@ -190,6 +185,61 @@
 		padding-top: 30rpx;
 		padding-bottom: 30rpx;
 	}
+	
+	.func-bars-container {
+		margin: 16px 16px;
+		display: grid;
+		position: relative;
+		display: grid;
+		--func-bars-gap: 16px;
+		grid-template-columns: repeat(2,calc(50% - var(--func-bars-gap)*1/2));
+		grid-row-gap: var(--func-bars-gap);
+		grid-column-gap: var(--func-bars-gap);
+	}
+	
+	.func-bars-container .func-bar {
+		padding: 16px;
+		background-color: #ffffff;
+		min-height: 48px;
+		border-radius: 10px;
+		border: 1px solid #EEEEEE;
+	}
+	
+	.func-bars-container .func-bar:active {
+		transform: scale(.98);
+		transition: .2s;
+	}
+	
+	.func-bars-container .func-bar:nth-child(3) {
+		grid-column-start: 1;
+		grid-column-end: 3;
+	    grid-row-start: 2;
+	    grid-row-end: 2;
+	}
+	
+	.func-bars-container .func-bar .icon {
+		position: absolute;
+		width: 48px;
+		height: 48px;
+	}
+	
+	.func-bars-container .func-bar .title,
+	.func-bars-container .func-bar .description {
+		margin-left: 60px;
+	}
+	
+	.func-bars-container .func-bar .title {
+		margin-top: 2px;
+		color: #333333;
+		font-size: 18px;
+		font-weight: 600;
+	}
+	
+	.func-bars-container .func-bar .description {
+		color: #333333;
+		font-size: 14px;
+		opacity: .6;
+	} 
 
 	/*祝福语*/
 	.head {
@@ -203,9 +253,9 @@
 	}
 
 	.saying {
-		width: 70%;
+		width: calc(100% - 160px);
 		height: 10vh;
-		margin: 5%;
+		margin: 32px;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-around;
@@ -215,192 +265,14 @@
 	.saying .sub-title1 {
 		font-size: 24px;
 		font-weight: bold;
-		color: #000000;
+		color: #333333;
 	}
 
 	.saying .sub-title2 {
 		font-size: 16px;
 		font-weight: bold;
-		color: #868a94;
-	}
-
-
-	/*欢迎语*/
-	.func-bars-container {
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
-
-	.func-bars-container .row-first {
-		width: 95%;
-		display: flex;
-		justify-content: space-around;
-	}
-
-	.func-bars-container .row-first .func-bar {
-		height: 23vh;
-		width: 45%;
-		border-radius: 10px;
-		display: flex;
-		flex-direction: column;
-	}
-
-	.func-bars-container .row-first .func-bar .icon {
-		width: 100%;
-		height: 40%;
-		display: flex;
-		flex-direction: column;
-	}
-
-	.func-bars-container .row-first .func-bar .icon .img {
-		width: 60px;
-		height: 60px;
-		align-self: flex-end;
-		padding: 10px;
-		border-bottom-left-radius: 30px;
-		border-top-right-radius: 10px;
-	}
-
-	.func-bars-container .row-first .func-bar .icon .left {
-		background-color: #8b81fd;
-	}
-
-	.func-bars-container .row-first .func-bar .icon .right {
-		background-color: #f3c15c;
-	}
-
-	.func-bars-container .row-first .func-bar .title {
-		width: 100%;
-		height: 30%;
-		margin-left: 8%;
-		display: flex;
-		flex-direction: column;
-		justify-content: space-around;
-	}
-
-	.func-bars-container .row-first .func-bar .title .cn {
-		font-size: 20px;
-		font-weight: bold;
-	}
-
-	.func-bars-container .row-first .func-bar .title .en {
-		font-size: 13px;
-		font-weight: 100;
-	}
-
-	.func-bars-container .row-first .func-bar .title .left {
-		color: #ffffff;
-	}
-
-	.func-bars-container .row-first .func-bar .title .right {
-		color: #3F414E;
-	}
-
-	.func-bars-container .row-first .func-bar .button-container {
-		width: 100%;
-		height: 30%;
-		display: flex;
-		justify-content: space-around;
-		align-items: center;
-	}
-
-	.func-bars-container .row-first .func-bar .button-container .description {
-		font-size: 13px;
-		font-weight: bold;
-		margin-left: 5%;
-	}
-
-	.func-bars-container .row-first .func-bar .button-container .left {
-		color: #FFFFFF;
-	}
-
-	.func-bars-container .row-first .func-bar .button-container .right {
-		color: #3F414E;
-	}
-
-	.func-bars-container .row-first .func-bar .button-container .button {
-		padding: 8px 12px 8px 12px;
-		border-radius: 30px;
-		margin-right: 5%;
-		font-weight: bold;
-		font-size: 12px;
-	}
-
-	.func-bars-container .row-first .func-bar .button-container .button:active {
-		opacity: 0.7;
-		transform: scale(.98);
-		transition: .2s;
-	}
-
-	.func-bars-container .row-first .func-bar .button-container .left-btn {
-		color: #3F414E;
-		background-color: #FFFFFF;
-	}
-
-	.func-bars-container .row-first .func-bar .button-container .right-btn {
-		color: #FFFFFF;
-		background-color: #3F414E;
-	}
-
-	.row-first .exam {
-		background: #8E97FD;
-	}
-
-	.row-first .score {
-		background: #FFC97E;
-	}
-
-	.func-bars-container .row-second {
-		width: 95%;
-		display: flex;
-		justify-content: center;
-	}
-
-	.func-bars-container .row-second .func-bar {
-		width: 95%;
-		height: 11vh;
-		border-radius: 10px;
-		margin-top: 5%;
-		background: #333242;
-		display: flex;
-		align-items: center;
-	}
-
-	.func-bars-container .row-second .func-bar .library {
-		width: 50%;
-		margin-left: 10%;
-		display: flex;
-		flex-direction: column;
-	}
-
-	.func-bars-container .row-second .func-bar .library .title-cn {
-		color: #FFFFFF;
-		font-size: 17px;
-		font-weight: bold;
-	}
-
-	.func-bars-container .row-second .func-bar .library .title-en {
-		color: #FFFFFF;
-		font-size: 14px;
-		margin-top: 3%;
-	}
-
-	.func-bars-container .row-second .func-bar .button {
-		color: #3F414E;
-		background-color: #EBEAEC;
-		padding: 8px 12px 8px 12px;
-		border-radius: 30px;
-		font-size: 20px;
-		font-weight: bold;
-		margin-left: 15%;
-	}
-
-	.func-bars-container .row-second .func-bar .button:active {
-		opacity: 0.7;
-		transform: scale(.98);
-		transition: .2s;
+		color: #333333;
+		opacity: .4;
 	}
 
 	/*其他功能*/
@@ -410,9 +282,25 @@
 		margin-top: 6%;
 	}
 
-
 	.other-function .title {
 		font-size: 21px;
 		font-weight: bold;
+	}
+	
+	@media screen and (max-width: 380px) {
+		.func-bars-container {
+		    grid-template-columns: repeat(1,100%);
+		}
+		
+		.func-bars-container .func-bar:nth-child(3) {
+			grid-column-start: unset;
+			grid-column-end: unset;
+			grid-row-start: unset;
+			grid-row-end: unset;
+		}
+		
+		.saying {
+		    height: 18vh;
+		}
 	}
 </style>

@@ -1,8 +1,8 @@
 <template>
-	<view>
+	<div>
 		<van-nav-bar custom-class="nav-bar" :fixed="true" :placeholder="true" :border="false">
 			<div class="title" @click="onClickLeft()" slot="left">
-				<img class="logo" :src="svg.back" />
+				<img class="back" :src="svg.back" />
 				考试查询
 			</div>
 		</van-nav-bar>
@@ -46,7 +46,7 @@
 			</div>
 			<div class="msg margin-top-lg" v-if="list.length == 0">该学期暂无任何考试</div>
 		</div>
-	</view>
+	</div>
 </template>
 
 <script>

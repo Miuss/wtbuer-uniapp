@@ -18,7 +18,8 @@
 			<div class="sub-title">由人工智能学院学生运营 🤖</div>
 		</div>
 		<div class="login-action" style="bottom: 20px;">
-			<van-button type="primary" @click="wxlogin" block :loading="loginLoading" loading-text="微信登录中...">微信账号快速登录</van-button>
+			<van-button type="primary" @click="wxlogin" block :loading="loginLoading" loading-text="微信登录中...">微信账号快速登录
+			</van-button>
 			<div class="login-tips">提示：登录后绑定教务账号才能查阅课表噢~</div>
 		</div>
 
@@ -26,10 +27,12 @@
 </template>
 
 <script>
-	import { wxlogin, getUserProfile } from '../../utils/fetch'
+	import {
+		wxlogin,
+		getUserProfile
+	} from '../../utils/fetch'
 	import logo from '../../assets/images/logo.png'
-	import '../../assets/images/school_7.png'
-	
+
 	export default {
 		data() {
 			return {
@@ -49,23 +52,18 @@
 		methods: {
 			async wxlogin() {
 				this.loginLoading = true
-				try {
-					const infoResult = await getUserProfile()
-					const loginResult = await wxlogin()
-					
-					if (infoResult.userInfo === '' || loginResult.code === '') {
-						throw new Error('登录失败，请重试')
-					}
-					
-					this.$store.dispatch('login', {
-						code: loginResult.code,
-						userInfo: infoResult.userInfo
-					})
-				} catch (err) {
-					console.error(err)
-				} finally {
-					this.loginLoading = false
+				const infoResult = await getUserProfile()
+				const loginResult = await wxlogin()
+
+				if (infoResult.userInfo === '' || loginResult.code === '') {
+					throw new Error('登录失败，请重试')
 				}
+
+				await this.$store.dispatch('login', {
+					code: loginResult.code,
+					userInfo: infoResult.userInfo
+				})
+				this.loginLoading = false
 			}
 		}
 	}

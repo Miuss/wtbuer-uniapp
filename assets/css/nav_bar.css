@@ -14,6 +14,14 @@
 	height: 32px;
 }
 
+.nav-bar .back {
+	margin-right: 16px;
+	width: 16px;
+	height: 16px;
+	padding: 7px;
+	border: 1px solid #e4e4e4;
+	border-radius: 3em;
+}
 
 .nav-bar .title {
 	display: flex;

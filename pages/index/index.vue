@@ -71,9 +71,7 @@
 		computed: {
 			bindMember() {
 				return this.$store.getters.showBindMember
-			}
-		},
-		computed: {
+			},
 			courseIds() {
 				return this.$store.getters.courseIds
 			},

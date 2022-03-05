@@ -2,7 +2,7 @@
 	<div>
 		<van-nav-bar custom-class="nav-bar" :fixed="true" :placeholder="true" :border="false">
 			<div class="title" @click="onClickLeft()" slot="left">
-				<img class="logo" :src="svg.back" />
+				<img class="back" :src="svg.back" />
 				图书馆
 			</div>
 		</van-nav-bar>

@@ -1,5 +1,5 @@
 import * as api from '@/api'
-import { showToast } from '@/utils'
+import { showToast, showError } from '@/utils'
 
 export const login = async ({ commit }, { code, userInfo }) => {
 	try {
@@ -16,7 +16,7 @@ export const login = async ({ commit }, { code, userInfo }) => {
 		}
 	} catch (err) {
 		console.error(err)
-		showToast(err)
+		showError(err)
 	}
 }
 
@@ -30,10 +30,11 @@ export const checkToken = async ({ commit }) => {
 			})
 			commit('CLEAR_USER')
 			wx.removeStorageSync('token')
+			throw new Error("您在别的地方登录过，请重新登录")
 		}
 	} catch (err) {
 		console.error(err)
-		showToast(err)
+		showError(err)
 	}
 }
 
@@ -49,7 +50,7 @@ export const getUserInfo = async ({ commit, state }) => {
 		}
 	} catch (err) {
 		console.error(err)
-		showToast(err)
+		showError(err)
 	}
 }
 
@@ -62,7 +63,7 @@ export const fetchParams = async ({ commit }) => {
 		return res
 	} catch (err) {
 		console.error(err)
-		showToast(err)
+		showError(err)
 	}
 }
 
@@ -81,22 +82,18 @@ export const getCourseList = async ({ commit }, ids) => {
 		wx.setStorageSync('courseIds', ids)
 	} catch (err) {
 		console.error(err)
-		showToast(err)
+		showError(err)
 	} finally {
 		wx.hideLoading()
 	}
 }
 
 export const showBindMember = async ({ commit }, show) => {
+	console.log(show)
 	commit('UPDATE_SHOWBINDMEMBER', show)
 }
 
 export const bindEamsMember = async ({ commit, getters, dispatch }, { username, password }) => {
-	wx.showLoading({
-		title: '绑定中',
-		mask: true
-	})
-	
 	try {
 		const res = await api.bindEamsMember(username, password)
 		if (res.code) {
@@ -113,12 +110,8 @@ export const bindEamsMember = async ({ commit, getters, dispatch }, { username, 
 		dispatch('showBindMember', false)
 		dispatch('getUserInfo')
 	} catch (err) {
-		wx.showToast({
-			icon: 'none',
-			title: `${err}`
-		})
-	} finally {
-		wx.hideLoading()
+		console.error(err)
+		showError(err)
 	}
 }
 
@@ -143,7 +136,7 @@ export const unbindEamsMember = async ({ commit, getters, dispatch }) => {
 		dispatch('showBindMember', false)
 	} catch (err) {
 		console.error(err)
-		showToast(err)
+		showError(err)
 	} finally {
 		wx.hideLoading()
 	}

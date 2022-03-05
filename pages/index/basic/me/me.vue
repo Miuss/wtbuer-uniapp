@@ -6,8 +6,7 @@
 				<img class="logo" :src="logo" /> 武工商课表
 			</div>
 		</van-nav-bar>
-		<scroll-list class="scroll-list" :refreshLoading="refreshLoading" @refresh="initList"
-			:showTip="false">
+		<scroll-list class="scroll-list" :refreshLoading="refreshLoading" @refresh="initList" :showTip="false">
 			<div class="mine-container">
 				<div class="user-avatar-card">
 					<div class="avatar" v-if="user">
@@ -15,13 +14,12 @@
 					</div>
 					<div class="info">
 						<div class="title">
-							<div class="name">{{ user.member_id===''?user.nickname:user.eamsinfo.name }}<span v-if="user.member_id!==''">{{user.eamsinfo.major}}</span></div>
+							<div class="name">{{ user.member_id===''?user.nickname:user.eamsinfo.name }}<span v-if="user.member_id!==''">{{ user.eamsinfo.department }}</span></div>
 						</div>
 						<div class="addtime">
 							{{ user.member_id===''?`注册时间：${user.addtime}`:`学号：${user.eamsinfo.uid}` }}
 						</div>
 					</div>
-					<div class="department">{{ user.member_id===''?'': user.eamsinfo.department }}</div>
 				</div>
 			</div>
 			<div v-if="user.member_id!=''" class="user-info-card">
@@ -31,7 +29,7 @@
 						<div class="title">专业班级</div>
 					</van-col>
 					<van-col span="12">
-						<div class="value">{{graduate===-1?'-':graduatetime+'天'}}</div>
+						<div class="value">{{graduatetime}}</div>
 						<div class="title">离毕业还有</div>
 					</van-col>
 				</van-row>
@@ -97,7 +95,7 @@
 	import hold from '../../../../assets/images/hold.svg'
 	import logout from '../../../../assets/images/logout.svg'
 	import service from '../../../../assets/images/service.svg'
-	
+
 	export default {
 		data() {
 			return {
@@ -125,15 +123,13 @@
 				return this.$store.getters.user
 			},
 			graduatetime() {
-				if (this.$store.getters.user.eamsinfo != undefined) {
-					const graduateTime = new Date(
-						`${parseInt(this.$store.getters.user.eamsinfo.grade) + parseInt(this.$store.getters.user.eamsinfo.studyyears)}-06-30 00:00:00`
-					).getTime()
-					const today = new Date().getTime()
-					return Math.ceil((graduateTime - today) / (1000 * 60 * 60 * 24))
+				if (this.$store.getters.user.eamsinfo !== undefined) {
+					const today = new Date()
+					const graduateTime = new Date(parseInt(this.$store.getters.user.eamsinfo.grade) + parseInt(this.$store.getters.user.eamsinfo.studyyears), 6, 30);
+					return parseInt((graduateTime.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))+'天';
 				}
 				
-				return -1
+				return '-'
 			}
 		},
 		methods: {
@@ -224,49 +220,50 @@
 
 	.page-bg {
 		background-color: #f7f8fa;
-		position: absolute;
+		position: fixed;
 		top: 0;
 		bottom: 0;
 		left: 0;
 		right: 0;
+		z-index: -1;
 	}
-	
+
 	.scroll-list {
 		height: 100vh;
 	}
-	
+
 	.user-avatar-card {
 		background-color: #ffffff;
 		position: relative;
 		display: block;
-		padding: 16px;
+		padding: 32px 16px;
 		height: 64px;
 		border-bottom: 1px solid #eeeeee;
 		margin-bottom: 16px;
 	}
-	
+
 	.user-avatar-card .avatar {
 		z-index: 1;
 		position: absolute;
 		left: 16px;
 	}
-	
+
 	.user-avatar-card .avatar img {
 		border-radius: 5px;
 		width: 64px;
 		height: 64px;
 	}
-	
+
 	.user-avatar-card .info {
 		margin-left: 84px;
 	}
-	
+
 	.user-avatar-card .name {
 		font-size: 20px;
 		margin-top: 6px;
 		font-weight: 600;
 	}
-	
+
 	.user-avatar-card .name span {
 		margin-left: 8px;
 		font-size: 13px;
@@ -275,13 +272,13 @@
 		padding: 0 4px;
 		border-radius: 3px;
 	}
-	
+
 	.user-avatar-card .addtime {
 		margin-top: 5px;
 		opacity: .6;
 		font-size: 16px;
 	}
-	
+
 	.user-avatar-card .department {
 		position: absolute;
 		z-index: 0;
@@ -297,7 +294,7 @@
 		margin-bottom: 16px;
 		background-color: #ffffff;
 		border-radius: 5px;
-		padding: 15px;
+		padding: 24px 16px;
 		text-align: center;
 	}
 
@@ -305,20 +302,26 @@
 		opacity: .6;
 		font-size: 13px;
 	}
+	
+	.user-info-card .value {
+		font-weight: 600;
+		font-size: 16px;
+		margin-bottom: 3px;
+	}
 
 	.user-cell-group .icon {
 		margin-right: 10px;
 		width: 25px;
 		height: 25px;
 	}
-	
+
 	.user-cell-group button {
 		padding: 0;
 		background-color: transparent;
 		text-align: unset;
 		font-size: unset;
 	}
-	
+
 	.user-cell-group button::after {
 		content: unset;
 	}

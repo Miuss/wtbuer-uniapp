@@ -8,6 +8,14 @@ export const showToast = function (message) {
   })
 }
 
+export const showError = function (message) {
+  wx.showToast({
+    title: message.toString().replace(/Error/, "错误"),
+    icon: 'none',
+    duration: 2000
+  })
+}
+
 const formatNumber = function (n) {
   n = n.toString()
   return n[1] ? n : '0' + n

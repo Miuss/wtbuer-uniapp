@@ -176,7 +176,7 @@
 		color: #ccc;
 	}
 
-	.cu-timeline>.cu-item::after {
+	.cu-timeline::after {
 		content: "";
 		display: block;
 		position: absolute;
@@ -188,16 +188,16 @@
 		z-index: 8;
 	}
 
-	.cu-timeline>.cu-item::before {
+	.cu-timeline::before {
 		display: block;
 		position: absolute;
-		top: 28px;
+		top: 48rpx;
 		z-index: 9;
 		background-color: #ffffff;
 		border-radius: 50%;
-		width: 9px;
-		height: 9px;
-		border: 2px solid #ddd;
+		width: 19rpx;
+		height: 19rpx;
+		border: 4rpx solid #ddd;
 		text-align: center;
 		line-height: 50rpx;
 		left: 36rpx;
@@ -299,7 +299,7 @@
 	}
 
 	.course-subtitle {
-		font-size: 11px;
+		font-size: 22rpx;
 		font-weight: 400;
 		opacity: .6;
 	}
@@ -312,25 +312,25 @@
 		padding: 30rpx 30rpx 30rpx 180rpx;
 	}
 
-	.cu-timeline>.cu-item.class-item::before {
-		left: 72px;
-	}
-
-	.cu-timeline>.cu-item.class-item::after {
-		left: 137rpx;
-		width: 3rpx;
-		border-radius: 3px;
-	}
-
-	.cu-timeline:last-child .class-item::after {
-		height: 30%;
-	}
-
 	.cu-timeline .cu-time {
 		position: absolute;
 		top: 24rpx;
 		font-weight: 600;
 		color: #333333;
+	}
+
+	.cu-timeline::before {
+		left: 125rpx;
+	}
+
+	.cu-timeline::after {
+		left: 137rpx;
+		width: 3rpx;
+		border-radius: 3px;
+	}
+
+	.cu-timeline:last-child::after {
+		height: 30%;
 	}
 
 	.class-item .content {

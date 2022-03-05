@@ -56,7 +56,6 @@ export async function getUserProfile() {
 
 /* 微信登录 */
 export async function wxlogin() {
-	console.log(123)
 	return new Promise((resolve, reject) => {
 		wx.login({
 			success: (res) => {
