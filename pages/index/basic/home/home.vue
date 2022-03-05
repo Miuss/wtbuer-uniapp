@@ -22,24 +22,32 @@
 		</div>
 
 		<!--没课-->
-		<div class="cu-timeline" v-else-if="courseList.length !== 0 && todayClassList.length === 0">
-			<div class="cu-item class-item">
-				<div class="content" style="background-color: #5e77ff;">
-					<div class="loading-card">今天没课，也不要忘记学习哦！</div>
+		<div v-else-if="courseList.length !== 0 && todayClassList.length === 0">
+			<div class="course-title" style="margin-top: 30rpx;">
+				今日课程 <text class="course-subtitle" style="margin-left: 20rpx;">数据获取于本地课表缓存</text>
+			</div>
+			<div class="cu-timeline">
+				<div class="cu-item class-item">
+					<div class="content" style="background-color: #5e77ff;">
+						<div class="loading-card">今天没课，也不要忘记学习哦！</div>
+					</div>
 				</div>
 			</div>
 		</div>
 
 		<!--正常有课-->
-		<div v-else-if="courseList.length !== 0 && todayClassList.length > 0" class="course-title" style="margin-top: 30rpx;">今日课程 <text class="course-subtitle"
-				style="margin-left: 20rpx;">数据获取于本地课表缓存</text></div>
-		<div class="cu-timeline" v-for="(item, index) in todayClassList" :key="index" @click="showDetail(item)">
-			<div class="cu-time">{{timeArrays[item.skjc-1][1]}}</div>
-			<div class="cu-item class-item">
-				<div class="content" :style="'background-color:'+colorArrays[index%16]">
-					<div class="name">{{item.kcmc}}</div>
-					<div class="teachers">老师：{{item.teachers.toString()}}</div>
-					<div class="room">‍教室：{{item.room}}</div>
+		<div v-else-if="courseList.length !== 0">
+			<div class="course-title" style="margin-top: 30rpx;">
+				今日课程 <text class="course-subtitle" style="margin-left: 20rpx;">数据获取于本地课表缓存</text>
+			</div>
+			<div class="cu-timeline" v-for="(item, index) in todayClassList" :key="index" @click="showDetail(item)">
+				<div class="cu-time">{{timeArrays[item.skjc-1][1]}}</div>
+				<div class="cu-item class-item">
+					<div class="content" :style="'background-color:'+colorArrays[index%16]">
+						<div class="name">{{item.kcmc}}</div>
+						<div class="teachers">老师：{{item.teachers.toString()}}</div>
+						<div class="room">‍教室：{{item.room}}</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -112,8 +120,8 @@
 					return []
 				}
 
-				return this.courseList[2].filter(item => {
-					return item.xqj === 1
+				return this.courseList[this.nowWeek - 1].filter(item => {
+					return item.xqj === this.nowDay
 				})
 			}
 		},

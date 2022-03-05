@@ -3,7 +3,7 @@
 		<van-nav-bar custom-class="nav-bar" :fixed="true" :placeholder="true" :border="false">
 			<div class="title" slot="left">
 				<img class="logo" :src="logo" />
-				<div class="timetable" v-if="courseIds.index">
+				<div class="timetable" v-if="courseIds.index && user.member_id!==''">
 					<picker @change="onConfirmChangeIds" :value="courseIds.index" :range="semesterIds" range-key="year">
 						<div class="week">{{ weekPicker[week-1] }}</div>
 						<div class="semester">{{courseIds.year}}

@@ -72,7 +72,7 @@
 				<van-cell size="large" @click="user.member_id === ''?bindStuBtnClick():unbindStuBtnClick()" is-link>
 					<img slot="icon" class="icon" :src="svg.bind" />
 					<div slot="title">
-						<div class="van-cell-text">{{user.member_id===''?'绑定教务系统账号':'解绑'}}</div>
+						<div class="van-cell-text">{{user.member_id===''?'绑定教务账号':'解绑教务账号'}}</div>
 					</div>
 				</van-cell>
 				<van-cell size="large" @click="logout()" is-link>
