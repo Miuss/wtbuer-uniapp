@@ -15,10 +15,9 @@
 				</div>
 				<div class="margin-top-sm">免责声明：</div>
 				<div class="margin-top-sm">1.本小程序不会存放任何用户的数据，所有数据都将缓存到本地进行存储。</div>
-				<div class="margin-top-sm">2.小程序为了方便用户不用重复绑定教务账号，以及给用户更好的提醒服务，从2022年3月4日开始将存储用户账号密码。</div>
-				<div class="margin-top-sm">3.教务系统登录密码错误告知，并不是我们小程序修改了您的密码，而是教务系统程序本身的问题。</div>
-				<div class="margin-top-sm">4.如果对账号密码存储感到担忧，请停止使用我们的小程序，您解除教务绑定，我们会删除您所有的教务账号。</div>
-				<div class="margin-top-sm">小程序由19级人工智能学院学生自运营开发，与学校官方无关。</div>
+				<div class="margin-top-sm">2.小程序接口将模拟登录获取你的课表信息，并将所有信息缓存到手机本地，没有网也可以看哦。</div>
+				<div class="margin-top-sm">3.如果对账号密码存储感到担忧，请停止使用我们的小程序，您解除教务绑定，我们会删除您所有的教务账号。</div>
+				<div class="margin-top-sm">小程序由19级人工智能学院 19物联网本三 学生自运营开发，与学校官方无关。</div>
 			</div>
 		</div>
 		<div class="copyright">© 2022 GenesisMiuss.</div>

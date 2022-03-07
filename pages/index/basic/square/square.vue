@@ -30,16 +30,16 @@
 					<div class="title">分数查询</div>
 					<div class="description">好运伴你！</div>
 				</div>
-				<div class="func-bar" @click="toLibrary()">
+				<!--<div class="func-bar" @click="toLibrary()">
 					<img class="icon" :src="svg.ydxf" />
 					<div class="title">武汉工商学院·图书馆</div>
 					<div class="description">在线查询图书馆数据</div>
-				</div>
+				</div>-->
 			</div>
 
-			<div class="other-function">
+			<!--<div class="other-function">
 				<van-empty image="search" description="其他功能还在开发中..." />
-			</div>
+			</div>-->
 		</div>
 	</div>
 </template>
