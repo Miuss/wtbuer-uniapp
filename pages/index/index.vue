@@ -92,6 +92,20 @@
 			},
 			onClose() {
 				this.$store.dispatch('showBindMember', false)
+			},
+			onShareAppMessage() {
+				return {
+					title: '武工商课表',
+					desc: '武工商非官网课表小程序',
+					path: 'pages/index/index',
+					imageUrl: "https://tva1.sinaimg.cn/large/002ZE6Hrgy1gu4x3ihsqjj60dw0b4myb02.jpg"
+				}
+			},
+			onShareTimeline() {
+				return {
+					title: '武工商课表 - 学生查课助手',
+					query: ''
+				}
 			}
 		},
 		components: {

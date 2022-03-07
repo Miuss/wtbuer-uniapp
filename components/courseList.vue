@@ -18,7 +18,8 @@
 			<swiper :indicator-dots="false" :autoplay="false" :current="week-1" @change="changeWeek"
 				:style="'height:'+ timeList.length * classItemHeight +'px;background: #ffffff;position: relative;'">
 				<swiper-item v-for="(item, index) in courseList" :key="index">
-					<div class="class" :style="'height:'+ timeList.length * classItemHeight +'px;width:100%;display:flex;'">
+					<div class="class"
+						:style="'height:'+ timeList.length * classItemHeight +'px;width:100%;display:flex;'">
 						<!--课表左侧栏-->
 						<div class="sidebar">
 							<div v-for="(timeItem, timeIndex) in timeList" :key="timeIndex" class="item"
@@ -28,7 +29,8 @@
 							</div>
 						</div>
 						<div v-for="(lineItem, lineIndex) in timeList" :key="lineIndex">
-							<div class="class-line" :style="'margin-top:'+ ((lineIndex+1)*classItemHeight-1) +'px;'"></div>
+							<div class="class-line" :style="'margin-top:'+ ((lineIndex+1)*classItemHeight-1) +'px;'">
+							</div>
 						</div>
 						<!--课表-->
 						<div v-for="(classItem, classIndex) in item" :key="classIndex">
@@ -93,7 +95,7 @@
 				const starttime = this.courseIds.time
 				const now = parseInt(new Date().getTime() / 1000)
 				const nowweek = (now - starttime) / 7 / 86400 > 0 && (now - starttime) / 7 / 86400 +
-						1 <= this.courseList.length ? parseInt((now - starttime) / 7 / 86400) + 1 : 1
+					1 <= this.courseList.length ? parseInt((now - starttime) / 7 / 86400) + 1 : 1
 				var arr = [
 					[ut.formatTime(starttime + 7 * (week - 1) * 86400, 'M'), 0, '月'],
 					['周一', 0, ut.formatTime(starttime + 7 * (week - 1) * 86400, 'M/D')],
@@ -116,7 +118,7 @@
 			},
 		},
 		watch: {
-			courseIds () {
+			courseIds() {
 				this.initWeek()
 			}
 		},

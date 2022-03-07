@@ -63,12 +63,14 @@
 						</div>
 					</van-cell>
 				</button>
-				<van-cell size="large" @click="showQQQrcode()" is-link>
-					<img slot="icon" class="icon" :src="svg.shareOutline" />
-					<div slot="title">
-						<div class="van-cell-text">分享小程序</div>
-					</div>
-				</van-cell>
+				<button open-type="share">
+					<van-cell size="large" is-link>
+						<img slot="icon" class="icon" :src="svg.shareOutline" />
+						<div slot="title">
+							<div class="van-cell-text">分享小程序</div>
+						</div>
+					</van-cell>
+				</button>
 				<van-cell size="large" @click="user.member_id === ''?bindStuBtnClick():unbindStuBtnClick()" is-link>
 					<img slot="icon" class="icon" :src="svg.bind" />
 					<div slot="title">
