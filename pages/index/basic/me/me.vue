@@ -22,7 +22,7 @@
 					</div>
 				</div>
 			</div>
-			<div v-if="user.member_id!=''" class="user-info-card">
+			<div v-if="user.member_id!==''" class="user-info-card">
 				<van-row>
 					<van-col span="12">
 						<div class="value">{{user.eamsinfo.class}}</div>
@@ -63,12 +63,14 @@
 						</div>
 					</van-cell>
 				</button>
-				<van-cell size="large" @click="showQQQrcode()" is-link>
-					<img slot="icon" class="icon" :src="svg.shareOutline" />
-					<div slot="title">
-						<div class="van-cell-text">分享小程序</div>
-					</div>
-				</van-cell>
+				<button open-type="share">
+					<van-cell size="large" is-link>
+						<img slot="icon" class="icon" :src="svg.shareOutline" />
+						<div slot="title">
+							<div class="van-cell-text">分享小程序</div>
+						</div>
+					</van-cell>
+				</button>
 				<van-cell size="large" @click="user.member_id === ''?bindStuBtnClick():unbindStuBtnClick()" is-link>
 					<img slot="icon" class="icon" :src="svg.bind" />
 					<div slot="title">
@@ -120,10 +122,11 @@
 				return this.$store.getters.authenticated
 			},
 			user() {
+				console.log(this.$store.getters.user.member_id === '')
 				return this.$store.getters.user
 			},
 			graduatetime() {
-				if (this.$store.getters.user.eamsinfo !== undefined) {
+				if (this.$store.getters.user.member_id !== '') {
 					const today = new Date()
 					const graduateTime = new Date(parseInt(this.$store.getters.user.eamsinfo.grade) + parseInt(this.$store.getters.user.eamsinfo.studyyears), 6, 30);
 					return parseInt((graduateTime.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))+'天';

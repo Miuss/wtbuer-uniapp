@@ -99,8 +99,8 @@
 			nowWeek() {
 				const starttime = this.courseIds.time
 				const now = parseInt(new Date().getTime() / 1000)
-				return (now / 1000 - starttime) / 7 / 86400 > 0 && (now / 1000 - starttime) / 7 / 86400 +
-					1 <= this.data.wlist.length ? parseInt((now / 1000 - starttime) / 7 / 86400) + 1 : 1
+				return (now - starttime) / 7 / 86400 > 0 && (now - starttime) / 7 / 86400 +
+					1 <= this.courseList.length ? parseInt((now - starttime) / 7 / 86400) + 1 : 1
 			},
 			nowDay() {
 				const now = new Date()
@@ -147,7 +147,9 @@
 			}
 		},
 		created() {},
-		mounted() {}
+		mounted() {
+			console.log("nowweek: "+this.nowWeek)
+		}
 	}
 </script>
 
