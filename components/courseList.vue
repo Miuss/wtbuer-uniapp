@@ -92,8 +92,8 @@
 				const week = this.week
 				const starttime = this.courseIds.time
 				const now = parseInt(new Date().getTime() / 1000)
-				const nowweek = (now - starttime) / 7 / 86400 > 0 && parseInt((now - starttime) / 7 / 86400) + 1 <= this
-					.courseList.length ? parseInt((now - starttime) / 7 / 86400) + 1 : 1
+				const nowweek = (now - starttime) / 7 / 86400 > 0 && (now - starttime) / 7 / 86400 +
+						1 <= this.courseList.length ? parseInt((now - starttime) / 7 / 86400) + 1 : 1
 				var arr = [
 					[ut.formatTime(starttime + 7 * (week - 1) * 86400, 'M'), 0, '月'],
 					['周一', 0, ut.formatTime(starttime + 7 * (week - 1) * 86400, 'M/D')],
@@ -113,10 +113,24 @@
 					}
 				}
 				return arr
+			},
+		},
+		watch: {
+			courseIds () {
+				this.initWeek()
 			}
 		},
-		mounted() {},
+		mounted() {
+			this.initWeek()
+		},
 		methods: {
+			initWeek() {
+				const starttime = this.courseIds.time
+				const now = parseInt(new Date().getTime() / 1000)
+				const nowWeek = (now - starttime) / 7 / 86400 > 0 && (now - starttime) / 7 / 86400 +
+					1 <= this.courseList.length ? parseInt((now - starttime) / 7 / 86400) + 1 : 1
+				this.$store.commit('UPDATE_WEEK', nowWeek)
+			},
 			changeWeek(e) {
 				const index = e.detail.current + 1
 				this.$store.commit('UPDATE_WEEK', index)

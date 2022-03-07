@@ -62,7 +62,6 @@
 				this.$store.dispatch('getCourseList', this.semesterIds[e.detail.value])
 			}
 		},
-
 		components: {
 			courseList
 		}
