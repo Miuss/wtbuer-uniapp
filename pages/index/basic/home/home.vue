@@ -120,9 +120,7 @@
 					return []
 				}
 
-				return this.courseList[this.nowWeek - 1].filter(item => {
-					return item.xqj === this.nowDay
-				})
+				return this.courseList[this.nowWeek - 1].filter(item => item.xqj === this.nowDay).sort((a, b) => a.skjc - b.skjc)
 			}
 		},
 		methods: {
