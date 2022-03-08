@@ -127,12 +127,16 @@ export const unbindEamsMember = async ({ commit, getters, dispatch }) => {
 		if (res.code) {
 			throw new Error(res.msg)
 		}
+		
 		const user = {
 			...getters.user,
 			member_id: "",
 			member_password: ""
 		}
 		commit('UPDATE_USER', user)
+		wx.removeStorageSync('courseList')
+		wx.removeStorageSync('courseIds')
+		commit('CLEAR_ALL')
 		dispatch('showBindMember', false)
 	} catch (err) {
 		console.error(err)

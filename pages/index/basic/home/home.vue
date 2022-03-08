@@ -8,9 +8,9 @@
 
 		<!--没有绑定教务-->
 		<div class="unbind-eams-member" v-if="user.member_id === ''">
-			<van-empty description="尚未绑定教务系统账号">
+			<van-empty description="尚未绑定 WTBU 账号">
 				<van-button round type="primary" class="bottom-button" color="#4562e5"
-					@click="$store.dispatch('showBindMember', true)">绑定教务系统账号</van-button>
+					@click="$store.dispatch('showBindMember', true)">绑定 WTBU 账号</van-button>
 			</van-empty>
 		</div>
 
@@ -120,9 +120,7 @@
 					return []
 				}
 
-				return this.courseList[this.nowWeek - 1].filter(item => {
-					return item.xqj === this.nowDay
-				})
+				return this.courseList[this.nowWeek - 1].filter(item => item.xqj === this.nowDay).sort((a, b) => a.skjc - b.skjc)
 			}
 		},
 		methods: {
