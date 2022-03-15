@@ -71,3 +71,16 @@ export const checkUserToken = async function () {
     throw err
   }
 }
+
+export const generateICalToken = async function () {
+	try {
+		const res = await request({
+			url: '/calendar/generate',
+			method: 'GET'
+		})
+
+		return res
+	} catch (err) {
+		throw err
+	}
+}

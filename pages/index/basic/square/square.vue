@@ -30,11 +30,11 @@
 					<div class="title">分数查询</div>
 					<div class="description">好运伴你！</div>
 				</div>
-				<!--<div class="func-bar" @click="toLibrary()">
-					<img class="icon" :src="svg.ydxf" />
-					<div class="title">武汉工商学院·图书馆</div>
-					<div class="description">在线查询图书馆数据</div>
-				</div>-->
+				<div class="func-bar" @click="toICal()">
+					<img class="icon" :src="svg.calendar" />
+					<div class="title">iCal课表订阅</div>
+					<div class="description">快速将课表导入到系统日历</div>
+				</div>
 			</div>
 
 			<!--<div class="other-function">
@@ -49,7 +49,7 @@
 
 	import exam from '../../../../assets/images/exam.svg'
 	import score from '../../../../assets/images/score.svg'
-	import ydxf from '../../../../assets/images/ydxf.png'
+	import calendar from '../../../../assets/images/calendar.svg'
 	import noon from '../../../../assets/images/morning.svg'
 	import morning from '../../../../assets/images/light_morning.svg'
 	import evening from '../../../../assets/images/moon.svg'
@@ -63,7 +63,7 @@
 				svg: {
 					score,
 					exam,
-					ydxf,
+					calendar,
 					morning,
 					noon,
 					evening,
@@ -95,6 +95,12 @@
 				wx.vibrateShort();
 				wx.navigateTo({
 					url: '/pages/library/library',
+				})
+			},
+			toICal() {
+				wx.vibrateShort();
+				wx.navigateTo({
+					url: '/pages/ical/ical',
 				})
 			}
 		},
