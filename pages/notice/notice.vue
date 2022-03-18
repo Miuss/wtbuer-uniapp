@@ -18,10 +18,9 @@
 </template>
 
 <script>
-	import {
-		getNotices
-	} from '../../api/systemapi.js'
+	import { getNotices } from '../../api/systemapi.js'
 	import back from '../../assets/images/back.svg'
+	
 	export default {
 		data() {
 			return {

@@ -11,33 +11,13 @@
 		"path": "pages/score/score"
 	}, {
 		"path": "pages/notice/notice"
-	}    ,{
-            "path" : "pages/library/library",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        },{
-            "path" : "pages/index/basic/forum/components/addThread",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/index/basic/forum/components/threadDetail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+	}, {
+		"path": "pages/index/basic/forum/components/addThread"
+	}, {
+		"path": "pages/index/basic/forum/components/threadDetail"
+	}, {
+		"path": "pages/ical/ical"
+	}],
 	"globalStyle": {
 		"backgroundColor": "#eeeeee",
 		"navigationBarTextStyle": "black",

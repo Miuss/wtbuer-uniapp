@@ -26,9 +26,7 @@
 						<div class="flex-sub padding text-bold">学分</div>
 						<div class="flex-sub padding text-bold">分数</div>
 					</div>
-					<div class="item flex" v-for="item in scoreList" bindtap="showCardView" :data-name="item.name"
-						:data-type="item.type" :data-credit="item.credit" :data-score="item.score"
-						:data-point="item.point">
+					<div class="item flex" v-for="(item, index) in scoreList" :key="index">
 						<div class="flex-treble padding text-cut">{{item.name}}</div>
 						<div class="flex-sub padding text-blue">{{item.credit}}</div>
 						<div v-if="item.score>=60" class="flex-sub padding text-green">{{item.score}}</div>
@@ -36,17 +34,16 @@
 					</div>
 				</div>
 			</block>
-			<div class="msg margin-top-lg" v-if="list.length == 0 && got">该学期暂无考试成绩</div>
+			<div class="msg margin-top-lg" v-if="scoreList.length === 0 && courseId !== ''">该学期暂无考试成绩</div>
+			<div class="msg margin-top-lg" v-if="courseId === ''">请选择要查询的学期</div>
 		</div>
 	</div>
 </template>
 
 <script>
-	import {
-		getExamScore,
-		getSemesterId
-	} from '../../api/easmapi.js'
+	import { getExamScore, getSemesterId } from '../../api/easmapi.js'
 	import back from '../../assets/images/back.svg'
+	
 	export default {
 		data() {
 			return {
@@ -103,7 +100,6 @@
 				this.pickerVis = false
 				this.courseId = e.detail.value
 				const semsterid = this.semesterIds[e.detail.value].id
-				console.log(this.semesterIds[this.courseId].id)
 				wx.showLoading({
 					title: '查询分数中',
 					mask: true
@@ -129,6 +125,10 @@
 <style>
 	@import url("../../assets/css/nav_bar.css");
 	@import url("../../assets/css/cu-form.css");
+	
+	.score:first-child {
+		margin-top: 18rpx;
+	}
 
 	.flex {
 		display: flex;
@@ -157,15 +157,15 @@
 	}
 
 	.text-blue {
-		color: #5975FF;
+		color: #0021c3;
 	}
 
 	.text-red {
-		color: #ff0004;
+		color: #a60016;
 	}
 
 	.text-green {
-		color: #29e215;
+		color: #0d8200;
 	}
 
 	.margin-top-lg {
@@ -174,7 +174,7 @@
 
 
 	page {
-		background-color: #eee;
+		background-color: #f7f8fa;
 	}
 
 	.content-box {
@@ -183,7 +183,6 @@
 
 	.content-box {
 		padding: 18rpx;
-		width: 100%;
 		position: relative;
 		display: block;
 	}
@@ -244,7 +243,8 @@
 		box-shadow: 0 1px 3px 0 rgb(0 0 0 / 2%), 0 16px 32px 0 rgb(0 0 0 / 7%);
 		-webkit-box-shadow: 0 1px 4px 0 rgb(0 0 0 / 10%);
 		box-shadow: 0 1px 4px 0 rgb(0 0 0 / 10%);
-		margin-right: 30rpx;
+		margin-top: 18rpx;
+		margin-bottom: 36rpx;
 	}
 
 	.list .title {

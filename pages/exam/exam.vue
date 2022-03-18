@@ -16,20 +16,9 @@
 				</div>
 			</picker>
 		</div>
-		
-		<!-- vant版 -->
-		<!-- <van-cell-group class="examPicker" :border="false">
-			<van-cell @click="showPicker()" title-width="20%" title="学期"
-				:value="courseId===''?semesterIds[semesterIds.length-1].year:semesterIds[courseId].year" is-link />
-		</van-cell-group> -->
-		<!-- <van-popup title="请选择学期" position="bottom" round :show="pickerVis">
-			<van-picker :show-toolbar="true" @cancel="pickerVis=false" @confirm="onConfirmChangeIds()" value-key="year"
-				:columns="semesterIds" confirm-button-text="确认" cancel-button-text="取消"
-				:default-index="semesterIds.length-1" />
-		</van-popup> -->
 		<div class="content-box">
 			<div class="list" v-if="examList.length != 0">
-				<div class="item" v-for="item in examList">
+				<div class="item" v-for="(item, index) in examList" :key="index">
 					<div class="header padding-lr padding-top">
 						<div class="address">{{item.address=="地点未安排"?"考场尚未安排":item.address}}</div>
 						<div class="name text-cut">{{item.name}}</div>
@@ -44,7 +33,8 @@
 					<div class="type">{{item.type}}</div>
 				</div>
 			</div>
-			<div class="msg margin-top-lg" v-if="list.length == 0">该学期暂无任何考试</div>
+			<div class="msg margin-top-lg" v-if="examList.length === 0 && courseId !== ''">该学期暂无任何考试</div>
+			<div class="msg margin-top-lg" v-if="courseId === ''">请选择要查询的学期</div>
 		</div>
 	</div>
 </template>
@@ -94,7 +84,6 @@
 				this.pickerVis = false
 				this.courseId = e.detail.value
 				const semsterid = this.semesterIds[e.detail.value].id
-				console.log(this.semesterIds[this.courseId].id)
 				wx.showLoading({
 					title: '查询考试中',
 					mask: true
@@ -151,7 +140,7 @@
 	}
 
 	page {
-		background-color: #eee;
+		background-color: #f7f8fa;
 	}
 
 	.content-box {
@@ -160,7 +149,6 @@
 
 	.content-box {
 		padding: 18rpx;
-		width: 100%;
 		position: relative;
 		display: block;
 	}
@@ -215,7 +203,8 @@
 		box-shadow: 0 1px 3px 0 rgb(0 0 0 / 2%), 0 16px 32px 0 rgb(0 0 0 / 7%);
 		-webkit-box-shadow: 0 1px 4px 0 rgb(0 0 0 / 10%);
 		box-shadow: 0 1px 4px 0 rgb(0 0 0 / 10%);
-		margin-right: 30rpx;
+		margin-top: 18rpx;
+		margin-bottom: 36rpx;
 	}
 
 	.list .item {
@@ -232,7 +221,7 @@
 	.list .item .type {
 		position: absolute;
 		bottom: -7px;
-		z-index: 1;
+		z-index: 0;
 		right: -1px;
 		font-weight: 900;
 		font-size: 2.3em;
