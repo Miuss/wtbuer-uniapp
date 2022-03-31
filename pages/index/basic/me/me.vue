@@ -6,7 +6,7 @@
 				<img class="logo" :src="logo" /> 武工商课表
 			</div>
 		</van-nav-bar>
-		<scroll-list class="scroll-list" :refreshLoading="refreshLoading" @refresh="initList" :showTip="false">
+		<scroll-list class="scroll-list" :refreshLoading="refreshLoading" @refresh="initList" :showTip="false" :customScrollBox="scrollViewHeight">
 			<div class="mine-container">
 				<div class="user-avatar-card">
 					<div class="avatar" v-if="user">
@@ -133,6 +133,9 @@
 				}
 				
 				return '-'
+			},
+			scrollViewHeight() {
+				return 'auto'
 			}
 		},
 		methods: {
@@ -220,6 +223,10 @@
 
 <style>
 	@import url("../../../../assets/css/nav_bar.css");
+	
+	page {
+		overflow: hidden;
+	}
 
 	.page-bg {
 		background-color: #f7f8fa;
@@ -229,10 +236,6 @@
 		left: 0;
 		right: 0;
 		z-index: -1;
-	}
-
-	.scroll-list {
-		height: 100vh;
 	}
 
 	.user-avatar-card {

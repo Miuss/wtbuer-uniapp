@@ -1,24 +1,28 @@
 <template>
 	<div>
-		<van-nav-bar custom-class="nav-bar" :fixed="true" :placeholder="true" :border="false">
-			<div class="title" slot="left">
-				<img class="logo" :src="logo" />武工商社区
-			</div>
-		</van-nav-bar>
-		<div class="tab-bar">
-			<div class="find" :class="tabBar===0?'selected':''" @click="tabBar=0">发现</div>
-			<div class="mine" :class="tabBar===1?'selected':''" @click="tabBar=1">我的</div>
-			<div class="add">
-				<img class="img" :src="svg.add" @click="addContent()" />
-			</div>
-		</div>
-		<div class="forum-list" v-if="tabBar===0">
-			<div class="forum-container" v-for="(item,index) in threadList" :key="item.id" @tap="getDetail(item.id)">
-				<div class="name">{{item.name}}</div>
-				<div class="content">{{item.content}}</div>
-				<div class="time">{{item.createAt}}</div>
-			</div>
-		</div>
+		<div class="page-bg"></div>
+		<div class="statusHeightBar" :style="{height: statusBarHeight+'px'}"></div>
+		<van-tabs active="a" swipeable animated tab-class="no-center" tab-active-class="navbar-tab-active" color="#4562E5">
+		  <van-tab title="最新" name="a">
+			<scroll-list class="scroll-list" :refreshLoading="refreshLoading" @refresh="initList" :showTip="true" :noData="noData" @loadmore="loadmore" :customScrollBox="scrollViewHeight">
+			  	<div class="forum-list">
+			  		<div class="forum-container" v-for="(item,index) in threadList" :key="index" @tap="toDetail(item.id)">
+			  			<div class="card-header">
+							<div class="title">{{item.title}}</div>
+							<div class="user-info">
+								<img class="avatar" :src="item.avatarurl"/>
+								<div class="header-content">
+									<div class="nickname">{{item.nickname}}</div>
+								</div>
+							</div>
+			  			</div>
+			  			<div class="content">{{item.content}}</div>
+			  		</div>
+			  	</div>
+			</scroll-list>
+		  </van-tab>
+		  <van-tab title="关注" name="b">内容 2</van-tab>
+		</van-tabs>
 	</div>
 </template>
 
@@ -34,18 +38,27 @@
 				svg: {
 					add
 				},
-				discuss: {},
+				pageIndex: 1,
+				pageSize: 10,
+				tabActive: '0',
+				discussTabs: [],
 				threadList: [],
-				tabBar: 0
+				refreshLoading: false,
+				noData: false
 			}
 		},
 		methods: {
+			changeTab(e) {
+				console.log(e)
+				console.log(this.tabActive)
+				this.tabActive = e.detail.name
+			},
 			addContent() {
 				wx.navigateTo({
 					url: '/pages/index/basic/forum/components/addThread'
 				})
 			},
-			getDetail(id) {
+			toDetail(id) {
 				wx.navigateTo({
 					url: '/pages/index/basic/forum/components/threadDetail?id=' + id
 				})
@@ -53,75 +66,124 @@
 			timeTrans(timestr){
 				let time = new Date(timestr)
 				return `${time.getHours()}:${time.getMinutes()} ${time.toDateString().slice(4,10)},${time.toDateString().slice(10,15)}`
-			}
-		},
-		mounted() {
-			getThread(1, 10, 1).then((res) => {
-				if(res.length === 0 || res=== null){
-					return
+			},
+			async getThreadList() {
+			},
+			initList() {
+				this.refreshLoading = true
+				setTimeout(async () => {
+					this.pageIndex = 1
+					this.noData = false
+					const res = await getThread(this.pageIndex, this.pageSize, 1)
+					this.threadList = res.data.data
+					if (res.data.data.length < this.pageSize) {
+						this.noData = true
+					}
+					this.refreshLoading = false
+				}, 300)
+			},
+			loadmore() {
+				if (!this.noData) {
+					setTimeout(async () => {
+						this.pageIndex++
+						const res = await getThread(this.pageIndex, this.pageSize, 1)
+						this.threadList.concat(res.data.data)
+						if (res.data.data.length < this.pageSize) {
+							this.noData = true
+						}
+					}, 300)
 				}
-				res.data.data.forEach(item=>{
-					let showtime = this.timeTrans(item.createAt)
-					this.threadList.push({
-						...item,
-						createAt: showtime
-					})
-				})
-			})
+			}
+ 		},
+		mounted() {
+			this.initList()
+		},
+		computed: {
+			scrollViewHeight() {
+				return `${this.$store.getters.systemInfo.windowHeight - this.$store.getters.systemInfo.statusBarHeight - 90}px`
+			},
+			statusBarHeight() {
+				return this.$store.getters.systemInfo.statusBarHeight
+			}
 		}
 	}
 </script>
 
-<style>
+<style lang="scss">
 	@import url("../../../../assets/css/nav_bar.css");
+	
+	page {
+		overflow: hidden;
+		overflow-x: auto;
+	}
 
-	.tab-bar {
-		width: 100%;
-		display: flex;
-		justify-content: space-around;
-		align-items: center;
-		font-size: 16px;
+	.page-bg {
+		background-color: #f7f8fa;
+		position: fixed;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		z-index: -1;
 	}
 	
-	.tab-bar .selected{
-		border-bottom: 5px solid #6f62ff;
-		font-weight: bold;
+	.statusHeightBar {
+		background-color: #FFFFFF;
 	}
-
-	.tab-bar .add .img {
-		width: 30px;
-		height: 30px;
+	
+	.no-center {
+		flex: unset!important;
+		padding: 0 20px!important;
+	}
+	
+	.navbar-tab-active {
+		font-size: 32rpx!important;
 	}
 
 	.forum-list {
 		width: 100%;
-		display: flex;
-		flex-direction: column;
-		border-top: 1px solid #dadada;
-		border-radius: 10px;
-	}
-	
-	.forum-list .forum-container{
-		width: 90%;
-		display: flex;
-		flex-direction: column;
-		padding-top: 8%;
-		margin-left: 8%;
-	}
-	
-	.forum-list .forum-container .name{
-		font-size: 15px;
-		font-weight: bold;
-	}
-	
-	.forum-list .forum-container .content{
-		margin-top: 10px;
-	}
-	
-	.forum-list .forum-container .time{
-		font-size: 12px;
-		font-weight: 600;
-		color: 
-		#b6b6b6;
+		
+		.forum-container {
+			border-top: 1px solid #eeeeee;
+			border-bottom: 1px solid #eeeeee;
+			background-color: #ffffff;
+			padding: 32rpx;
+			margin-bottom: 16rpx;
+			
+			.card-header {
+				
+				.title {
+					font-size: 32rpx;
+					margin-bottom: 16rpx;
+				}
+				
+				.user-info {
+					.avatar {
+						position: absolute;
+						width: 32rpx;
+						height: 32rpx;
+						border-radius: 50%;
+					}
+					
+					.header-content {
+						height: 32rpx;
+						margin-left: 42rpx;
+						display: flex;
+						align-items: center;
+						
+						.nickname {
+							color: #666666;
+							font-size: 24rpx;
+						}
+					}
+				}
+			}
+			
+			.content {
+				color: #666666;
+				margin-top: 10px;
+				font-size: 24rpx;
+			}
+		}
 	}
 </style>

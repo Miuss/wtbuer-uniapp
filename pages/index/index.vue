@@ -3,8 +3,9 @@
 		<div class="main-container">
 			<home v-if="active==0" />
 			<schedule v-if="active==1" />
-			<square v-if="active==2" />
-			<mine v-if="active==3" />
+			<forum v-if="active==2" />
+			<square v-if="active==3" />
+			<mine v-if="active==4" />
 		</div>
 		<div class="main-tabbar">
 			<van-tabbar :active="active" @change="onChange" active-color="#4562e5" inactive-color="#444444"
@@ -57,6 +58,10 @@
 					default: svg_schedule,
 					active: svg_schedule_a,
 					text: '课表'
+				}, {
+					default: svg_community,
+					active: svg_community_a,
+					text: '社区'
 				}, {
 					default: svg_square,
 					active: svg_square_a,

@@ -5,7 +5,7 @@
   bindtouchstart="{{scroll.touchStart}}" 
   bindtouchmove="{{scroll.touchMove}}" 
   bindtouchend="{{scroll.touchEnd}}" 
-  bindscrolltolower="loadmore" style="height: {{CustomScrollBox}}px;">
+  bindscrolltolower="loadmore" style="height: {{customScrollBox}};">
   <view class="list-container" 
     change:prop="{{scroll.loadingTypeChange}}" 
     prop="{{showRefresh}}">
@@ -17,10 +17,10 @@
       <view class="refresh-dot"></view>
     </view>
     <slot></slot>
-    <view class="gap-text" wx:if="{{!noData&&showTip}}" style="padding-bottom: {{tabbarHeight}}px">
+    <view class="gap-text" wx:if="{{!noData&&showTip}}" style="padding-bottom: 160rpx">
       <view class="word">加载中...</view>
     </view>
-    <view class="gap-text" wx:if="{{noData&&showTip}}" style="padding-bottom: {{tabbarHeight}}px">
+    <view class="gap-text" wx:if="{{noData&&showTip}}" style="padding-bottom: 160rpx">
       <view class="word">没有更多数据了</view>
     </view>
   </view>
