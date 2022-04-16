@@ -14,15 +14,19 @@
 					</div>
 					<div class="info">
 						<div class="title">
-							<div class="name">{{ user.member_id===''?user.nickname:user.eamsinfo.name }}<span v-if="user.member_id!==''">{{ user.eamsinfo.department }}</span></div>
+							<div class="name">
+								{{ user.member_id===''?user.nickname:user.eamsinfo.name }}
+								<span v-if="user.member_id!=='' &&  user.eamsinfo.type === 'student'">{{ user.eamsinfo.department }}</span>
+								<span v-if="user.member_id!=='' &&  user.eamsinfo.type === 'teacher'">武工商教职工</span>
+							</div>
 						</div>
 						<div class="addtime">
-							{{ user.member_id===''?`注册时间：${user.addtime}`:`学号：${user.eamsinfo.uid}` }}
+							{{ user.member_id===''?`注册时间：${user.addtime}`:(user.eamsinfo.type === 'student'?`学号：${user.eamsinfo.uid}`:`工号：${user.eamsinfo.uid}`) }}
 						</div>
 					</div>
 				</div>
 			</div>
-			<div v-if="user.member_id!==''" class="user-info-card">
+			<div v-if="user.member_id!=='' && user.eamsinfo.type === 'student'" class="user-info-card">
 				<van-row>
 					<van-col span="12">
 						<div class="value">{{user.eamsinfo.class}}</div>

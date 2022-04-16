@@ -1,4 +1,4 @@
-import { request } from '../utils/fetch'
+import { request, uploadFile } from '../utils/fetch'
 
 /**
  * @param {Object} page 页数
@@ -14,4 +14,19 @@ export const getNotices = async function (page,pagenum) {
   } catch (err) {
     throw err
   }
+}
+
+/**
+ * @param {Object} filePath
+ */
+export const uploadPic = async function (filePath) {
+	try {
+		const res = await uploadFile({
+			url: '/system/update-pic',
+			filePath: filePath
+		})
+		return res
+	} catch (err) {
+		throw err
+	}
 }

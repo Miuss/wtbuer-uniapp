@@ -49,7 +49,9 @@
 			"van-row": "/wxcomponents/vant/row/index",
 			"van-tab": "/wxcomponents/vant/tab/index",
 			"van-tabs": "/wxcomponents/vant/tabs/index",
-			"van-col": "/wxcomponents/vant/col/index"
+			"van-col": "/wxcomponents/vant/col/index",
+			"van-uploader": "/wxcomponents/vant/uploader/index",
+			"van-tag": "/wxcomponents/vant/tag/index"
 		}
 	}
 }

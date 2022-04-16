@@ -2,105 +2,62 @@
 	<div>
 		<div class="page-bg"></div>
 		<div class="statusHeightBar" :style="{height: statusBarHeight+'px'}"></div>
-		<van-tabs active="a" swipeable animated tab-class="no-center" tab-active-class="navbar-tab-active" color="#4562E5">
+		<van-tabs active="a" swipeable animated tab-class="no-center" tab-active-class="navbar-tab-active" @change="changeTab" color="#4562E5">
 		  <van-tab title="最新" name="a">
-			<scroll-list class="scroll-list" :refreshLoading="refreshLoading" @refresh="initList" :showTip="true" :noData="noData" @loadmore="loadmore" :customScrollBox="scrollViewHeight">
-			  	<div class="forum-list">
-			  		<div class="forum-container" v-for="(item,index) in threadList" :key="index" @tap="toDetail(item.id)">
-			  			<div class="card-header">
-							<div class="title">{{item.title}}</div>
-							<div class="user-info">
-								<img class="avatar" :src="item.avatarurl"/>
-								<div class="header-content">
-									<div class="nickname">{{item.nickname}}</div>
-								</div>
-							</div>
-			  			</div>
-			  			<div class="content">{{item.content}}</div>
-			  		</div>
-			  	</div>
-			</scroll-list>
+			<newList ref="new"></newList>
 		  </van-tab>
-		  <van-tab title="关注" name="b">内容 2</van-tab>
+		  <van-tab title="关注" name="b">
+			<myFollow ref="follow"></myFollow>
+		  </van-tab>
 		</van-tabs>
+		<div class="add" @click="addContent"><van-icon name="edit" /></div>
+		<van-popup :show="addtThread" round position="bottom" custom-style="height: 80%;background: #FFFFFF;" :close-on-click-overlay="true">
+			<addThread></addThread>
+		</van-popup>
 	</div>
 </template>
 
 <script>
 	import logo from '../../../../assets/images/logo.png'
-	import add from '../../../../assets/images/add.svg'
-	import { getDiscuss, getThread, addThread, delThread, editThread, getThreadDetail } from '../../../../api/forumapi.js'
+	import newList from './components/newList.vue'
+	import myFollow from './components/myFollow.vue'
+	import addThread from './components/addThread.vue'
 	
 	export default {
 		data() {
 			return {
 				logo,
-				svg: {
-					add
-				},
-				pageIndex: 1,
-				pageSize: 10,
-				tabActive: '0',
-				discussTabs: [],
-				threadList: [],
-				refreshLoading: false,
-				noData: false
+				tabActive: 'a',
+				addtThread: false,
 			}
 		},
+		components: {
+			newList,
+			myFollow,
+			addThread
+		},
 		methods: {
+			onClose() {
+				this.addtThread = false
+			},
 			changeTab(e) {
 				console.log(e)
 				console.log(this.tabActive)
 				this.tabActive = e.detail.name
+				if (this.tabActive === 'a') {
+					this.$refs.new.initList()
+				}
+				if (this.tabActive === 'b') {
+					this.$refs.follow.initList()
+				}
 			},
 			addContent() {
-				wx.navigateTo({
-					url: '/pages/index/basic/forum/components/addThread'
-				})
+				this.addtThread = true
 			},
-			toDetail(id) {
-				wx.navigateTo({
-					url: '/pages/index/basic/forum/components/threadDetail?id=' + id
-				})
-			},
-			timeTrans(timestr){
-				let time = new Date(timestr)
-				return `${time.getHours()}:${time.getMinutes()} ${time.toDateString().slice(4,10)},${time.toDateString().slice(10,15)}`
-			},
-			async getThreadList() {
-			},
-			initList() {
-				this.refreshLoading = true
-				setTimeout(async () => {
-					this.pageIndex = 1
-					this.noData = false
-					const res = await getThread(this.pageIndex, this.pageSize, 1)
-					this.threadList = res.data.data
-					if (res.data.data.length < this.pageSize) {
-						this.noData = true
-					}
-					this.refreshLoading = false
-				}, 300)
-			},
-			loadmore() {
-				if (!this.noData) {
-					setTimeout(async () => {
-						this.pageIndex++
-						const res = await getThread(this.pageIndex, this.pageSize, 1)
-						this.threadList.concat(res.data.data)
-						if (res.data.data.length < this.pageSize) {
-							this.noData = true
-						}
-					}, 300)
-				}
-			}
  		},
-		mounted() {
-			this.initList()
-		},
 		computed: {
 			scrollViewHeight() {
-				return `${this.$store.getters.systemInfo.windowHeight - this.$store.getters.systemInfo.statusBarHeight - 90}px`
+				return `${this.$store.getters.systemInfo.safeArea.height - 50 - 44}px`
 			},
 			statusBarHeight() {
 				return this.$store.getters.systemInfo.statusBarHeight
@@ -125,6 +82,21 @@
 		left: 0;
 		right: 0;
 		z-index: -1;
+	}
+	
+	.add {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 84rpx;
+		height: 84rpx;
+		background-color: #4562E5;
+		color: #FFFFFF;
+		font-size: 48rpx;
+		position: fixed;
+		right: 20rpx;
+		bottom: 240rpx;
+		border-radius: 5em;
 	}
 	
 	.statusHeightBar {
@@ -183,6 +155,7 @@
 				color: #666666;
 				margin-top: 10px;
 				font-size: 24rpx;
+				z-index: 100;
 			}
 		}
 	}

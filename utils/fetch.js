@@ -39,6 +39,40 @@ export async function request(obj) {
 	})
 }
 
+/* 封装微信上传文件请求 */
+export async function uploadFile(obj) {
+	const token = store.state.user.token
+
+	let Authorization = ''
+
+	if (token !== '' && token !== undefined) {
+		Authorization = {
+			'Authorization': 'Bearer ' + token
+		}
+	}
+
+	return new Promise((resolve, reject) => {
+		wx.uploadFile({
+			url: `${utils.api}${obj.url}`,
+			header: {
+				...Authorization,
+				...obj.header
+			},
+			filePath: obj.filePath,
+			name: 'file',
+			formData: { user: 'test' },
+			success(res) {
+				// 处理返回信息
+				handleResult(res)
+				resolve(JSON.parse(res.data))
+			},
+			fail(e) {
+				reject(e)
+			}
+		})
+	})
+}
+
 /* 微信获取用户信息 */
 export async function getUserProfile() {
 	return new Promise((resolve, reject) => {

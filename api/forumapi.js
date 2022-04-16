@@ -34,13 +34,30 @@ export const getThread = async function(page, pagenum, id) {
 		throw err
 	}
 }
-export const addThread = async function(name, content, tid) {
+export const getFollowThread = async function(page, pagenum, id) {
+	try {
+		const res = await request({
+			url: '/forum/getFollowThreadList',
+			method: 'GET',
+			data: {
+				page,
+				pagenum,
+				id
+			}
+		})
+
+		return res
+	} catch (err) {
+		throw err
+	}
+}
+export const addThread = async function(content, tid, images) {
 	try {
 		const res = await request({
 			url: '/forum/addThread',
 			method: 'POST',
 			data: {
-				name,
+				images,
 				content,
 				tid
 			}

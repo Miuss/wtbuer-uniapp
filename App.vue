@@ -7,7 +7,7 @@
 			this.$store.dispatch('fetchParams')
 
 			// 启动时获取 token
-			const token = wx.getStorageSync('token') || ''
+			const token = await wx.getStorageSync('token') || ''
 
 			if (token !== '') {
 				this.$store.commit('UPDATE_TOKEN', token)

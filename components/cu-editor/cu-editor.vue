@@ -1,10 +1,9 @@
 <template>
 	<view class="editor-container">
 		<view id="fixed-top" class="fixed-top" :class="{ 'isFixed': isFixed }">
-			<button class="btn btn-primary" @click="save">保存</button>
+			<van-button type="primary" size="small" @click="save">发布</van-button>
 		</view>
-		<view class="fixed-top__place"></view>
-		<scroll-view scroll-y :style="{ height: scrollViewHeight + 'px' }">
+		<scroll-view scroll-y :style="{paddingTop: '184rpx', height: scrollViewHeight + 'px' }">
 			<editor id="editor" class="cu-editor" :placeholder="placeholder" :read-only="readOnly"
 				:show-img-size="showImgSize" :show-img-toolbar="showImgToolbar" :show-img-resize="showImgResize"
 				@statuschange="onStatusChange" @ready="onEditorReady" @input="onEditorInput" @focus="onEditorFocus"
@@ -15,7 +14,7 @@
 				<view class="toolbar-item-header" @touchend.stop="changeKeyBoard"><i class="iconfont icon-keyboard"></i>
 				</view>
 				<view v-for="(icon, index) in ['icon-add', 'icon-textformat', 'icon-align-left']" class="toolbar-item"
-					@touchend.stop="changeSwiper(index)">
+					@touchend.stop="changeSwiper(index)" :key="index">
 					<i class="iconfont" :class="[icon, { active: toolBarContentShow && swiperCurrent == index }]"></i>
 				</view>
 
@@ -834,14 +833,12 @@
 	$main-color: #5b8ff9;
 
 	.fixed-top {
-		position: fixed;
+		position: absolute;
 		top: -88rpx;
 		line-height: 88rpx;
-		border-bottom: solid 1rpx #F1F1F1;
 		padding: 0 30rpx;
 		box-sizing: border-box;
 		transition: all 0.3s ease;
-		background-color: #FFFFFF;
 		z-index: 999;
 
 		&.isFixed {
@@ -856,7 +853,6 @@
 			padding-left: 0;
 			padding-right: 0;
 			overflow: visible;
-			float: right;
 			width: 100rpx;
 			height: 60rpx;
 			line-height: 60rpx;
@@ -877,7 +873,6 @@
 
 	.fixed-top,
 	.fixed-top__place {
-		width: 100%;
 		height: 88rpx;
 	}
 

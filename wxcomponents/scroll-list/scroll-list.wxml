@@ -17,10 +17,10 @@
       <view class="refresh-dot"></view>
     </view>
     <slot></slot>
-    <view class="gap-text" wx:if="{{!noData&&showTip}}" style="padding-bottom: 160rpx">
+    <view class="gap-text" wx:if="{{!noData&&showTip}}" style="padding-bottom: 88rpx">
       <view class="word">加载中...</view>
     </view>
-    <view class="gap-text" wx:if="{{noData&&showTip}}" style="padding-bottom: 160rpx">
+    <view class="gap-text" wx:if="{{noData&&showTip}}" style="padding-bottom: 88rpx">
       <view class="word">没有更多数据了</view>
     </view>
   </view>

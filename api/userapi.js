@@ -84,3 +84,16 @@ export const generateICalToken = async function () {
 		throw err
 	}
 }
+
+export const followUserById = async function (id) {
+	try {
+		const res = await request({
+			url: '/user/followUser?fuid='+id,
+			method: 'GET'
+		})
+		
+		return res
+	} catch (err) {
+		throw err
+	}
+}
