@@ -92,12 +92,20 @@
 				})
 			},
 			toLibrary() {
+				if (this.user.member_id === '') {
+					this.$store.dispatch('showBindMember', true)
+					return
+				}
 				wx.vibrateShort();
 				wx.navigateTo({
 					url: '/pages/library/library',
 				})
 			},
 			toICal() {
+				if (this.user.member_id === '') {
+					this.$store.dispatch('showBindMember', true)
+					return
+				}
 				wx.vibrateShort();
 				wx.navigateTo({
 					url: '/pages/ical/ical',

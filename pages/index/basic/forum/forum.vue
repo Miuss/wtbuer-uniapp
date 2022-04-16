@@ -1,127 +1,162 @@
 <template>
 	<div>
-		<van-nav-bar custom-class="nav-bar" :fixed="true" :placeholder="true" :border="false">
-			<div class="title" slot="left">
-				<img class="logo" :src="logo" />武工商社区
-			</div>
-		</van-nav-bar>
-		<div class="tab-bar">
-			<div class="find" :class="tabBar===0?'selected':''" @click="tabBar=0">发现</div>
-			<div class="mine" :class="tabBar===1?'selected':''" @click="tabBar=1">我的</div>
-			<div class="add">
-				<img class="img" :src="svg.add" @click="addContent()" />
-			</div>
-		</div>
-		<div class="forum-list" v-if="tabBar===0">
-			<div class="forum-container" v-for="(item,index) in threadList" :key="item.id" @tap="getDetail(item.id)">
-				<div class="name">{{item.name}}</div>
-				<div class="content">{{item.content}}</div>
-				<div class="time">{{item.createAt}}</div>
-			</div>
-		</div>
+		<div class="page-bg"></div>
+		<div class="statusHeightBar" :style="{height: statusBarHeight+'px'}"></div>
+		<van-tabs active="a" swipeable animated tab-class="no-center" tab-active-class="navbar-tab-active" @change="changeTab" color="#4562E5">
+		  <van-tab title="最新" name="a">
+			<newList ref="new"></newList>
+		  </van-tab>
+		  <van-tab title="关注" name="b">
+			<myFollow ref="follow"></myFollow>
+		  </van-tab>
+		</van-tabs>
+		<div class="add" @click="addContent"><van-icon name="edit" /></div>
+		<van-popup :show="addtThread" round position="bottom" custom-style="height: 80%;background: #FFFFFF;" :close-on-click-overlay="true">
+			<addThread></addThread>
+		</van-popup>
 	</div>
 </template>
 
 <script>
 	import logo from '../../../../assets/images/logo.png'
-	import add from '../../../../assets/images/add.svg'
-	import { getDiscuss, getThread, addThread, delThread, editThread, getThreadDetail } from '../../../../api/forumapi.js'
+	import newList from './components/newList.vue'
+	import myFollow from './components/myFollow.vue'
+	import addThread from './components/addThread.vue'
 	
 	export default {
 		data() {
 			return {
 				logo,
-				svg: {
-					add
-				},
-				discuss: {},
-				threadList: [],
-				tabBar: 0
+				tabActive: 'a',
+				addtThread: false,
 			}
+		},
+		components: {
+			newList,
+			myFollow,
+			addThread
 		},
 		methods: {
-			addContent() {
-				wx.navigateTo({
-					url: '/pages/index/basic/forum/components/addThread'
-				})
+			onClose() {
+				this.addtThread = false
 			},
-			getDetail(id) {
-				wx.navigateTo({
-					url: '/pages/index/basic/forum/components/threadDetail?id=' + id
-				})
-			},
-			timeTrans(timestr){
-				let time = new Date(timestr)
-				return `${time.getHours()}:${time.getMinutes()} ${time.toDateString().slice(4,10)},${time.toDateString().slice(10,15)}`
-			}
-		},
-		mounted() {
-			getThread(1, 10, 1).then((res) => {
-				if(res.length === 0 || res=== null){
-					return
+			changeTab(e) {
+				console.log(e)
+				console.log(this.tabActive)
+				this.tabActive = e.detail.name
+				if (this.tabActive === 'a') {
+					this.$refs.new.initList()
 				}
-				res.data.data.forEach(item=>{
-					let showtime = this.timeTrans(item.createAt)
-					this.threadList.push({
-						...item,
-						createAt: showtime
-					})
-				})
-			})
+				if (this.tabActive === 'b') {
+					this.$refs.follow.initList()
+				}
+			},
+			addContent() {
+				this.addtThread = true
+			},
+ 		},
+		computed: {
+			scrollViewHeight() {
+				return `${this.$store.getters.systemInfo.safeArea.height - 50 - 44}px`
+			},
+			statusBarHeight() {
+				return this.$store.getters.systemInfo.statusBarHeight
+			}
 		}
 	}
 </script>
 
-<style>
+<style lang="scss">
 	@import url("../../../../assets/css/nav_bar.css");
+	
+	page {
+		overflow: hidden;
+		overflow-x: auto;
+	}
 
-	.tab-bar {
-		width: 100%;
-		display: flex;
-		justify-content: space-around;
-		align-items: center;
-		font-size: 16px;
+	.page-bg {
+		background-color: #f7f8fa;
+		position: fixed;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		z-index: -1;
 	}
 	
-	.tab-bar .selected{
-		border-bottom: 5px solid #6f62ff;
-		font-weight: bold;
+	.add {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 84rpx;
+		height: 84rpx;
+		background-color: #4562E5;
+		color: #FFFFFF;
+		font-size: 48rpx;
+		position: fixed;
+		right: 20rpx;
+		bottom: 240rpx;
+		border-radius: 5em;
 	}
-
-	.tab-bar .add .img {
-		width: 30px;
-		height: 30px;
+	
+	.statusHeightBar {
+		background-color: #FFFFFF;
+	}
+	
+	.no-center {
+		flex: unset!important;
+		padding: 0 20px!important;
+	}
+	
+	.navbar-tab-active {
+		font-size: 32rpx!important;
 	}
 
 	.forum-list {
 		width: 100%;
-		display: flex;
-		flex-direction: column;
-		border-top: 1px solid #dadada;
-		border-radius: 10px;
-	}
-	
-	.forum-list .forum-container{
-		width: 90%;
-		display: flex;
-		flex-direction: column;
-		padding-top: 8%;
-		margin-left: 8%;
-	}
-	
-	.forum-list .forum-container .name{
-		font-size: 15px;
-		font-weight: bold;
-	}
-	
-	.forum-list .forum-container .content{
-		margin-top: 10px;
-	}
-	
-	.forum-list .forum-container .time{
-		font-size: 12px;
-		font-weight: 600;
-		color: 
-		#b6b6b6;
+		
+		.forum-container {
+			border-top: 1px solid #eeeeee;
+			border-bottom: 1px solid #eeeeee;
+			background-color: #ffffff;
+			padding: 32rpx;
+			margin-bottom: 16rpx;
+			
+			.card-header {
+				
+				.title {
+					font-size: 32rpx;
+					margin-bottom: 16rpx;
+				}
+				
+				.user-info {
+					.avatar {
+						position: absolute;
+						width: 32rpx;
+						height: 32rpx;
+						border-radius: 50%;
+					}
+					
+					.header-content {
+						height: 32rpx;
+						margin-left: 42rpx;
+						display: flex;
+						align-items: center;
+						
+						.nickname {
+							color: #666666;
+							font-size: 24rpx;
+						}
+					}
+				}
+			}
+			
+			.content {
+				color: #666666;
+				margin-top: 10px;
+				font-size: 24rpx;
+				z-index: 100;
+			}
+		}
 	}
 </style>

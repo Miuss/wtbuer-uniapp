@@ -39,3 +39,29 @@ export const formatTime = function (number, format) {
   }
   return format
 }
+
+export const formatThreadTime = function(e){
+	var
+	h=new Date(),
+	d;
+		
+	if((e+'').match(/^[0-9]{10}$/)){
+		d=new Date(e*1000);
+	}else{
+		var arr=e.split(/[-\/ :]/);
+		d=new Date(arr[0], arr[1]-1, arr[2], arr[3], arr[4], arr[5]);
+	}
+		
+	var
+	g=parseInt,
+	f=g((h-d)/1000);
+		
+	return !e||f<0?'刚刚':
+	f<60?(f+'秒前'):
+	(f/=60)<60?g(f)+'分前':
+	(f/=60)<24?g(f)+'时前':
+	(f/=24)<7?g(f)+'天前':
+	(f/=7)<2?g(f)+'周前':
+	d>new Date(h.getFullYear()+'-01-01')?(d.getMonth()+1)+'月'+d.getDate()+'日':
+	d.getFullYear()+'年'+(d.getMonth()+1)+'月'+d.getDate()+'日';
+};

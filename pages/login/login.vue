@@ -18,8 +18,7 @@
 			<div class="sub-title">由人工智能学院学生运营 🤖</div>
 		</div>
 		<div class="login-action" style="bottom: 20px;">
-			<van-button type="primary" @click="wxlogin" block :loading="loginLoading" loading-text="微信登录中...">微信账号快速登录
-			</van-button>
+			<van-button type="primary" @click="wxlogin" block :loading="loginLoading" loading-text="微信登录中...">微信账号快速登录</van-button>
 			<div class="login-tips">提示：登录后绑定教务账号才能查阅课表噢~</div>
 		</div>
 
@@ -52,18 +51,23 @@
 		methods: {
 			async wxlogin() {
 				this.loginLoading = true
-				const infoResult = await getUserProfile()
-				const loginResult = await wxlogin()
+				try {
+					const infoResult = await getUserProfile()
+					const loginResult = await wxlogin()
 
-				if (infoResult.userInfo === '' || loginResult.code === '') {
-					throw new Error('登录失败，请重试')
+					if (infoResult.userInfo === '' || loginResult.code === '') {
+						throw new Error('登录失败，请重试')
+					}
+
+					await this.$store.dispatch('login', {
+						code: loginResult.code,
+						userInfo: infoResult.userInfo
+					})
+				} catch(e) {
+					console.error(e)
+				} finally {
+					this.loginLoading = false
 				}
-
-				await this.$store.dispatch('login', {
-					code: loginResult.code,
-					userInfo: infoResult.userInfo
-				})
-				this.loginLoading = false
 			}
 		}
 	}

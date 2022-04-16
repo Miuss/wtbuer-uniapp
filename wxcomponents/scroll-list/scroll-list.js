@@ -29,6 +29,11 @@ Component({
         })
       }
     },
+	customScrollBox: {
+        type: String,
+        value: 'auto'
+		
+	},
     //显示加载提示
     showTip: {
       type: Boolean,
@@ -43,10 +48,7 @@ Component({
     //显示下拉刷新的标志位
     showRefresh: false,
     //用来做主动触发刷新的标志位
-    forceRefresh: false,
-    StatusBar: app.globalData.StatusBar,
-    CustomBar: app.globalData.CustomBar,
-    CustomScrollBox: app.globalData.CustomScrollBox
+    forceRefresh: false
   },
 
   /**
