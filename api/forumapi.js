@@ -115,3 +115,70 @@ export const getThreadDetail = async function(id) {
 		throw err
 	}
 }
+
+export const getCommentByTid = async function(id) {
+	try {
+		const res = await request({
+			url: '/forum/getCommentByTid',
+			method: 'GET',
+			data: {
+				id
+			}
+		})
+
+		return res
+	} catch (err) {
+		throw err
+	}
+}
+
+export const getCommentByCid = async function(id) {
+	try {
+		const res = await request({
+			url: '/forum/getCommentByCid',
+			method: 'GET',
+			data: {
+				id
+			}
+		})
+
+		return res
+	} catch (err) {
+		throw err
+	}
+}
+
+export const addComment = async function(content, tid, cid, images) {
+	try {
+		
+		const res = await request({
+			url: '/forum/addComment',
+			method: 'POST',
+			data: {
+				images,
+				content,
+				tid,
+				cid
+			}
+		})
+		
+		return res
+	} catch (err) {
+		throw err
+	}
+}
+export const delComment = async function(cid) {
+	try {
+		const res = await request({
+			url: '/forum/delComment',
+			method: 'POST',
+			data: {
+				cid
+			}
+		})
+
+		return res
+	} catch (err) {
+		throw err
+	}
+}

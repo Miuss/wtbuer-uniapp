@@ -114,6 +114,9 @@ function handleResult(res) {
 		case 401:
 			utils.showToast('身份校验信息失败，请刷新页面重试！')
 			store.commit('CLEAR_USER')
+			wx.redirectTo({
+				url: '/pages/login/login'
+			})
 			break
 		default:
 			let msg = res.data.message ? res.data.message : '未知错误，请重试！'

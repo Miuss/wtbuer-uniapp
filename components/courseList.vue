@@ -15,33 +15,34 @@
 				</div>
 			</div>
 			<div class="weekbar-position"></div>
-			<swiper :indicator-dots="false" :autoplay="false" :current="week-1" @change="changeWeek"
-				:style="'height:'+ timeList.length * classItemHeight +'px;background: #ffffff;position: relative;'">
-				<swiper-item v-for="(item, index) in courseList" :key="index">
-					<div class="class"
-						:style="'height:'+ timeList.length * classItemHeight +'px;width:100%;display:flex;'">
-						<!--课表左侧栏-->
-						<div class="sidebar">
-							<div v-for="(timeItem, timeIndex) in timeList" :key="timeIndex" class="item"
-								:style="'height:'+ classItemHeight +'px;'">
-								<div class="time">{{timeItem[1]}}</div>
-								<div class="index">{{timeItem[0]}}</div>
+			<div class="courseList" :style="{height: scrollViewHeight}">
+				<swiper :indicator-dots="false" :autoplay="false" :current="week-1" @change="changeWeek"
+					:style="'height:'+ timeList.length * classItemHeight +'px;background: #ffffff;position: relative;'">
+					<swiper-item v-for="(item, index) in courseList" :key="index">
+						<div class="class" :style="'height:'+ timeList.length * classItemHeight +'px;width:100%;display:flex;'">
+							<!--课表左侧栏-->
+							<div class="sidebar">
+								<div v-for="(timeItem, timeIndex) in timeList" :key="timeIndex" class="item"
+									:style="'height:'+ classItemHeight +'px;'">
+									<div class="time">{{timeItem[1]}}</div>
+									<div class="index">{{timeItem[0]}}</div>
+								</div>
+							</div>
+							<div v-for="(lineItem, lineIndex) in timeList" :key="lineIndex">
+								<div class="class-line" :style="'margin-top:'+ ((lineIndex+1)*classItemHeight-1) +'px;'">
+								</div>
+							</div>
+							<!--课表-->
+							<div v-for="(classItem, classIndex) in item" :key="classIndex">
+								<div class="flex-item kcb-item" @click="showClassDialog(classItem)"
+									:style="'width:'+ (classItemWidth - 2) +'px;margin-left:'+ ((classItem.xqj-1)*classItemWidth+1) +'px;margin-top:'+ ((classItem.skjc-1)*classItemHeight+1) +'px;height:'+ (classItem.skcd*classItemHeight-3) +'px;background-color:'+ colorArrays[classIndex%16]">
+									<div class="smalltext">{{classItem.kcmc}}@{{classItem.room}}</div>
+								</div>
 							</div>
 						</div>
-						<div v-for="(lineItem, lineIndex) in timeList" :key="lineIndex">
-							<div class="class-line" :style="'margin-top:'+ ((lineIndex+1)*classItemHeight-1) +'px;'">
-							</div>
-						</div>
-						<!--课表-->
-						<div v-for="(classItem, classIndex) in item" :key="classIndex">
-							<div class="flex-item kcb-item" @click="showClassDialog(classItem)"
-								:style="'width:'+ (classItemWidth - 2) +'px;margin-left:'+ ((classItem.xqj-1)*classItemWidth+1) +'px;margin-top:'+ ((classItem.skjc-1)*classItemHeight+1) +'px;height:'+ (classItem.skcd*classItemHeight-3) +'px;background-color:'+ colorArrays[classIndex%16]">
-								<div class="smalltext">{{classItem.kcmc}}@{{classItem.room}}</div>
-							</div>
-						</div>
-					</div>
-				</swiper-item>
-			</swiper>
+					</swiper-item>
+				</swiper>
+			</div>
 		</div>
 	</div>
 </template>
@@ -75,6 +76,9 @@
 			}
 		},
 		computed: {
+			scrollViewHeight() {
+				return `${this.$store.getters.systemInfo.safeArea.height - 50 - 44 - 48}px`
+			},
 			courseList() {
 				return this.$store.getters.courseList
 			},
@@ -155,6 +159,11 @@
 </script>
 
 <style>
+	.courseList {
+		height: 100px;
+		overflow: scroll;
+	}
+	
 	.sidebar {
 		background-color: #fff;
 		box-shadow: 0 4px 6px #ebedf0;

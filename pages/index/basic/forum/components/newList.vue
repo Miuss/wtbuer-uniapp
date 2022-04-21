@@ -33,6 +33,14 @@
 							:deletable="false"
 						/>
 					</div>
+					<div class="post-footer">
+						<div class="comment">
+							<van-icon class="icon" name="comment-o" /> {{item.comment}}
+						</div>
+						<div class="view">
+							<van-icon class="icon" name="eye-o" /> {{item.view}}
+						</div>
+					</div>
 		  		</div>
 		  	</div>
 		</scroll-list>
@@ -92,7 +100,7 @@
 						this.noData = true
 					}
 					this.refreshLoading = false
-				}, 300)
+				}, 100)
 			},
 			loadmore() {
 				if (!this.noData) {
@@ -112,7 +120,7 @@
 						if (res.data.data.length < this.pageSize) {
 							this.noData = true
 						}
-					}, 300)
+					}, 100)
 				}
 			},
 			async followUser(row) {
@@ -241,14 +249,22 @@
 				margin-bottom: 32rpx;
 			}
 			
-			.card-footer {
-				margin-top: 10px;
-				time {
-					color: #666666;
-					font-size: 24rpx;
+			.post-footer {
+				margin: -16px;
+				border-top: 1px solid #EEEEEE;
+				padding: 8px 16px;
+				display: flex;
+				justify-content: space-around;
+				margin-top: 16px;
+				
+				.comment,
+				.view,
+				.like {
+					opacity: .6;
+					font-size: 26rpx;
 					
 					.icon {
-						margin-right: 10rpx;
+						margin-right: 5px;
 					}
 				}
 			}

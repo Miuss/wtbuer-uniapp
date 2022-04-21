@@ -32,7 +32,6 @@ Component({
 	customScrollBox: {
         type: String,
         value: 'auto'
-		
 	},
     //显示加载提示
     showTip: {
@@ -48,7 +47,8 @@ Component({
     //显示下拉刷新的标志位
     showRefresh: false,
     //用来做主动触发刷新的标志位
-    forceRefresh: false
+    forceRefresh: false,
+	scrollTop: 0
   },
 
   /**
@@ -87,7 +87,8 @@ Component({
     refresh() {
       // 刷新操作
       this.setData({
-        showRefresh: true
+        showRefresh: true,
+		scrollTop: 0
       })
       this.triggerEvent('refresh')
     },
@@ -96,7 +97,8 @@ Component({
      */
     forceRefresh() {
       this.setData({
-        forceRefresh: true
+        forceRefresh: true,
+		scrollTop: 0
       })
       wx.nextTick(() => {
         this.setData({
