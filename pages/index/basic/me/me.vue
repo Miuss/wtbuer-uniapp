@@ -160,8 +160,8 @@
 			showQrcode() {
 				wx.vibrateShort();
 				wx.previewImage({
-					urls: ['https://wtbu.miuss.icu/Pay.jpg'],
-					current: 'https://wtbu.miuss.icu/Pay.jpg'
+					urls: ['https://wtbuer-server.miuss.icu/Pay.jpg'],
+					current: 'https://wtbuer-server.miuss.icu/Pay.jpg'
 				})
 			},
 			showQQQrcode() {

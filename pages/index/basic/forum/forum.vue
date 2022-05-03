@@ -11,7 +11,7 @@
 		  </van-tab>
 		</van-tabs>
 		<div class="add" @click="addContent" v-if="tabActive === 'a'"><van-icon name="edit" /></div>
-		<van-popup :show="addtThread" round position="bottom" custom-style="height: 80%;background: #FFFFFF;" :close-on-click-overlay="true">
+		<van-popup :show="addtThread" round position="bottom" custom-style="height: 80%;background: #FFFFFF;" :duration="300" :close-on-click-overlay="true">
 			<addThread></addThread>
 		</van-popup>
 	</div>

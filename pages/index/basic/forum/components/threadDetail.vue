@@ -11,7 +11,7 @@
 				<div class="post-content" v-if="detail">
 					<div class="card-header">
 						<div class="user-info">
-							<img class="avatar" :src="detail.avatarurl"/>
+							<img class="avatar" :src="detail.avatarurl" @click.native.stop="toUserDetail(detail.uid)"/>
 							<div class="header-content">
 								<div class="nickname">
 									{{detail.nickname}}
@@ -39,13 +39,13 @@
 					</div>
 				</div>
 				<div class="comments" v-if="comments">
-					<div class="comments-title">回复</div>
+					<div class="comments-title">评论</div>
 					<div class="comments-list">
 						<van-empty v-if="comments.length === 0" description="暂无评论" />
 						<div class="post-content" v-for="(item, index) in comments" :key="index">
 							<div class="card-header">
 								<div class="user-info">
-									<img class="avatar" :src="item.avatarurl"/>
+									<img class="avatar" :src="item.avatarurl" @click.native.stop="toUserDetail(item.uid)"/>
 									<div class="header-content">
 										<div class="nickname">
 											{{item.nickname}}
@@ -76,10 +76,25 @@
 				</div>
 			</van-skeleton>
 		</div>
-		<div class="comment-input" :style="{ 'bottom':Height + 'px'}">
+		<div class="comment-input" v-if="showComment" :style="{ 'bottom':Height + 'px'}">
 			<div class="input-content">
-				<input class="comment-input-text" :value="commentContent" placeholder="评论" :show-confirm-bar="false" @input="onChangeCommentContent" :adjust-position="false" @focus="getHeight" @blur="leaveInput" />
+				<input class="comment-input-text" auto-focus :value="commentContent" placeholder="评论" :show-confirm-bar="false" @input="onChangeCommentContent" :adjust-position="false" @focus="getHeight" @blur="leaveInput" />
 				<van-button custom-class="comment-button" color="#4562E5" type="primary" size="small" :loading="commentLoading" :disabled="commentContent === ''" @click="newComment">评论</van-button>
+			</div>
+		</div>
+		<div class="bottom-bar" v-else>
+			<div class="bar-content">
+				<div class="view" @click.native.stop="showShare = true">
+					<van-icon class="icon" name="share-o" /> 分享
+				</div>
+				<div class="comment" @click.native.stop="showComment = true">
+					<van-icon class="icon" name="comment-o" /> 评论
+				</div>
+				<div class="like" @click.native.stop="likeThread">
+					<van-icon class="icon" name="like" color="#ee0a24" v-if="detail.liking" />
+					<van-icon class="icon" name="like-o" v-else />
+					{{detail.likes}}
+				</div>
 			</div>
 		</div>
 		<van-action-sheet
@@ -91,12 +106,19 @@
 		  :close-on-click-overlay="true"
 		  cancel-text="取消"
 		/>
+		<van-share-sheet
+		  :show="showShare"
+		  title="立即分享给好友"
+		  :options="shareOptions"
+		  @select="onShareSelect"
+		  @close="showShare = false"
+		/>
 	</div>
 </template>
 
 <script>
 	import back from '../../../../../assets/images/back.svg'
-	import { getThreadDetail, delThread, getCommentByTid, getCommentByCid, delComment, addComment } from '../../../../../api/forumapi'
+	import { getThreadDetail, delThread, getCommentByTid, getCommentByCid, delComment, addComment, likeThreadById } from '../../../../../api/forumapi'
 	import { followUserById } from '../../../../../api/userapi'
 	import * as utils from '../../../../../utils'
 	
@@ -115,7 +137,12 @@
 				comments: [],
 				delCommentId: '',
 				commentContent: '',
-				commentLoading: false
+				commentLoading: false,
+				showComment: false,
+				showShare: false,
+				shareOptions: [
+				    { name: '微信', icon: 'wechat', openType: 'share' },
+				],
 			}
 		},
 		props: ['id'],
@@ -123,8 +150,18 @@
 			this.getThreadDetail()
 		},
 		methods: {
+			toUserDetail(id) {
+				wx.navigateTo({
+					url: '/pages/user/user?id=' + id
+				})
+			},
+			onShareSelect(event) {
+			    Toast(event.detail.name);
+			    this.onClose();
+			},
 			leaveInput(e){
 			    this.Height = 0;
+				this.showComment = false
 			},
 			getHeight(e){
 			    this.Height = e.target.height - (this.$store.getters.systemInfo.screenHeight - this.$store.getters.systemInfo.safeArea.bottom)
@@ -254,8 +291,31 @@
 				})
 				this.getComments()
 				this.commentLoading = false
-				
-			}
+			},
+			onShareAppMessage() {
+				return {
+					title: this.detail.nickname+'的动态',
+					desc: this.detail.content.slice(0,30),
+					path: '/pages/index/basic/forum/components/threadDetail?id='+this.detail.id,
+					imageUrl: this.detail.images.length>0?this.detail.images[0].url:''
+				}
+			},
+			onShareTimeline() {
+				return {
+					title: this.detail.nickname+'的动态',
+					query: 'id='+this.detail.id,
+					imageUrl: this.detail.images.length>0?this.detail.images[0].url:''
+				}
+			},
+			likeThread() {
+				const data = likeThreadById(this.detail.id)
+				if (this.detail.liking) {
+					this.detail.likes--
+				} else {
+					this.detail.likes++
+				}
+				this.detail.liking = !this.detail.liking
+			},
 		}
 	}
 </script>
@@ -406,6 +466,34 @@
 			.comment-button {
 				height: 36px;
 				border-radius: 8px;
+			}
+		}
+	}
+	
+	.bottom-bar {
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		background-color: #FFFFFF;
+		padding: 10px;
+		border-top: 1px solid #EEEEEE;
+		
+		.bar-content {
+			display: flex;
+			align-items: center;
+			justify-content: space-around;
+			padding-bottom: env(safe-area-inset-bottom);
+			
+			.comment,
+			.view,
+			.like {
+				opacity: .6;
+				font-size: 26rpx;
+				
+				.icon {
+					margin-right: 5px;
+				}
 			}
 		}
 	}

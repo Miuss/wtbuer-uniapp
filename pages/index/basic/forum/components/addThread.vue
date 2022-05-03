@@ -2,7 +2,7 @@
 	<div>
 		<div class="post-buttons">
 			<van-button type="primary" custom-class="close" plain @click="hide">取消</van-button>
-			<van-button type="primary" size="small" :disabled="content===''" @click="addPost" :loading="loading" loading-text="发布">发布</van-button>
+			<van-button type="primary" size="small" :disabled="content===''" @click="addPost" :loading="loading" color="#4562E5" loading-text="发布">发布</van-button>
 		</div>
 		<div class="content-edit">
 			<textarea :value="content" placeholder="这一刻的想法..." placeholder-style="color: #adadad;" @input="onChangeContent" />

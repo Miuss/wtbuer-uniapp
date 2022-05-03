@@ -182,3 +182,19 @@ export const delComment = async function(cid) {
 		throw err
 	}
 }
+
+export const likeThreadById = async function (tid) {
+	try {
+		const res = await request({
+			url: '/forum/likeThread',
+			method: 'POST',
+			data: {
+				tid
+			}
+		})
+		
+		return res
+	} catch (err) {
+		throw err
+	}
+}

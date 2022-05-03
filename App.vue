@@ -7,12 +7,12 @@
 			this.$store.dispatch('fetchParams')
 
 			// 启动时获取 token
-			const token = await wx.getStorageSync('token') || ''
+			const token = wx.getStorageSync('token') || ''
 
 			if (token !== '') {
-				this.$store.commit('UPDATE_TOKEN', token)
-				this.$store.dispatch('checkToken')
-				this.$store.dispatch('getUserInfo')
+				await this.$store.commit('UPDATE_TOKEN', token)
+				await this.$store.dispatch('checkToken')
+				await this.$store.dispatch('getUserInfo')
 				this.getStorageCourseList()
 				this.getStorageCourseIds()
 			} else {

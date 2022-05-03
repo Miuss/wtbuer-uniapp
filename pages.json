@@ -12,6 +12,8 @@
 	}, {
 		"path": "pages/notice/notice"
 	}, {
+		"path": "pages/user/user"
+	}, {
 		"path": "pages/index/basic/forum/components/addThread"
 	}, {
 		"path": "pages/index/basic/forum/components/threadDetail"
