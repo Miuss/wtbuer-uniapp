@@ -5,7 +5,7 @@
 		  		<div class="forum-container" v-for="(item,index) in threadList" :key="index" @click="toDetail(item.id)">
 		  			<div class="card-header">
 		  				<div class="user-info">
-		  					<img class="avatar" :src="item.avatarurl"/>
+		  					<img class="avatar" :src="item.avatarurl" @click.native.stop="toUserDetail(item.uid)"/>
 		  					<div class="header-content">
 								<div class="nickname">
 									{{item.nickname}}
@@ -28,6 +28,19 @@
 							:deletable="false"
 						/>
 					</div>
+					<div class="post-footer">
+						<div class="comment">
+							<van-icon class="icon" name="comment-o" /> {{item.comment}}
+						</div>
+						<div class="view">
+							<van-icon class="icon" name="eye-o" /> {{item.view}}
+						</div>
+						<div class="like" @click.native.stop="likeThread(item)">
+							<van-icon class="icon" name="like" color="#ee0a24" v-if="item.liking" />
+							<van-icon class="icon" name="like-o" v-else />
+							{{item.likes}}
+						</div>
+					</div>
 		  		</div>
 		  	</div>
 		</scroll-list>
@@ -37,7 +50,7 @@
 <script>
 	import logo from '../../../../../assets/images/logo.png'
 	import add from '../../../../../assets/images/add.svg'
-	import { getDiscuss, getThread, addThread, delThread, editThread, getFollowThread } from '../../../../../api/forumapi.js'
+	import { getDiscuss, getThread, addThread, delThread, editThread, getFollowThread, likeThreadById } from '../../../../../api/forumapi.js'
 	import { followUserById } from '../../../../../api/userapi.js'
 	import * as utils from '../../../../../utils'
 	
@@ -64,6 +77,11 @@
 					url: '/pages/index/basic/forum/components/threadDetail?id=' + id
 				})
 			},
+			toUserDetail(id) {
+				wx.navigateTo({
+					url: '/pages/user/user?id=' + id
+				})
+			},
 			timeTrans(timestr){
 				let time = new Date(timestr)
 				return `${time.getHours()}:${time.getMinutes()} ${time.toDateString().slice(4,10)},${time.toDateString().slice(10,15)}`
@@ -87,7 +105,7 @@
 						this.noData = true
 					}
 					this.refreshLoading = false
-				}, 300)
+				}, 100)
 			},
 			loadmore() {
 				if (!this.noData) {
@@ -107,7 +125,7 @@
 						if (res.data.data.length < this.pageSize) {
 							this.noData = true
 						}
-					}, 300)
+					}, 100)
 				}
 			},
 			async followUser(row) {
@@ -115,6 +133,20 @@
 				this.threadList.map((item) => {
 					if (item.uid === row.uid) {
 						item.follow = !item.follow
+					}
+					return item
+				})
+			},
+			likeThread(row) {
+				const data = likeThreadById(row.id)
+				this.threadList.map((item) => {
+					if (item.id === row.id) {
+						if (item.liking) {
+							item.likes--
+						} else {
+							item.likes++
+						}
+						item.liking = !item.liking
 					}
 					return item
 				})
@@ -206,14 +238,22 @@
 				margin-bottom: 32rpx;
 			}
 			
-			.card-footer {
-				margin-top: 10px;
-				time {
-					color: #666666;
-					font-size: 24rpx;
+			.post-footer {
+				margin: -16px;
+				border-top: 1px solid #EEEEEE;
+				padding: 8px 16px;
+				display: flex;
+				justify-content: space-around;
+				margin-top: 16px;
+				
+				.comment,
+				.view,
+				.like {
+					opacity: .6;
+					font-size: 26rpx;
 					
 					.icon {
-						margin-right: 10rpx;
+						margin-right: 5px;
 					}
 				}
 			}

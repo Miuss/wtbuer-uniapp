@@ -4,14 +4,14 @@
 		<div class="statusHeightBar" :style="{height: statusBarHeight+'px'}"></div>
 		<van-tabs active="a" swipeable animated tab-class="no-center" tab-active-class="navbar-tab-active" @change="changeTab" color="#4562E5">
 		  <van-tab title="最新" name="a">
-			<newList ref="new"></newList>
+			<newList ref="new" v-if="tabActive === 'a'"></newList>
 		  </van-tab>
 		  <van-tab title="关注" name="b">
-			<myFollow ref="follow"></myFollow>
+			<myFollow ref="follow" v-if="tabActive === 'b'"></myFollow>
 		  </van-tab>
 		</van-tabs>
-		<div class="add" @click="addContent"><van-icon name="edit" /></div>
-		<van-popup :show="addtThread" round position="bottom" custom-style="height: 80%;background: #FFFFFF;" :close-on-click-overlay="true">
+		<div class="add" @click="addContent" v-if="tabActive === 'a'"><van-icon name="edit" /></div>
+		<van-popup :show="addtThread" round position="bottom" custom-style="height: 80%;background: #FFFFFF;" :duration="300" :close-on-click-overlay="true">
 			<addThread></addThread>
 		</van-popup>
 	</div>
@@ -44,12 +44,12 @@
 				console.log(e)
 				console.log(this.tabActive)
 				this.tabActive = e.detail.name
-				if (this.tabActive === 'a') {
-					this.$refs.new.initList()
-				}
-				if (this.tabActive === 'b') {
-					this.$refs.follow.initList()
-				}
+				// if (this.tabActive === 'a') {
+				// 	this.$refs.new.initList()
+				// }
+				// if (this.tabActive === 'b') {
+				// 	this.$refs.follow.initList()
+				// }
 			},
 			addContent() {
 				this.addtThread = true

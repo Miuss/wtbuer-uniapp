@@ -59,6 +59,19 @@ export const getUserInfo = async function () {
   }
 }
 
+export const getUserInfoById = async function (id) {
+  try {
+    const res = await request({
+      url: '/user/getUserInfoById?id='+id,
+      method: 'GET'
+    })
+	console.log("getUserInfoByIdApi:",res)
+    return res
+  } catch (err) {
+    throw err
+  }
+}
+
 export const checkUserToken = async function () {
   try {
     const res = await request({
