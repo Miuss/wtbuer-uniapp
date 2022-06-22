@@ -157,6 +157,15 @@
 					url: '/pages/about/about',
 				})
 			},
+			scanLogin() {
+				wx.vibrateShort()
+				wx.scanCode({
+				  onlyFromCamera: true,
+				  success (res) {
+					console.log(res)
+				  }
+				})	
+			},
 			showQrcode() {
 				wx.vibrateShort();
 				wx.previewImage({
@@ -186,6 +195,7 @@
 							that.$store.dispatch('unbindEamsMember')
 							wx.removeStorageSync('courseList')
 							wx.removeStorageSync('courseIds')
+							wx.removeStorageSync('courseUpdateTime')
 							that.initList()
 							wx.showToast({
 								icon: 'none',
@@ -206,6 +216,7 @@
 							wx.removeStorageSync('token')
 							wx.removeStorageSync('courseList')
 							wx.removeStorageSync('courseIds')
+							wx.removeStorageSync('courseUpdateTime')
 							that.$store.commit('CLEAR_USER')
 							that.$store.commit('CLEAR_ALL')
 							wx.showToast({

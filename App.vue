@@ -1,20 +1,21 @@
 <script>
 	export default {
 		async created() {
-
-			await this.getSystemInfo()
-
+			this.getSystemInfo()
 			this.$store.dispatch('fetchParams')
+			this.getStorageCourseList()
+			this.getStorageCourseIds()
 
 			// 启动时获取 token
 			const token = wx.getStorageSync('token') || ''
 
 			if (token !== '') {
 				await this.$store.commit('UPDATE_TOKEN', token)
+				if (this.$store.getters.courseIds !== {}) {
+					this.$store.dispatch('autoUpdateCourseList')
+				}
 				await this.$store.dispatch('checkToken')
 				await this.$store.dispatch('getUserInfo')
-				this.getStorageCourseList()
-				this.getStorageCourseIds()
 			} else {
 				wx.redirectTo({
 					url: '/pages/login/login'
@@ -26,14 +27,17 @@
 		},
 		methods: {
 			getStorageCourseList() {
+				console.log("获取本地存储的课表")
 				const courseList = wx.getStorageSync('courseList') || []
 
 				if (courseList.length > 0) {
 					this.$store.commit('UPDATE_COURSELIST', courseList)
+					this.$store.commit('UPDATE_COURSE_UPDATE_TIME', wx.getStorageSync('courseUpdateTime') || '')
 					console.log(this.$store.state)
 				}
 			},
 			getStorageCourseIds() {
+				console.log("获取本地存储的校历")
 				const courseIds = wx.getStorageSync('courseIds') || {}
 
 				if (courseIds) {
