@@ -98,7 +98,7 @@
 				const week = this.week
 				const starttime = this.courseIds.time
 				const now = parseInt(new Date().getTime() / 1000)
-				const nowweek = (now - starttime) / 7 / 86400 > 0 && (now - starttime) / 7 / 86400 +
+				const nowweek = parseInt((now - starttime) / 7 / 86400) > 0 && parseInt((now - starttime) / 7 / 86400) +
 					1 <= this.courseList.length ? parseInt((now - starttime) / 7 / 86400) + 1 : 1
 				var arr = [
 					[ut.formatTime(starttime + 7 * (week - 1) * 86400, 'M'), 0, '月'],
@@ -133,7 +133,7 @@
 			initWeek() {
 				const starttime = this.courseIds.time
 				const now = parseInt(new Date().getTime() / 1000)
-				const nowWeek = (now - starttime) / 7 / 86400 > 0 && (now - starttime) / 7 / 86400 +
+				const nowWeek = parseInt((now - starttime) / 7 / 86400) > 0 && parseInt((now - starttime) / 7 / 86400) +
 					1 <= this.courseList.length ? parseInt((now - starttime) / 7 / 86400) + 1 : 1
 				this.$store.commit('UPDATE_WEEK', nowWeek)
 			},

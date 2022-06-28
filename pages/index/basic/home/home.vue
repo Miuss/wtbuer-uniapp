@@ -5,7 +5,7 @@
 				<img class="logo" :src="logo" /> 武工商课表
 			</div>
 		</van-nav-bar>
-		<van-notice-bar mode="link" left-icon="info-o" text="本小程序参加科技创新周比赛,快投我!" @click="handleNoticeBar" />
+		<!-- <van-notice-bar mode="link" left-icon="info-o" text="本小程序参加科技创新周比赛,快投我!" @click="handleNoticeBar" /> -->
 
 		<!--没有绑定教务-->
 		<div class="unbind-eams-member" v-if="user.member_id === ''">
@@ -107,7 +107,7 @@
 			nowWeek() {
 				const starttime = this.courseIds.time
 				const now = parseInt(new Date().getTime() / 1000)
-				return (now - starttime) / 7 / 86400 > 0 && (now - starttime) / 7 / 86400 +
+				return parseInt((now - starttime) / 7 / 86400) > 0 && parseInt((now - starttime) / 7 / 86400) +
 					1 <= this.courseList.length ? parseInt((now - starttime) / 7 / 86400) + 1 : 1
 			},
 			nowDay() {
