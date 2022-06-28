@@ -5,6 +5,7 @@
 				<img class="logo" :src="logo" /> 武工商课表
 			</div>
 		</van-nav-bar>
+		<!-- <van-notice-bar mode="link" left-icon="info-o" text="本小程序参加科技创新周比赛,快投我!" @click="handleNoticeBar" /> -->
 
 		<!--没有绑定教务-->
 		<div class="unbind-eams-member" v-if="user.member_id === ''">
@@ -24,7 +25,7 @@
 		<!--没课-->
 		<div v-else-if="courseList.length !== 0 && todayClassList.length === 0">
 			<div class="course-title" style="margin-top: 30rpx;">
-				今日课程 <text class="course-subtitle" style="margin-left: 20rpx;">数据获取于本地课表缓存</text>
+				今日课程 <text class="course-subtitle" style="margin-left: 20rpx;" v-if="courseUpdateTime != ''">数据更新于 {{courseUpdateTime}}</text>
 			</div>
 			<div class="cu-timeline">
 				<div class="cu-item class-item">
@@ -38,7 +39,7 @@
 		<!--正常有课-->
 		<div v-else-if="courseList.length !== 0">
 			<div class="course-title" style="margin-top: 30rpx;">
-				今日课程 <text class="course-subtitle" style="margin-left: 20rpx;">数据获取于本地课表缓存</text>
+				今日课程 <text class="course-subtitle" style="margin-left: 20rpx;" v-if="courseUpdateTime != ''">数据更新于 {{courseUpdateTime}}</text>
 			</div>
 			<div class="cu-timeline" v-for="(item, index) in todayClassList" :key="index" @click="showDetail(item)">
 				<div class="cu-time">{{timeArrays[item.skjc-1][1]}}</div>
@@ -96,10 +97,17 @@
 			courseIds() {
 				return this.$store.getters.courseIds
 			},
+			courseUpdateTime() {
+				if (this.$store.getters.courseUpdateTime === '') {
+					return ''
+				}
+				
+				return ut.formatTime(this.$store.getters.courseUpdateTime / 1000, 'Y/M/D h:m:s')
+			},
 			nowWeek() {
 				const starttime = this.courseIds.time
 				const now = parseInt(new Date().getTime() / 1000)
-				return (now - starttime) / 7 / 86400 > 0 && (now - starttime) / 7 / 86400 +
+				return parseInt((now - starttime) / 7 / 86400) > 0 && parseInt((now - starttime) / 7 / 86400) +
 					1 <= this.courseList.length ? parseInt((now - starttime) / 7 / 86400) + 1 : 1
 			},
 			nowDay() {
@@ -124,6 +132,13 @@
 			}
 		},
 		methods: {
+			handleNoticeBar() {
+				wx.vibrateShort();
+				wx.previewImage({
+					urls: ['https://wtbuer-server.miuss.icu/notice.jpg'],
+					current: 'https://wtbuer-server.miuss.icu/notice.jpg'
+				})
+			},
 			toNotice() {
 				wx.vibrateShort();
 				wx.navigateTo({

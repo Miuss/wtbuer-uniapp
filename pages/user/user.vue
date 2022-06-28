@@ -14,7 +14,7 @@
 						{{detail.nickname}}
 					</div>
 					<div class="info">
-						<div class="item fans"><span>{{detail.follows}}</span> 粉丝</div>
+						<div class="item fans"><span>{{detail.fans}}</span> 粉丝</div>
 						<div class="item follows"><span>{{detail.follows}}</span> 关注</div>
 						<div class="item threads"><span>{{detail.threads}}</span> 帖子</div>
 					</div>

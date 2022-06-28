@@ -67,7 +67,7 @@ export const fetchParams = async ({ commit }) => {
 	}
 }
 
-export const getCourseList = async ({ commit }, ids) => {
+export const getCourseList = async ({ commit, getters, dispatch }, ids) => {
 	wx.showLoading({
 		title: '课表载入中',
 		mask: true
@@ -75,16 +75,78 @@ export const getCourseList = async ({ commit }, ids) => {
 
 	try {
 		const res = await api.getCourseList(ids.id)
-
+		
+		if (res.code) {
+			if (res.code === -3) {
+				const user = {
+					...getters.user,
+					member_id: "",
+					member_password: ""
+				}
+				commit('UPDATE_USER', user)
+				wx.removeStorageSync('courseList')
+				wx.removeStorageSync('courseIds')
+				wx.removeStorageSync('courseUpdateTime')
+				commit('CLEAR_ALL')
+				dispatch('showBindMember', true)
+			}
+			
+			throw new Error(res.msg)
+		}
+		
+		const updateTime = new Date().getTime()
+		
 		commit('UPDATE_COURSELIST', res.data)
 		commit('UPDATE_COURSEIDS', ids)
+		commit('UPDATE_COURSE_UPDATE_TIME', updateTime)
 		wx.setStorageSync('courseList', res.data)
 		wx.setStorageSync('courseIds', ids)
+		wx.setStorageSync('courseUpdateTime', updateTime)
+		wx.showToast({
+			icon: 'success',
+			title: '课表获取成功'
+		})
 	} catch (err) {
 		console.error(err)
 		showError(err)
 	} finally {
 		wx.hideLoading()
+	}
+}
+
+export const autoUpdateCourseList = async ({ commit, getters, dispatch }) => {
+	try {
+		const res = await api.getCourseList(getters.courseIds.id)
+		
+		if (res.code) {
+			if (res.code === -3) {
+				const user = {
+					...getters.user,
+					member_id: "",
+					member_password: ""
+				}
+				commit('UPDATE_USER', user)
+				wx.removeStorageSync('courseList')
+				wx.removeStorageSync('courseIds')
+				wx.removeStorageSync('courseUpdateTime')
+				commit('CLEAR_ALL')
+				dispatch('showBindMember', true)
+			}
+			
+			throw new Error(res.msg)
+		}
+		
+		const updateTime = new Date().getTime()
+
+		commit('UPDATE_COURSELIST', res.data)
+		commit('UPDATE_COURSEIDS', getters.courseIds)
+		commit('UPDATE_COURSE_UPDATE_TIME', updateTime)
+		wx.setStorageSync('courseList', res.data)
+		wx.setStorageSync('courseIds', getters.courseIds)
+		wx.setStorageSync('courseUpdateTime', updateTime)
+	} catch (err) {
+		console.error(err)
+		showError(err)
 	}
 }
 
@@ -96,9 +158,11 @@ export const showBindMember = async ({ commit }, show) => {
 export const bindEamsMember = async ({ commit, getters, dispatch }, { username, password }) => {
 	try {
 		const res = await api.bindEamsMember(username, password)
+		
 		if (res.code) {
 			throw new Error(res.msg)
 		}
+		
 		const user = Object.assign({}, getters.user)
 		user.member_id = username
 		user.member_password = password
@@ -136,6 +200,7 @@ export const unbindEamsMember = async ({ commit, getters, dispatch }) => {
 		commit('UPDATE_USER', user)
 		wx.removeStorageSync('courseList')
 		wx.removeStorageSync('courseIds')
+		wx.removeStorageSync('courseUpdateTime')
 		commit('CLEAR_ALL')
 		dispatch('showBindMember', false)
 	} catch (err) {

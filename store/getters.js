@@ -3,6 +3,7 @@ export const authenticated = state => state.user.authenticated
 
 export const courseList = state => state.eams.courseList
 export const courseIds = state => state.eams.courseIds
+export const courseUpdateTime = state => state.eams.courseUpdateTime
 export const week = state => state.eams.week
 
 export const systemInfo = state => state.application.systemInfo

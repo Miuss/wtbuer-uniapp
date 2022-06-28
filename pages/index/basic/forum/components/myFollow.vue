@@ -18,15 +18,17 @@
 		  				<van-button class="follow-btn" v-if="!item.mine" @click.native.stop="followUser(item)" color="#4562E5" :plain="item.follow" type="primary" size="small" block>{{item.follow?'取关':'关注'}}</van-button>
 		  			</div>
 		  			<div class="content">{{item.content}}</div>
-					<div class="images" v-if="item.images.length > 0 && item.images != null" @click.stop="">
-						<van-uploader
-							:show-upload="false"
-							image-fit="aspectFill"
-							:previewSize="imagePreviewSize(item)"
-							:file-list="item.images"
-							max-count="9"
-							:deletable="false"
-						/>
+					<div class="images" v-if="item.images.length > 0 && item.images != null">
+						<div style="display: inline-block;" @click.stop="">
+							<van-uploader
+								:show-upload="false"
+								image-fit="aspectFill"
+								:previewSize="imagePreviewSize(item)"
+								:file-list="item.images"
+								max-count="9"
+								:deletable="false"
+							/>
+						</div>
 					</div>
 					<div class="post-footer">
 						<div class="comment">

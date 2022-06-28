@@ -1,11 +1,6 @@
 <template>
 	<div>
 		<scroll-list class="scroll-list" :refreshLoading="refreshLoading" @refresh="initList" :showTip="true" :noData="noData" @loadmore="loadmore" :customScrollBox="scrollViewHeight">
-		  	<div class="news-card">
-				<img class="cover" src="https://pic.wtbuer.miuss.icu/25d64bce9ab758fe46202fd3c634b65e382beaea.svg"/>
-				<h2>武工商社区测试中，更多功能正在开发中...</h2>
-				<p>欢迎各位同学在此分享校园新鲜事儿</p>
-			</div>
 			<div class="forum-list">
 		  		<div class="forum-container" v-for="(item,index) in threadList" :key="index" @click="toDetail(item.id)">
 		  			<div class="card-header">
@@ -23,15 +18,17 @@
 						<van-button class="follow-btn" v-if="!item.mine" @click.native.stop="followUser(item)" color="#4562E5" :plain="item.follow" type="primary" size="small" block>{{item.follow?'取关':'关注'}}</van-button>
 		  			</div>
 		  			<div class="content">{{item.content}}</div>
-					<div class="images" v-if="item.images.length > 0 && item.images != null" @click.stop="">
-						<van-uploader
-							:show-upload="false"
-							image-fit="aspectFill"
-							:previewSize="imagePreviewSize(item)"
-							:file-list="item.images"
-							max-count="9"
-							:deletable="false"
-						/>
+					<div class="images" v-if="item.images.length > 0 && item.images != null">
+						<div style="display: inline-block;" @click.stop="">
+							<van-uploader
+								:show-upload="false"
+								image-fit="aspectFill"
+								:previewSize="imagePreviewSize(item)"
+								:file-list="item.images"
+								max-count="9"
+								:deletable="false"
+							/>
+						</div>
 					</div>
 					<div class="post-footer">
 						<div class="comment">
@@ -187,6 +184,12 @@
 		padding: 16px;
 		background: #F5F8FF;
 		border-top: 1px solid #eeeeee;
+		
+		&.xq20 {
+			background-image: url("https://20xq.wtbu.edu.cn/images/footertopbg.png");
+			background-repeat: no-repeat;
+			background-position: center top;
+		}
 		
 		.cover {
 			position: absolute;

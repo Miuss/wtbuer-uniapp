@@ -2,6 +2,23 @@
 	--padding-md: 8px;
 }
 
+.nav-bar.xq20 .title {
+	display: flex;
+	align-items: center;
+	font-weight: 600;
+	font-size: 12pt;
+	color: #ffffff;
+}
+
+/**
+* 校庆20周年背景
+*/
+.xq20 {
+	background-image: url("https://20xq.wtbu.edu.cn/images/footertopbg.png");
+	background-repeat: no-repeat;
+	background-position: center top;
+}
+
 .nav-bar.backdrop {
 	--nav-bar-background-color: rgba(255, 255, 255, 0.7) !important;
 	-webkit-backdrop-filter: blur(20px);
