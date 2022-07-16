@@ -36,6 +36,9 @@
 					<div class="description">快速将课表导入到系统日历</div>
 				</div>
 			</div>
+			<div class="ad-container">
+				<ad unit-id="adunit-ade1c6c4dbdb0731"></ad>
+			</div>
 
 			<!--<div class="other-function">
 				<van-empty image="search" description="其他功能还在开发中..." />
@@ -165,6 +168,16 @@
 
 <style>
 	@import url("../../../../assets/css/nav_bar.css");
+	
+	.ad-container {
+		margin: 16px 16px!important;
+		border-radius: 6px!important;
+		overflow: hidden!important;
+	}
+	
+	.ad-container ad {
+		border-radius: 6px!important;
+	}
 
 	.page-bg {
 		background-color: #f7f8fa;

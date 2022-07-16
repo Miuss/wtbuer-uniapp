@@ -2,49 +2,54 @@
 	<div>
 		<scroll-list class="scroll-list" :refreshLoading="refreshLoading" @refresh="initList" :showTip="true" :noData="noData" @loadmore="loadmore" :customScrollBox="scrollViewHeight">
 		  	<div class="forum-list">
-		  		<div class="forum-container" v-for="(item,index) in threadList" :key="index" @click="toDetail(item.id)">
-		  			<div class="card-header">
-		  				<div class="user-info">
-		  					<img class="avatar" :src="item.avatarurl" @click.native.stop="toUserDetail(item.uid)"/>
-		  					<div class="header-content">
-								<div class="nickname">
-									{{item.nickname}}
-									<van-tag v-if="[1,2040].includes(item.uid)" color="#ffe1e1" text-color="#ad0000" style="margin-left: 6px;">社区管理员</van-tag>
-									<van-tag v-else-if="item.online" color="#1fbf49" text-color="#ffffff" style="margin-left: 6px;">在线</van-tag>
+				<div v-for="(item,index) in threadList" :key="index">
+					<div class="forum-container" @click="toDetail(item.id)">
+						<div class="card-header">
+							<div class="user-info">
+								<img class="avatar" :src="item.avatarurl" @click.native.stop="toUserDetail(item.uid)"/>
+								<div class="header-content">
+									<div class="nickname">
+										{{item.nickname}}
+										<van-tag v-if="[1,2040].includes(item.uid)" color="#ffe1e1" text-color="#ad0000" style="margin-left: 6px;">社区管理员</van-tag>
+										<van-tag v-else-if="item.online" color="#1fbf49" text-color="#ffffff" style="margin-left: 6px;">在线</van-tag>
+									</div>
+									<div class="time">{{item.createAt}}</div>
 								</div>
-		  						<div class="time">{{item.createAt}}</div>
-		  					</div>
-		  				</div>
-		  				<van-button class="follow-btn" v-if="!item.mine" @click.native.stop="followUser(item)" color="#4562E5" :plain="item.follow" type="primary" size="small" block>{{item.follow?'取关':'关注'}}</van-button>
-		  			</div>
-		  			<div class="content">{{item.content}}</div>
-					<div class="images" v-if="item.images.length > 0 && item.images != null">
-						<div style="display: inline-block;" @click.stop="">
-							<van-uploader
-								:show-upload="false"
-								image-fit="aspectFill"
-								:previewSize="imagePreviewSize(item)"
-								:file-list="item.images"
-								max-count="9"
-								:deletable="false"
-							/>
+							</div>
+							<van-button class="follow-btn" v-if="!item.mine" @click.native.stop="followUser(item)" color="#4562E5" :plain="item.follow" type="primary" size="small" block>{{item.follow?'取关':'关注'}}</van-button>
+						</div>
+						<div class="content">{{item.content}}</div>
+						<div class="images" v-if="item.images.length > 0 && item.images != null">
+							<div style="display: inline-block;" @click.stop="">
+								<van-uploader
+									:show-upload="false"
+									image-fit="aspectFill"
+									:previewSize="imagePreviewSize(item)"
+									:file-list="item.images"
+									max-count="9"
+									:deletable="false"
+								/>
+							</div>
+						</div>
+						<div class="post-footer">
+							<div class="comment">
+								<van-icon class="icon" name="comment-o" /> {{item.comment}}
+							</div>
+							<div class="view">
+								<van-icon class="icon" name="eye-o" /> {{item.view}}
+							</div>
+							<div class="like" @click.native.stop="likeThread(item)">
+								<van-icon class="icon" name="like" color="#ee0a24" v-if="item.liking" />
+								<van-icon class="icon" name="like-o" v-else />
+								{{item.likes}}
+							</div>
 						</div>
 					</div>
-					<div class="post-footer">
-						<div class="comment">
-							<van-icon class="icon" name="comment-o" /> {{item.comment}}
-						</div>
-						<div class="view">
-							<van-icon class="icon" name="eye-o" /> {{item.view}}
-						</div>
-						<div class="like" @click.native.stop="likeThread(item)">
-							<van-icon class="icon" name="like" color="#ee0a24" v-if="item.liking" />
-							<van-icon class="icon" name="like-o" v-else />
-							{{item.likes}}
-						</div>
+					<div class="forum-container" v-if="(index+1)%5 == 0">
+						<ad-custom unit-id="adunit-fe364833d367e9ad"></ad-custom>
 					</div>
-		  		</div>
-		  	</div>
+				</div>
+			</div>
 		</scroll-list>
 	</div>
 </template>
