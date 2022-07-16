@@ -38,6 +38,9 @@
 						/>
 					</div>
 				</div>
+				<div class="ad-container">
+					<ad unit-id="adunit-e043550bd3e4ac4c"></ad>
+				</div>
 				<div class="comments" v-if="comments">
 					<div class="comments-title">评论</div>
 					<div class="comments-list">
@@ -322,6 +325,10 @@
 
 <style lang="scss">
 	@import url("../../../../../assets/css/nav_bar.css");
+	
+	.ad-container {
+		margin-bottom: 12px;
+	}
 	
 	.loading-text {
 		color: #868686;

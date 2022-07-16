@@ -36,6 +36,9 @@
 			<div class="msg margin-top-lg" v-if="examList.length === 0 && courseId !== ''">该学期暂无任何考试</div>
 			<div class="msg margin-top-lg" v-if="courseId === ''">请选择要查询的学期</div>
 		</div>
+		<div class="ad-container">
+			<ad unit-id="adunit-73e0d7b4e3a27cc3"></ad>
+		</div>
 	</div>
 </template>
 
@@ -108,6 +111,13 @@
 <style>
 	@import url("../../assets/css/nav_bar.css");
 	@import url("../../assets/css/cu-form.css");
+	
+	.ad-container {
+		margin: 16px 18rpx!important;
+		border-radius: 6px!important;
+		overflow: hidden!important;
+	}
+	
 	.padding {
 		padding: 30rpx;
 	}

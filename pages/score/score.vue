@@ -37,6 +37,9 @@
 			<div class="msg margin-top-lg" v-if="scoreList.length === 0 && courseId !== ''">该学期暂无考试成绩</div>
 			<div class="msg margin-top-lg" v-if="courseId === ''">请选择要查询的学期</div>
 		</div>
+		<div class="ad-container">
+			<ad unit-id="adunit-820c3d77ffa64294"></ad>
+		</div>
 	</div>
 </template>
 
@@ -125,6 +128,12 @@
 <style>
 	@import url("../../assets/css/nav_bar.css");
 	@import url("../../assets/css/cu-form.css");
+	
+	.ad-container {
+		margin: 16px 18rpx!important;
+		border-radius: 6px!important;
+		overflow: hidden!important;
+	}
 	
 	.score:first-child {
 		margin-top: 18rpx;

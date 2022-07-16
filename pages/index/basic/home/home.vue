@@ -17,6 +17,7 @@
 
 		<!--没获取课表-->
 		<div v-else-if="courseList.length === 0 && user.member_id != ''">
+			<van-notice-bar mode="link" @click="toICal()" text="新功能: 将课表导入手机系统日历, 查阅更方便!" />
 			<van-empty description="此次登录尚未获取课表">
 				<van-button round type="primary" class="bottom-button" color="#4562e5" @click="getClass()">获取本学期课表</van-button>
 			</van-empty>
@@ -24,6 +25,7 @@
 
 		<!--没课-->
 		<div v-else-if="courseList.length !== 0 && todayClassList.length === 0">
+			<van-notice-bar mode="link" @click="toICal()" text="新功能: 将课表导入手机系统日历, 查阅更方便!" />
 			<div class="course-title" style="margin-top: 30rpx;">
 				今日课程 <text class="course-subtitle" style="margin-left: 20rpx;" v-if="courseUpdateTime != ''">数据更新于 {{courseUpdateTime}}</text>
 			</div>
@@ -38,6 +40,7 @@
 
 		<!--正常有课-->
 		<div v-else-if="courseList.length !== 0">
+			<van-notice-bar mode="link" @click="toICal()" text="新功能: 将课表导入手机日历, 查阅更方便!" />
 			<div class="course-title" style="margin-top: 30rpx;">
 				今日课程 <text class="course-subtitle" style="margin-left: 20rpx;" v-if="courseUpdateTime != ''">数据更新于 {{courseUpdateTime}}</text>
 			</div>
@@ -132,6 +135,12 @@
 			}
 		},
 		methods: {
+			toICal() {
+				wx.vibrateShort();
+				wx.navigateTo({
+					url: '/pages/ical/ical',
+				})
+			},
 			handleNoticeBar() {
 				wx.vibrateShort();
 				wx.previewImage({
