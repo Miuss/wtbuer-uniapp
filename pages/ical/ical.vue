@@ -9,9 +9,9 @@
 		</van-nav-bar>
 		<div class="cu-form-group examPicker">
 			<div class="title">学期</div>
-			<picker @change="changeIds" :value="courseId===''?semesterIds.length-1:courseId" :range="semesterIds" range-key="year">
+			<picker @change="changeIds" :value="courseId" :range="semesterIds" range-key="year">
 				<div class="picker">
-					{{courseId===''?semesterIds[semesterIds.length-1].year:semesterIds[courseId].year}}
+					{{courseId===''?'':semesterIds[courseId].year}}
 					<van-icon name="arrow" style="color:#8799a3" />
 				</div>
 			</picker>
@@ -52,6 +52,8 @@
 			}
 		},
 		mounted() {
+			this.courseId = this.semesterIds.length-1
+			console.log(this.courseId)
 			// 在页面中定义激励视频广告
 			this.videoAd = null
 			
