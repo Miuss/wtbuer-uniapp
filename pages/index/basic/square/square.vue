@@ -188,10 +188,6 @@
 		right: 0;
 		z-index: -1;
 	}
-	
-	.nav-bar {
-		border-bottom: 1px solid #eeeeee;
-	}
 
 	.unbind-eams-member {
 		background-color: #fff;
@@ -229,7 +225,6 @@
 		background-color: #ffffff;
 		min-height: 48px;
 		border-radius: 10px;
-		border: 1px solid #EEEEEE;
 	}
 	
 	.func-bars-container .func-bar:active {
