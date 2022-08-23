@@ -4,7 +4,33 @@
 			<div class="title" slot="left" style="width: 100%;">
 				<img class="logo" :src="logo" /> 武工商课表
 			</div>
+			<div class="action-right" v-if="menuButton!=''" slot="right">
+				<div :style="'margin-right: '+menuButton.width+'px'">
+					<div class="action-btn" :style="'height: '+(menuButton.height-2)+'px'" v-if="toggled" @click="toggled=false">展开</div>
+					<div class="action-btn" :style="'height: '+(menuButton.height-2)+'px'" v-if="!toggled" @click="toggled=true">收起</div>
+				</div>
+			</div>
 		</van-nav-bar>
+		<div class="app-lists" v-show="toggled">
+			<div class="app-card" @click="toOtherApp('wx09d51addba74401e')">
+				<div class="app-logo">
+					<img src="http://mmbiz.qpic.cn/mmbiz_png/atpAreFqvAg6ZCgFV5gTUxJfrYUQDQJbsN3iaf5LZmiapQCKZS1FItibt3diajLbrUnD9viblZ9SjzKHwuBDr6KHwqA/640?wx_fmt=png&wxfrom=200" />
+				</div>
+				<div class="app-name">网上迎新</div>
+			</div>
+			<div class="app-card" @click="toOtherApp('wx948753398e25ea32')">
+				<div class="app-logo">
+					<img src="http://mmbiz.qpic.cn/mmbiz_png/lQw9lM6N2JA9FXEuWogOibT8rYTaFsugXLqSYTJXnMD6C2giaVeIEwM6EfrLbC7RJIwI8f8sA9oDw20hnxRicDLhg/640?wx_fmt=png&wxfrom=200" />
+				</div>
+				<div class="app-name">热水淋浴</div>
+			</div>
+			<div class="app-card" @click="toOtherApp('wx5e2552106768c1e1')">
+				<div class="app-logo">
+					<img src="http://mmbiz.qpic.cn/mmbiz_png/7Nw6s67gugXFKo5xv3vCZW8kr5WJ5fNx9hfWg24icSRotyhbB2ujnSnOFwCQs6KOJp6rmaHxe4qnXbfUxnG2KmQ/640?wx_fmt=png&wxfrom=200" />
+				</div>
+				<div class="app-name">一卡通支付</div>
+			</div>
+		</div>
 		<!-- <van-notice-bar mode="link" left-icon="info-o" text="本小程序参加科技创新周比赛,快投我!" @click="handleNoticeBar" /> -->
 
 		<!--没有绑定教务-->
@@ -17,7 +43,7 @@
 
 		<!--没获取课表-->
 		<div v-else-if="courseList.length === 0 && user.member_id != ''">
-			<van-notice-bar mode="link" @click="toICal()" text="新功能: 将课表导入手机系统日历, 查阅更方便!" />
+			<!-- <van-notice-bar mode="link" @click="toICal()" text="新功能: 将课表导入手机系统日历, 查阅更方便!" /> -->
 			<van-empty description="此次登录尚未获取课表">
 				<van-button round type="primary" class="bottom-button" color="#4562e5" @click="getClass()">获取本学期课表</van-button>
 			</van-empty>
@@ -25,7 +51,7 @@
 
 		<!--没课-->
 		<div v-else-if="courseList.length !== 0 && todayClassList.length === 0">
-			<van-notice-bar mode="link" @click="toICal()" text="新功能: 将课表导入手机系统日历, 查阅更方便!" />
+			<!-- <van-notice-bar mode="link" @click="toICal()" text="新功能: 将课表导入手机系统日历, 查阅更方便!" /> -->
 			<div class="course-title" style="margin-top: 30rpx;">
 				今日课程 <text class="course-subtitle" style="margin-left: 20rpx;" v-if="courseUpdateTime != ''">数据更新于 {{courseUpdateTime}}</text>
 			</div>
@@ -40,14 +66,14 @@
 
 		<!--正常有课-->
 		<div v-else-if="courseList.length !== 0">
-			<van-notice-bar mode="link" @click="toICal()" text="新功能: 将课表导入手机日历, 查阅更方便!" />
+			<!-- <van-notice-bar mode="link" @click="toICal()" text="新功能: 将课表导入手机日历, 查阅更方便!" /> -->
 			<div class="course-title" style="margin-top: 30rpx;">
 				今日课程 <text class="course-subtitle" style="margin-left: 20rpx;" v-if="courseUpdateTime != ''">数据更新于 {{courseUpdateTime}}</text>
 			</div>
 			<div class="cu-timeline" v-for="(item, index) in todayClassList" :key="index" @click="showDetail(item)">
 				<div class="cu-time">{{timeArrays[item.skjc-1][1]}}</div>
 				<div class="cu-item class-item">
-					<div class="content" :style="'background-color:'+colorArrays[index%16]">
+					<div class="content" :style="'background-color: #'+colorArrays[index%16]+'30;color: #'+colorArrays[index%16]">
 						<div class="name">{{item.kcmc}}</div>
 						<div class="teachers">老师：{{item.teachers.toString()}}</div>
 						<div class="room">‍教室：{{item.room}}</div>
@@ -68,9 +94,12 @@
 		data() {
 			return {
 				logo,
+				toggled: true,
+				menuButton: '',
 				//今日课程展示页
-				colorArrays: ["#f05261", "#48a8e4", "#aaaa7f", "#52db9a", "#70d3e6", "#52db9a", "#3f51b5", "#f3d147",
-					"#4adbc3", "#673ab7", "#f3db49", "#76bfcd", "#b495e1", "#ff9800", "#8bc34a"
+				colorArrays: [
+					'f05261', '48a8e4', 'fdbd26', '13cc74', '70d3e6', '52db9a', '3f51b5', 'f3d147',
+					'4adbc3', '673ab7', 'f3db49', '76bfcd', 'b495e1', 'ff9800', '8bc34a'
 				],
 				timeArrays: [
 					[1, "08:20"],
@@ -89,6 +118,9 @@
 				],
 				classArr: {}
 			}
+		},
+		created() {
+			this.menuButton = wx.getMenuButtonBoundingClientRect()
 		},
 		computed: {
 			user() {
@@ -166,9 +198,21 @@
 					confirmText: '知道了',
 					showCancel: false
 				})
+			},
+			toOtherApp(appid) {
+				wx.navigateToMiniProgram({
+				     appId: appid,
+				     path: '',
+				　   envVersion: 'release',
+				     success(res) {
+				        console.log('打开成功')  
+				　　 },
+				     fail: function (err) {
+				        console.log('打开失败')
+				     }
+				})    
 			}
 		},
-		created() {},
 		mounted() {
 			console.log("nowweek: "+this.nowWeek)
 		}
@@ -177,6 +221,56 @@
 
 <style>
 	@import url("../../../../assets/css/nav_bar.css");
+	
+	.action-right {
+		margin-top: -4px;
+	}
+	
+	.action-btn {
+		margin-right: 10px;
+		padding: 0 10px;
+		width: 40px;
+		border: 1px solid #696a6c40;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 12.5px;
+		color: #333333;
+		border-radius: 50px;
+	}
+	
+	.app-lists {
+		padding-top: 18px;
+		position: relative;
+		background-color: #f8f9fb;
+		display: flex;
+		overflow-x: scroll;
+	}
+	
+	.app-lists::before {
+		position: absolute;
+		content: '其他校园程序';
+		font-size: 10px;
+		left: 10px;
+		top: 4px;
+	}
+	
+	.app-lists .app-card {
+		padding: 8px 10px 5px 10px;
+		text-align: center;
+	}
+	
+	.app-lists .app-card img {
+		width: 36px;
+		height: 36px;
+	}
+	
+	.app-lists .app-card .app-name {
+		font-size: 11px;
+		color: #333333;
+		opacity: .8;
+	}
+	
 
 	/* ==================
 	         时间轴
@@ -367,11 +461,7 @@
 
 	.class-item .content {
 		padding: 15rpx 30rpx !important;
-		color: #ffffff !important;
 		border-radius: 8px !important;
-		box-shadow: 0 1px 3px 0 rgb(0 0 0 / 2%), 0 16px 32px 0 rgb(0 0 0 / 7%);
-		-webkit-box-shadow: 0 1px 4px 0 rgb(0 0 0 / 10%);
-		box-shadow: 0 1px 4px 0 rgb(0 0 0 / 10%);
 	}
 
 	.class-item .content:active {
@@ -404,7 +494,7 @@
 	.class-item .room,
 	.class-item .teachers {
 		font-size: 12px;
-		opacity: .7;
+		opacity: .8;
 		margin: 4px 0;
 	}
 

@@ -45,6 +45,7 @@
         "appid" : "wxfccfe1fca0dd03e9",
         "setting" : {
             "urlCheck" : false
-        }
+        },
+        "navigateToMiniProgramAppIdList" : [ "wx09d51addba74401e", "wx948753398e25ea32", "wx5e2552106768c1e1" ]
     }
 }

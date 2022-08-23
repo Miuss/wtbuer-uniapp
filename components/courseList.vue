@@ -28,6 +28,18 @@
 									<div class="index">{{timeItem[0]}}</div>
 								</div>
 							</div>
+							<!--午休-->
+							<div v-for="(lineItem, lineIndex) in timeList" :key="lineIndex" v-if="lineIndex === 3">
+								<div class="wuxiu-tip" :style="'margin-top:'+ ((lineIndex+1)*classItemHeight-1) +'px;'">
+									午 休
+								</div>
+							</div>
+							<!--晚自习-->
+							<div v-for="(lineItem, lineIndex) in timeList" :key="lineIndex" v-if="lineIndex === 9">
+								<div class="wanzixi-tip" :style="'margin-top:'+ ((lineIndex+1)*classItemHeight-1) +'px;'">
+									晚 自 习
+								</div>
+							</div>
 							<div v-for="(lineItem, lineIndex) in timeList" :key="lineIndex">
 								<div class="class-line" :style="'margin-top:'+ ((lineIndex+1)*classItemHeight-1) +'px;'">
 								</div>
@@ -35,7 +47,7 @@
 							<!--课表-->
 							<div v-for="(classItem, classIndex) in item" :key="classIndex">
 								<div class="flex-item kcb-item" @click="showClassDialog(classItem)"
-									:style="'width:'+ (classItemWidth - 2) +'px;margin-left:'+ ((classItem.xqj-1)*classItemWidth+1) +'px;margin-top:'+ ((classItem.skjc-1)*classItemHeight+1) +'px;height:'+ (classItem.skcd*classItemHeight-3) +'px;background-color:'+ colorArrays[classIndex%16]">
+									:style="'width:'+ (classItemWidth - 2) +'px;margin-left:'+ ((classItem.xqj-1)*classItemWidth+1) +'px;margin-top:'+ ((classItem.skjc-1)*classItemHeight+1) +'px;height:'+ (classItem.skcd*classItemHeight-3) +'px;background-color: #'+ colorArrays[classIndex%16]+'30;color: #'+ colorArrays[classIndex%16]">
 									<div class="smalltext">{{classItem.kcmc}}@{{classItem.room}}</div>
 								</div>
 							</div>
@@ -55,8 +67,8 @@
 			return {
 				classItemHeight: 60,
 				colorArrays: [
-					'#f05261', '#48a8e4', '#ffd061', '#52db9a', '#70d3e6', '#52db9a', '#3f51b5', '#f3d147',
-					'#4adbc3', '#673ab7', '#f3db49', '#76bfcd', '#b495e1', '#ff9800', '#8bc34a'
+					'f05261', '48a8e4', 'fdbd26', '13cc74', '70d3e6', '52db9a', '3f51b5', 'f3d147',
+					'4adbc3', '673ab7', 'f3db49', '76bfcd', 'b495e1', 'ff9800', '8bc34a'
 				],
 				timeList: [
 					[1, '8:20', '9:05'],
@@ -212,7 +224,6 @@
 		line-height: 1.3;
 		font-size: 24rpx;
 		font-weight: 400;
-		color: #fff;
 		padding-left: 2px;
 	}
 
@@ -220,6 +231,34 @@
 		width: 100%;
 		position: absolute;
 		border-bottom: 1px dashed rgb(219, 219, 219, .5);
+	}
+	
+	.wuxiu-tip {
+		width: 100%;
+		position: absolute;
+		background-color: #fffdf6;
+		height: 120px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		color: #fdf3e0;
+		font-size: 28px;
+		font-weight: 700;
+		z-index: -1;
+	}
+	
+	.wanzixi-tip {
+		width: 100%;
+		position: absolute;
+		background-color: #fbfbff;
+		height: 180px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		color: #e8efff;
+		font-size: 28px;
+		font-weight: 700;
+		z-index: -1;
 	}
 
 	.weekbar {
@@ -230,11 +269,10 @@
 		flex-direction: row;
 		background-color: rgba(243, 243, 243);
 		color: rgba(0, 0, 0, .87);
-		border-bottom: 4px solid rgb(236, 236, 236);
 	}
 
 	.weekbar-position {
-		height: 48px;
+		height: 43px;
 	}
 
 	.weekbar .item:first-child {
@@ -273,7 +311,7 @@
 	}
 
 	.weekbar .item.active {
-		color: #ffffff;
+		color: #5975ff;
 	}
 
 	.weekbar .item.active:after {
@@ -282,7 +320,7 @@
 		position: absolute;
 		z-index: -1;
 		top: 0;
-		background-color: #5975ff;
+		background-color: #d4daf7;
 		border-radius: 6px;
 		left: 15%;
 		top: 10%;

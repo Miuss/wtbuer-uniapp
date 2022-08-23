@@ -14,10 +14,18 @@
 					武工商课表是续（简简课小程序）停运后的一个重新开发的学生查阅课表以及教务系统数据的检索小程序。项目后端是基于php开发的，更多功能正在继续完善。
 				</div>
 				<div class="margin-top-sm">免责声明：</div>
-				<div class="margin-top-sm">1.本小程序不会存放任何用户的数据，所有数据都将缓存到本地进行存储。</div>
+				<div class="margin-top-sm">1.本小程序因想让用户有更好的体验，所以从2022年9月开始存储用户教务账号信息，我们使用物语云计算宿迁蒲公英机房，不会泄漏用户任何信息。</div>
 				<div class="margin-top-sm">2.小程序接口将模拟登录获取你的课表信息，并将所有信息缓存到手机本地，没有网也可以看哦。</div>
-				<div class="margin-top-sm">3.如果对账号密码存储感到担忧，请停止使用我们的小程序，您解除教务绑定，我们会删除您所有的教务账号。</div>
+				<div class="margin-top-sm">3.如果您对账号密码存储感到担忧，请停止使用我们的小程序，您解除教务绑定，我们会删除您所有的教务账号。</div>
 				<div class="margin-top-sm">小程序由19级人工智能学院 19物联网本三 学生自运营开发，与学校官方无关。</div>
+				<div class="margin-top-sm">开发小组成员：</div>
+				<div class="margin-top-sm">19物联网本三 王思宇 前端/后端/运维</div>
+				<div class="margin-top-sm">19物联网本三 杜一卓 前端</div>
+				<div class="margin-top-sm">19物联网本三 向湶坤 前端</div>
+				<div class="margin-top-sm">项目前端开源仓库：</div>
+				<div class="margin-top-sm">
+					https://github.com/Miuss/wtbuer-uniapp
+				</div>
 			</div>
 		</div>
 		<div class="copyright">© 2022 GenesisMiuss.</div>
@@ -69,7 +77,7 @@
 	}
 	.text-content {
 		line-height: 1.6;
-		font-size: 16px;
+		font-size: 14px;
 		opacity: .6;
 	}
 	
